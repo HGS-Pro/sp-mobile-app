@@ -208,6 +208,21 @@ body{background:#0f1115;display:flex;justify-content:center}
 .sdmenu a .mi{width:34px;height:34px;border-radius:9px;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .sdmenu a.on .mi{background:var(--brand);color:#fff}
 .sdmenu .sep{height:1px;background:var(--border);margin:8px 4px}
+/* detail: extra info + improved contact buttons */
+.condchip{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:6px 12px;font:600 12px var(--text);color:var(--ink)}
+.featgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px}
+.featgrid .fi{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)}
+.featgrid .fi .c{width:18px;height:18px;border-radius:50%;background:rgba(5,184,104,.14);color:var(--success);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prow2{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border-soft);font-size:13px}
+.prow2:last-child{border-bottom:none}
+.prow2 .k{color:var(--muted)}
+.prow2 .v{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.protect{display:flex;gap:12px;align-items:flex-start;background:rgba(5,184,104,.08);border:1px solid rgba(5,184,104,.22);border-radius:var(--r-lg);padding:14px}
+.protect .pi{width:34px;height:34px;border-radius:9px;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.staff .sact{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
+.staff .sact.call{background:var(--surface-2);color:var(--ink);border:1px solid var(--border-2)}
+.staff .sact.chat{background:var(--brand);color:#fff;box-shadow:0 4px 12px -2px rgba(39,110,241,.35)}
+.staff .sact:active{transform:scale(.92)}
 .screen.fade{visibility:hidden}
 .screen.fade.active{visibility:visible}
 .nav-fab{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#12151A;color:#fff;border:none;border-radius:999px;padding:11px 18px;font:700 12px Inter,sans-serif;box-shadow:0 12px 34px rgba(0,0,0,.55);cursor:pointer;display:flex;gap:8px;align-items:center}
@@ -940,7 +955,8 @@ body{background:#0f1115;display:flex;justify-content:center}
   ];
   var pinSvg='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Z"/><circle cx="12" cy="9" r="2.3"/></svg>';
   function galleryFor(v){var m=v.img.match(/\/420\/([^?]+)/);var tag=m?m[1]:'car';var lk=parseInt((v.img.split('lock=')[1]||'1'),10);return [0,53,121,204,266].map(function(o){return 'https://loremflickr.com/800/560/'+tag+'?lock='+(lk+o);});}
-  function dstaffRow(s){var init=s.n.split(' ').map(function(x){return x[0];}).join('').slice(0,2);return '<div class="staff"><span class="sav">'+init+'</span><div style="flex:1;min-width:0"><div style="font:700 13.5px var(--display)">'+s.n+'</div><div style="font-size:11.5px;color:var(--faint)">'+s.r+'</div></div><button class="ic" data-toast="Calling '+s.n+'…" style="width:34px;height:34px;background:var(--surface-2)" aria-label="Call '+s.n+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg></button><button class="ic" data-toast="Chat with '+s.n+'" style="width:34px;height:34px;background:var(--brand-tint);color:var(--brand)" aria-label="Chat with '+s.n+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></button><span class="pd '+(s.on?'':'off')+'" title="'+(s.on?'online':'offline')+'"></span></div>';}
+  function dstaffRow(s){var init=s.n.split(' ').map(function(x){return x[0];}).join('').slice(0,2);return '<div class="staff"><span class="sav">'+init+'</span><div style="flex:1;min-width:0"><div style="font:700 13.5px var(--display)">'+s.n+'</div><div style="font-size:11.5px;color:var(--faint);display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;display:inline-block;background:'+(s.on?'var(--success)':'var(--border-2)')+'"></span>'+(s.on?'Online':'Offline')+' · '+s.r+'</div></div><button class="sact call" data-toast="Calling '+s.n+'…" aria-label="Call '+s.n+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg></button><button class="sact chat" data-toast="Chat with '+s.n+'" aria-label="Message '+s.n+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9"><path d="M21 11.5a8.4 8.4 0 0 1-11.9 7.6L3 21l1.9-6.1A8.4 8.4 0 1 1 21 11.5Z"/><path d="M8.5 11h7M8.5 14h4.5"/></svg></button></div>';}
+  document.addEventListener('click',function(e){var dt=e.target.closest('[data-dtab]');if(!dt)return;var t=dt.getAttribute('data-dtab');$$('[data-dtab]').forEach(function(x){x.setAttribute('aria-selected',x===dt);});['overview','specs','features'].forEach(function(n){var el=$('#dtab-'+n);if(el)el.style.display=(n===t?'':'none');});});
   function openDetail(id){
     var v=HV.filter(function(x){return x.id===id;})[0];
     if(!v){toast(id&&id.indexOf('AUC')===0?'Auction detail — later batch':'Coming soon');return;}
@@ -951,6 +967,14 @@ body{background:#0f1115;display:flex;justify-content:center}
     var inv=v.stock==='sp'?'SP Yard · Nagoya, Japan':'Partner Yard · Sharjah, UAE';
     var drive=(v.body==='suv'||v.body==='truck')?'4WD':'2WD', engine=(v.body==='suv'?'2,800 cc':(v.body==='truck'?'2,500 cc':'1,500 cc'));
     var specs=[['Year',v.y],['Mileage',v.km],['Fuel',v.fuel],['Transmission','Automatic'],['Engine',engine],['Steering','RHD'],['Drive',drive],['Ext. color','Pearl White']].map(function(s){return '<div><div class="k">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>';}).join('');
+    var ref='SP-'+v.id.replace(/\D/g,'').slice(0,6);
+    var chassis=({suv:'UZJ200',truck:'GUN125',sedan:'GP5',van:'ZRR80'}[v.body]||'ABC10')+'-'+v.id.replace(/\D/g,'').slice(0,7);
+    var vin='JT'+v.id.replace(/\D/g,'')+'X'+v.y;
+    var dims=({suv:'4,950 × 1,980 × 1,945',truck:'5,335 × 1,855 × 1,800',sedan:'4,045 × 1,695 × 1,525',van:'4,695 × 1,695 × 1,860'}[v.body]||'4,600 × 1,700 × 1,500')+' mm';
+    var doors=({suv:'5',truck:'4',sedan:'5',van:'5'}[v.body]||'4'), seats=({suv:'7',truck:'5',sedan:'5',van:'8'}[v.body]||'5');
+    var fullSpecs=[['Stock ID',v.id],['Reference #',ref],['Chassis no',chassis],['VIN',vin],['Model code',chassis.split('-')[0]],['Registration','03 / '+v.y],['Manufacture','01 / '+v.y],['Mileage',v.km],['Engine',engine],['Fuel',v.fuel],['Transmission','Automatic'],['Drive',drive],['Steering','Right (RHD)'],['Doors',doors],['Seats',seats],['Ext. color','Pearl White'],['Dimensions (L×W×H)',dims]].map(function(s){return '<div class="prow2"><span class="k">'+s[0]+'</span><span class="v">'+s[1]+'</span></div>';}).join('');
+    var FEATS=['Sunroof','Leather Seats','Navigation','Backup Camera','Alloy Wheels','Push Start','ABS','Dual Airbags','Cruise Control','Keyless Entry','Power Windows','Climate Control'];
+    var featHtml=FEATS.map(function(f){return '<div class="fi"><span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>'+f+'</div>';}).join('');
     var sim=HV.filter(function(x){return x.id!==v.id&&x.body===v.body;});
     if(sim.length<3)sim=sim.concat(HV.filter(function(x){return x.id!==v.id&&x.body!==v.body;}));
     sim=sim.slice(0,5);
@@ -964,8 +988,29 @@ body{background:#0f1115;display:flex;justify-content:center}
       +'<div style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-top:4px">🚢 Destination: '+v.cif+'</div>'
       +'<div style="font:800 26px var(--display);margin-top:14px">'+hmoney(v.price)+' <span style="font:500 12px var(--text);color:var(--faint)">Total '+v.cif+'</span></div>'
       +'<div style="font-size:12px;color:var(--faint);margin-top:2px">FOB '+hmoney(Math.round(v.price*0.82))+' · freight &amp; insurance included</div>'
-      +'<div class="msec"><h2 style="font-size:15px">Specifications</h2></div><div class="specgrid">'+specs+'</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><span class="condchip"><span style="color:var(--success)">●</span> Non-accident (verified)</span><span class="condchip">🔎 Inspection grade 4.5</span><span class="condchip">📄 Auction sheet</span></div>'
+      +'<div class="mtabs" style="margin-top:18px;border-bottom:1.5px solid var(--border)"><button class="mtab" data-dtab="overview" aria-selected="true">Overview</button><button class="mtab" data-dtab="specs" aria-selected="false">Specifications</button><button class="mtab" data-dtab="features" aria-selected="false">Features</button></div>'
+      +'<div id="dtab-overview" style="margin-top:14px">'
+        +'<p style="font-size:13.5px;color:var(--muted);line-height:1.65">Well-maintained '+v.t+' ('+v.y+') in excellent condition. Verified non-accident history with a full auction inspection sheet. Fresh Japanese '+(v.stock==='sp'?'SP-owned':'partner')+' export stock — inspected, cleaned and ready to ship to '+v.cif.replace('CIF ','')+'.</p>'
+        +'<div class="specgrid" style="margin-top:14px">'+specs+'</div>'
+        +'<div class="protect" style="margin-top:16px"><span class="pi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><div><div style="font:700 13px var(--display);color:var(--success)">SP Buyer Protection</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Your payment is held in escrow and released only after the vehicle ships.</div></div></div>'
+      +'</div>'
+      +'<div id="dtab-specs" style="display:none;margin-top:14px"><div class="panel" style="padding:2px 16px">'+fullSpecs+'</div></div>'
+      +'<div id="dtab-features" style="display:none;margin-top:14px"><div class="featgrid">'+featHtml+'</div></div>'
+      +'<div class="msec"><h2 style="font-size:15px">Price breakdown</h2></div>'
+      +'<div class="panel" style="padding:14px 16px">'
+        +'<div class="prow2"><span class="k">FOB (Japan)</span><span class="v">'+hmoney(Math.round(v.price*0.82))+'</span></div>'
+        +'<div class="prow2"><span class="k">Ocean freight (RoRo)</span><span class="v">$1,850</span></div>'
+        +'<div class="prow2"><span class="k">Marine insurance</span><span class="v">$420</span></div>'
+        +'<div class="prow2"><span class="k">Pre-shipment inspection</span><span class="v">$180</span></div>'
+        +'<div class="prow2" style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px"><span class="k" style="color:var(--ink);font-weight:700">Total CIF '+v.cif.replace('CIF ','')+'</span><span class="v" style="font-size:16px;color:var(--brand)">'+hmoney(v.price)+'</span></div>'
+        +'<button class="btn ghost block sm" style="margin-top:12px" data-toast="Requesting a free landed-cost quote…">Get a free quote</button>'
+      +'</div>'
       +'<div class="msec"><h2 style="font-size:15px">Contact our staff</h2><a data-toast="All staff">All 5</a></div>'+STAFF.map(dstaffRow).join('')
+      +'<div class="msec"><h2 style="font-size:15px">Buyer reviews</h2><a data-toast="All reviews">4.6 ★</a></div>'
+      +'<div class="panel" style="padding:14px 16px;margin-bottom:12px"><div style="display:flex;align-items:center;gap:14px"><div style="font:800 30px var(--display)">4.6</div><div><div style="color:var(--gold);letter-spacing:2px;font-size:15px">★★★★★</div><div style="font-size:12px;color:var(--faint)">312 verified buyers</div></div></div></div>'
+      +'<div class="staff" style="padding:10px 0"><span class="sav">JM</span><div style="flex:1"><div style="color:var(--gold);font-size:12px">★★★★★</div><div style="font-size:12.5px;color:var(--muted);margin-top:3px">"Exactly as described — smooth export to Mombasa."</div><div style="font-size:11px;color:var(--faint);margin-top:3px">James M. · Kenya 🇰🇪</div></div></div>'
+      +'<div class="staff" style="padding:10px 0"><span class="sav">AO</span><div style="flex:1"><div style="color:var(--gold);font-size:12px">★★★★☆</div><div style="font-size:12.5px;color:var(--muted);margin-top:3px">"Great condition, clear paperwork. Shipping took 5 weeks."</div><div style="font-size:11px;color:var(--faint);margin-top:3px">Ama O. · Ghana 🇬🇭</div></div></div>'
       +'<div class="msec"><h2 style="font-size:15px">Similar vehicles</h2><a data-nav="vehicles">See all</a></div><div class="mrail">'+sim.map(hcard).join('')+'</div>'
       +'</div>';
     var df=$('#detailFav'); if(df){df.setAttribute('aria-pressed',fav);df.style.color=fav?'var(--error)':'';}
