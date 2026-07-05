@@ -161,6 +161,30 @@ body{background:#0f1115;display:flex;justify-content:center}
 .vgrid.list .lcard .img{width:132px;flex-shrink:0}
 .vgrid.list .lcard .bd{flex:1}
 #vehicles .mtabs{flex-shrink:0}
+/* Vehicle detail */
+#detail{display:flex;flex-direction:column;overflow:hidden}
+.dbar{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 12px) 12px 10px;background:var(--surface);border-bottom:1px solid var(--border)}
+.dbar .ic{width:40px;height:40px;border-radius:11px;background:var(--surface-2);border:none;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.dscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}.dscroll::-webkit-scrollbar{display:none}
+.dgal{position:relative;height:240px;background:var(--surface-2)}
+.dgal .track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.dgal .track::-webkit-scrollbar{display:none}
+.dgal .slide{min-width:100%;height:100%;scroll-snap-align:center;background-size:cover;background-position:center;background-color:var(--surface-2)}
+.dgal .dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.dgal .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6);transition:.2s}
+.dgal .dots i.on{background:#fff;width:18px;border-radius:9px}
+.dgal .count{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;font:600 11px var(--text);padding:4px 9px;border-radius:9px}
+.dgal .dstock{position:absolute;top:12px;left:12px}
+.specgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);border-radius:var(--r-lg);overflow:hidden}
+.specgrid>div{background:var(--surface);padding:12px 14px}
+.specgrid .k{font:600 10px var(--text);color:var(--faint);text-transform:uppercase;letter-spacing:.03em}
+.specgrid .v{font:700 14px var(--display);margin-top:3px}
+.staff{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--border-soft)}
+.staff:last-of-type{border-bottom:none}
+.staff .sav{width:40px;height:40px;border-radius:50%;background:var(--brand-tint);color:var(--brand);font:800 13px var(--display);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.staff .pd{width:9px;height:9px;border-radius:50%;background:var(--success);box-shadow:0 0 0 3px rgba(5,184,104,.2);flex-shrink:0}
+.staff .pd.off{background:var(--border-2);box-shadow:none}
+.dcta{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:12px 16px calc(env(safe-area-inset-bottom) + 12px)}
 .screen.fade{visibility:hidden}
 .screen.fade.active{visibility:visible}
 .nav-fab{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#12151A;color:#fff;border:none;border-radius:999px;padding:11px 18px;font:700 12px Inter,sans-serif;box-shadow:0 12px 34px rgba(0,0,0,.55);cursor:pointer;display:flex;gap:8px;align-items:center}
@@ -560,6 +584,22 @@ body{background:#0f1115;display:flex;justify-content:center}
     </div></div>
   </section>
 
+  <!-- ===== VEHICLE DETAIL ===== -->
+  <section class="screen" id="detail" aria-label="Vehicle detail">
+    <div class="dbar">
+      <button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div style="flex:1"></div>
+      <button class="ic" data-toast="Share vehicle" aria-label="Share"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+      <button class="ic" id="detailFav" aria-pressed="false" aria-label="Save to favorites"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg></button>
+    </div>
+    <div class="dscroll" id="detailScroll"></div>
+    <div class="dcta">
+      <div><div style="font:500 10px var(--text);color:var(--faint)">Total CIF</div><div id="dctaPrice" style="font:800 18px var(--display)">$0</div></div>
+      <button class="ic" data-toast="Chat with sales" aria-label="Chat" style="width:48px;height:48px;background:var(--brand-tint);color:var(--brand)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></button>
+      <button class="btn primary" style="flex:1" id="detailInquire">Add to Inquiry</button>
+    </div>
+  </section>
+
   <!-- filter sheet -->
   <div class="appscrim" id="appscrim"></div>
   <section class="appsheet" id="filterSheet" role="dialog" aria-modal="true" aria-label="Advanced search">
@@ -746,7 +786,7 @@ body{background:#0f1115;display:flex;justify-content:center}
     var s=e.target.closest('[data-hstock]'); if(s){hstock=s.getAttribute('data-hstock');$$('[data-hstock]').forEach(function(x){x.setAttribute('aria-selected',x===s);});renderHome();return;}
     var vt=e.target.closest('[data-vtab]'); if(vt){htab=vt.getAttribute('data-vtab');$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x===vt);});var vt1=$('#homeVtitle');if(vt1)vt1.textContent=vt.textContent;renderHome();return;}
     var hv=e.target.closest('[data-hfav]'); if(hv){e.stopPropagation();var id=hv.getAttribute('data-hfav');hfav[id]=!hfav[id];hv.classList.toggle('on',hfav[id]);hv.classList.toggle('off',!hfav[id]);hv.setAttribute('aria-pressed',!!hfav[id]);toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');return;}
-    var ho=e.target.closest('[data-hopen]'); if(ho){toast('Vehicle Detail → Batch 5');return;}
+    var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(hid==='heavy'){toast('Heavy equipment detail — later batch');}else{openDetail(hid);} return;}
     var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
     var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$('#filterSheet').classList.remove('open');}
   });
@@ -788,16 +828,64 @@ body{background:#0f1115;display:flex;justify-content:center}
   if(vgb)vgb.addEventListener('click',function(){vview='grid';vgb.setAttribute('aria-pressed','true');vlb.setAttribute('aria-pressed','false');renderVehicles();});
   if(vlb)vlb.addEventListener('click',function(){vview='list';vlb.setAttribute('aria-pressed','true');vgb.setAttribute('aria-pressed','false');renderVehicles();});
 
+  /* ===== Vehicle Detail (Batch 5) ===== */
+  var detailV=null;
+  var STAFF=[
+    {n:'Kenji Tanaka',r:'Senior Sales Executive',on:true},
+    {n:'Mariam Odhiambo',r:'Local Representative · Nairobi',on:true},
+    {n:'Ravi Sharma',r:'Logistics Coordinator',on:false},
+    {n:'Aiko Sato',r:'Documentation Officer',on:true},
+    {n:'David Okoro',r:'Accounts & Finance',on:false}
+  ];
+  var pinSvg='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Z"/><circle cx="12" cy="9" r="2.3"/></svg>';
+  function galleryFor(v){var m=v.img.match(/\/420\/([^?]+)/);var tag=m?m[1]:'car';var lk=parseInt((v.img.split('lock=')[1]||'1'),10);return [0,53,121,204,266].map(function(o){return 'https://loremflickr.com/800/560/'+tag+'?lock='+(lk+o);});}
+  function dstaffRow(s){var init=s.n.split(' ').map(function(x){return x[0];}).join('').slice(0,2);return '<div class="staff"><span class="sav">'+init+'</span><div style="flex:1;min-width:0"><div style="font:700 13.5px var(--display)">'+s.n+'</div><div style="font-size:11.5px;color:var(--faint)">'+s.r+'</div></div><button class="ic" data-toast="Calling '+s.n+'…" style="width:34px;height:34px;background:var(--surface-2)" aria-label="Call '+s.n+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg></button><button class="ic" data-toast="Chat with '+s.n+'" style="width:34px;height:34px;background:var(--brand-tint);color:var(--brand)" aria-label="Chat with '+s.n+'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></button><span class="pd '+(s.on?'':'off')+'" title="'+(s.on?'online':'offline')+'"></span></div>';}
+  function openDetail(id){
+    var v=HV.filter(function(x){return x.id===id;})[0];
+    if(!v){toast(id&&id.indexOf('AUC')===0?'Auction detail — later batch':'Coming soon');return;}
+    detailV=v;
+    var gal=galleryFor(v), fav=!!hfav[v.id];
+    var stockGal=v.stock==='sp'?'<span class="badge b-info dstock">SP Stock</span>':'<span class="badge b-warning dstock">Foreign</span>';
+    var stockLine=v.stock==='sp'?'<span class="badge b-info"><span class="dot" style="background:var(--brand)"></span>SP Stock · inspected</span>':'<span class="badge b-warning"><span class="dot" style="background:var(--warning)"></span>Foreign Stock</span>';
+    var inv=v.stock==='sp'?'SP Yard · Nagoya, Japan':'Partner Yard · Sharjah, UAE';
+    var drive=(v.body==='suv'||v.body==='truck')?'4WD':'2WD', engine=(v.body==='suv'?'2,800 cc':(v.body==='truck'?'2,500 cc':'1,500 cc'));
+    var specs=[['Year',v.y],['Mileage',v.km],['Fuel',v.fuel],['Transmission','Automatic'],['Engine',engine],['Steering','RHD'],['Drive',drive],['Ext. color','Pearl White']].map(function(s){return '<div><div class="k">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>';}).join('');
+    var sim=HV.filter(function(x){return x.id!==v.id&&x.body===v.body;});
+    if(sim.length<3)sim=sim.concat(HV.filter(function(x){return x.id!==v.id&&x.body!==v.body;}));
+    sim=sim.slice(0,5);
+    $('#detailScroll').innerHTML=
+      '<div class="dgal"><div class="track" id="galTrack">'+gal.map(function(u){return '<div class="slide" style="background-image:url('+u+')"></div>';}).join('')+'</div>'+stockGal+'<span class="count" id="galCount">1 / '+gal.length+'</span><div class="dots" id="galDots">'+gal.map(function(_,i){return '<i class="'+(i===0?'on':'')+'"></i>';}).join('')+'</div></div>'
+      +'<div class="pad" style="padding-top:16px;padding-bottom:20px">'
+      +'<div style="display:flex;align-items:center;gap:6px;font:600 11px var(--text);color:var(--faint)">STOCK ID · '+v.id+' <button class="ic" data-toast="Stock ID copied" style="width:24px;height:24px;background:none;color:var(--brand)" aria-label="Copy stock ID"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>'
+      +'<h1 style="font:800 21px var(--display);letter-spacing:-.02em;margin:3px 0 10px">'+v.t+'</h1>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+stockLine+(v.disc?'<span class="badge b-error">-'+v.disc+'%</span>':'')+'</div>'
+      +'<div style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-top:12px">'+pinSvg+' Inventory: '+inv+'</div>'
+      +'<div style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-top:4px">🚢 Destination: '+v.cif+'</div>'
+      +'<div style="font:800 26px var(--display);margin-top:14px">'+hmoney(v.price)+' <span style="font:500 12px var(--text);color:var(--faint)">Total '+v.cif+'</span></div>'
+      +'<div style="font-size:12px;color:var(--faint);margin-top:2px">FOB '+hmoney(Math.round(v.price*0.82))+' · freight &amp; insurance included</div>'
+      +'<div class="msec"><h2 style="font-size:15px">Specifications</h2></div><div class="specgrid">'+specs+'</div>'
+      +'<div class="msec"><h2 style="font-size:15px">Contact our staff</h2><a data-toast="All staff">All 5</a></div>'+STAFF.map(dstaffRow).join('')
+      +'<div class="msec"><h2 style="font-size:15px">Similar vehicles</h2><a data-nav="vehicles">See all</a></div><div class="mrail">'+sim.map(hcard).join('')+'</div>'
+      +'</div>';
+    var df=$('#detailFav'); if(df){df.setAttribute('aria-pressed',fav);df.style.color=fav?'var(--error)':'';}
+    var dp=$('#dctaPrice'); if(dp)dp.textContent=hmoney(v.price);
+    var di=$('#detailInquire'); if(di){di.textContent='Add to Inquiry';di.classList.remove('ghost');di.classList.add('primary');}
+    var track=$('#galTrack'); if(track)track.addEventListener('scroll',function(){var i=Math.round(track.scrollLeft/track.clientWidth);$$('#galDots i').forEach(function(d,k){d.classList.toggle('on',k===i);});var c=$('#galCount');if(c)c.textContent=(i+1)+' / '+gal.length;});
+    nav('detail');
+  }
+  var dfavBtn=$('#detailFav'); if(dfavBtn)dfavBtn.addEventListener('click',function(){if(!detailV)return;var id=detailV.id;hfav[id]=!hfav[id];dfavBtn.setAttribute('aria-pressed',!!hfav[id]);dfavBtn.style.color=hfav[id]?'var(--error)':'';toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');});
+  var dinqBtn=$('#detailInquire'); if(dinqBtn)dinqBtn.addEventListener('click',function(){dinqBtn.textContent='✓ In Inquiry List';dinqBtn.classList.remove('primary');dinqBtn.classList.add('ghost');toast('Added to inquiry','ok');});
+
   /* ===== screen navigator (review any screen) ===== */
   var SCREENS=[
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
-    ['App',[['home','Home'],['vehicles','Vehicles']]],
+    ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
   ];
   var navList=$('#navList');
   if(navList){SCREENS.forEach(function(g){var h=document.createElement('div');h.className='grp';h.textContent=g[0];navList.appendChild(h);g[1].forEach(function(s){var b=document.createElement('button');b.className='jump';b.textContent=s[1];b.addEventListener('click',function(){jumpTo(s[0]);});navList.appendChild(b);});});}
-  function jumpTo(id){$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
+  function jumpTo(id){if(id==='detail'){$('#navOv').classList.remove('open');openDetail(HV[0].id);return;}$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
   var nf=$('#navFab'); if(nf)nf.addEventListener('click',function(){$('#navOv').classList.add('open');});
   var no=$('#navOv'); if(no)no.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
