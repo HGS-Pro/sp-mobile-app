@@ -135,6 +135,14 @@ body{background:#0f1115;display:flex;justify-content:center}
 .appsheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:20px 20px 0 0;padding:18px 18px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(100%);transition:transform .3s cubic-bezier(.05,.7,.1,1);z-index:60;max-height:90%;overflow-y:auto}
 .appsheet.open{transform:translateY(0)}
 .grab{width:40px;height:5px;border-radius:9px;background:var(--border-2);margin:0 auto 14px}
+.fsec{font:700 11.5px var(--text);text-transform:uppercase;letter-spacing:.05em;color:var(--faint);margin:18px 2px 10px;display:flex;align-items:center;gap:8px}
+.fsec::after{content:"";flex:1;height:1px;background:var(--border-soft)}
+.field.sm label{font:600 12px var(--text);color:var(--muted);margin-bottom:6px;display:block}
+.chipwrap{display:flex;flex-wrap:wrap;gap:8px}
+.fchip,.lschip{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;padding:8px 13px;font:600 12.5px var(--text);cursor:pointer;min-height:38px;display:inline-flex;align-items:center;gap:6px}
+.fchip[aria-pressed="true"]{background:var(--brand-tint);color:var(--brand);border-color:var(--brand)}
+.lschip[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+.lschip .lsic{width:16px;height:16px;display:flex}
 .screen.fade{visibility:hidden}
 .screen.fade.active{visibility:visible}
 .nav-fab{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#12151A;color:#fff;border:none;border-radius:999px;padding:11px 18px;font:700 12px Inter,sans-serif;box-shadow:0 12px 34px rgba(0,0,0,.55);cursor:pointer;display:flex;gap:8px;align-items:center}
@@ -458,7 +466,7 @@ body{background:#0f1115;display:flex;justify-content:center}
     </div>
     <div class="mscroll">
     <div class="pad" style="padding-bottom:16px">
-      <button class="msearch" data-sheet2 aria-label="Search and filters"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search make, model, stock ID… <span class="flt"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters</span></button>
+      <button class="msearch" data-sheet2 aria-label="Search and filters"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search make, model, stock ID… <span class="flt"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Advanced</span></button>
       <div class="crail" role="group" aria-label="Category">
         <button class="cchip" aria-pressed="true" data-hcat="all">All</button>
         <button class="cchip" aria-pressed="false" data-hcat="suv">🚙 SUV</button>
@@ -501,20 +509,65 @@ body{background:#0f1115;display:flex;justify-content:center}
 
   <!-- filter sheet -->
   <div class="appscrim" id="appscrim"></div>
-  <section class="appsheet" id="filterSheet" role="dialog" aria-modal="true" aria-label="Search filters">
+  <section class="appsheet" id="filterSheet" role="dialog" aria-modal="true" aria-label="Advanced search">
     <div class="grab"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><b style="font:800 18px var(--display)">Search filters</b><button class="btn text" data-sheetclose>Reset</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><b style="font:800 18px var(--display)">Advanced Search</b><button class="btn text" data-sheetreset>Reset all</button></div>
+    <p style="font-size:12px;color:var(--faint);margin:2px 0 4px">Full vehicle filters &amp; destination local-service options.</p>
+
+    <div class="fsec">Vehicle</div>
     <div class="two">
-      <div class="field"><label>Make</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Toyota</option><option>Nissan</option><option>Honda</option><option>Mazda</option><option>Suzuki</option></select></div></div>
-      <div class="field"><label>Body</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>SUV</option><option>Sedan</option><option>Truck</option><option>Van</option></select></div></div>
+      <div class="field"><label>Make</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Toyota</option><option>Nissan</option><option>Honda</option><option>Mazda</option><option>Mitsubishi</option><option>Suzuki</option><option>Subaru</option></select></div></div>
+      <div class="field"><label>Model</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Land Cruiser</option><option>Prado</option><option>Hilux</option><option>Patrol</option><option>Fit</option></select></div></div>
     </div>
-    <div class="field"><label>Registration year</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">From</option><option>2018</option><option>2020</option><option>2022</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">To</option><option>2022</option><option>2024</option></select></div></div></div>
-    <div class="field"><label>Price (USD)</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Min</option><option>5,000</option><option>10,000</option><option>20,000</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Max</option><option>30,000</option><option>60,000</option><option>100,000+</option></select></div></div></div>
     <div class="two">
-      <div class="field"><label>Fuel</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option></select></div></div>
+      <div class="field"><label>Body style</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>SUV</option><option>Sedan</option><option>Hatchback</option><option>Truck / Pickup</option><option>Van</option><option>Bus</option></select></div></div>
+      <div class="field"><label>Drive type</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>2WD</option><option>4WD / AWD</option></select></div></div>
+    </div>
+
+    <div class="fsec">Registration &amp; price</div>
+    <div class="field sm"><label>Registration year</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">From</option><option>2016</option><option>2018</option><option>2020</option><option>2022</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">To</option><option>2020</option><option>2022</option><option>2024</option></select></div></div></div>
+    <div class="field sm"><label>Price (USD)</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Min</option><option>5,000</option><option>10,000</option><option>20,000</option><option>50,000</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Max</option><option>20,000</option><option>50,000</option><option>100,000</option><option>200,000+</option></select></div></div></div>
+    <div class="field sm"><label>Mileage (km)</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Min</option><option>0</option><option>20,000</option><option>50,000</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Max</option><option>30,000</option><option>80,000</option><option>150,000</option></select></div></div></div>
+
+    <div class="fsec">Specs &amp; condition</div>
+    <div class="field sm"><label>Engine (cc)</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">From</option><option>660</option><option>1,500</option><option>2,000</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">To</option><option>2,000</option><option>3,000</option><option>4,500+</option></select></div></div></div>
+    <div class="two">
+      <div class="field"><label>Transmission</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Automatic</option><option>Manual</option><option>CVT</option></select></div></div>
       <div class="field"><label>Steering</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Right (RHD)</option><option>Left (LHD)</option></select></div></div>
     </div>
-    <button class="btn primary block lg" style="margin-top:8px" data-sheetclose data-toast="Filters applied ✓|ok">Show results</button>
+    <div class="two">
+      <div class="field"><label>Fuel</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select></div></div>
+      <div class="field"><label>Exterior color</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>White</option><option>Black</option><option>Silver</option><option>Blue</option><option>Red</option></select></div></div>
+    </div>
+    <div class="two">
+      <div class="field"><label>Doors</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>2</option><option>4</option><option>5</option></select></div></div>
+      <div class="field"><label>Accident</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Non-accident</option><option>Repaired</option></select></div></div>
+    </div>
+
+    <div class="fsec">Features</div>
+    <div class="chipwrap">
+      <button class="fchip sheet-toggle" aria-pressed="false">Sunroof</button><button class="fchip sheet-toggle" aria-pressed="false">Leather</button><button class="fchip sheet-toggle" aria-pressed="false">Navigation</button><button class="fchip sheet-toggle" aria-pressed="false">Backup Camera</button><button class="fchip sheet-toggle" aria-pressed="false">Alloy Wheels</button><button class="fchip sheet-toggle" aria-pressed="false">Push Start</button><button class="fchip sheet-toggle" aria-pressed="false">ABS</button><button class="fchip sheet-toggle" aria-pressed="false">Airbags</button>
+    </div>
+
+    <div class="fsec">🌍 Local service (destination)</div>
+    <div class="two">
+      <div class="field"><label>Destination country</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Select</option><option>Kenya</option><option>Tanzania</option><option>Uganda</option><option>Zambia</option><option>Nigeria</option><option>Mozambique</option><option>DR Congo</option></select></div></div>
+      <div class="field"><label>Nearest port</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Select</option><option>Mombasa</option><option>Dar es Salaam</option><option>Lagos (Tin Can)</option><option>Lusaka (dry)</option><option>Maputo</option><option>Durban</option></select></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin:4px 2px 8px">Show only stock with these local services available:</p>
+    <div class="chipwrap">
+      <button class="lschip sheet-toggle" aria-pressed="true"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Pre-shipment Inspection</button>
+      <button class="lschip sheet-toggle" aria-pressed="false"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6l5 5v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M8 12h8M8 16h5"/></svg></span>Clearing Agent</button>
+      <button class="lschip sheet-toggle" aria-pressed="false"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg></span>Shipping Agent</button>
+      <button class="lschip sheet-toggle" aria-pressed="false"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18l1.5-5h11L19 18M6 13V7h12v6M9 22h6"/></svg></span>Inland Delivery</button>
+      <button class="lschip sheet-toggle" aria-pressed="false"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Local Support Office</button>
+      <button class="lschip sheet-toggle" aria-pressed="false"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></span>Freight Insurance</button>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:18px;position:sticky;bottom:0;background:var(--surface);padding-top:10px">
+      <button class="btn ghost" style="flex:1" data-sheetclose>Cancel</button>
+      <button class="btn primary" style="flex:2" data-sheetclose data-toast="Advanced filters applied ✓|ok">Show 24 results</button>
+    </div>
   </section>
 
   <div class="toasts" id="toasts" aria-live="polite"></div>
@@ -640,6 +693,11 @@ body{background:#0f1115;display:flex;justify-content:center}
     var ho=e.target.closest('[data-hopen]'); if(ho){toast('Vehicle Detail → Batch 5');return;}
     var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
     var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$('#filterSheet').classList.remove('open');}
+  });
+  /* advanced-search sheet: toggle chips + reset */
+  document.addEventListener('click',function(e){
+    var stg=e.target.closest('.sheet-toggle'); if(stg){e.preventDefault();stg.setAttribute('aria-pressed',stg.getAttribute('aria-pressed')!=='true');return;}
+    var rst=e.target.closest('[data-sheetreset]'); if(rst){$$('#filterSheet select').forEach(function(s){s.selectedIndex=0;});$$('#filterSheet .sheet-toggle').forEach(function(c){c.setAttribute('aria-pressed','false');});toast('Filters reset');}
   });
   var asc=$('#appscrim'); if(asc)asc.addEventListener('click',function(){this.classList.remove('open');$('#filterSheet').classList.remove('open');});
   setInterval(function(){HA.forEach(function(a){if(a.cd>0)a.cd--;$$('[data-hcd="'+a.id+'"]').forEach(function(el){el.textContent='⏱ '+hfmt(a.cd);});});},1000);
