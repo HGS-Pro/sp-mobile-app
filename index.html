@@ -95,6 +95,43 @@ body{background:#0f1115;display:flex;justify-content:center}
 .toast{background:var(--ink);color:var(--page);border-radius:999px;padding:11px 18px;font:600 13px var(--text);box-shadow:var(--elev);opacity:0;transform:translateY(10px);transition:.25s}
 .toast.show{opacity:1;transform:translateY(0)}.toast.bad{background:var(--error);color:#fff}.toast.ok{background:var(--success);color:#fff}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* Home */
+.mhead{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 12px) 16px 10px;background:var(--surface);position:sticky;top:0;z-index:8;border-bottom:1px solid var(--border)}
+.mhead .g small{font:500 12px var(--text);color:var(--faint)}
+.mhead .g b{font:800 17px var(--display);letter-spacing:-.02em}
+.mhead .r{margin-left:auto;display:flex;gap:5px;align-items:center}
+.hib{width:40px;height:40px;border-radius:11px;background:var(--surface-2);border:none;color:var(--ink);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
+.hib .pip{position:absolute;top:3px;right:3px;background:var(--error);color:#fff;font:700 8px var(--text);min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--surface-2)}
+.hav{width:40px;height:40px;border-radius:50%;background:var(--brand-tint);color:var(--brand);font:800 14px var(--display);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+.msearch{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px 13px;color:var(--faint);font-size:14px;cursor:pointer;margin-top:14px;width:100%}
+.msearch .flt{margin-left:auto;color:var(--brand);font-weight:700;font-size:12.5px;display:flex;gap:4px;align-items:center}
+.crail{display:flex;gap:8px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none}.crail::-webkit-scrollbar{display:none}
+.cchip{white-space:nowrap;border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;padding:8px 14px;font:600 13px var(--text);cursor:pointer;min-height:36px}
+.cchip[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+.mseg{display:flex;background:var(--surface-2);border-radius:var(--r-lg);padding:4px;margin-top:12px}
+.mseg button{flex:1;border:none;background:transparent;padding:9px;border-radius:var(--r-md);font:700 13px var(--text);color:var(--muted);cursor:pointer}
+.mseg button[aria-selected="true"]{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
+.msec{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}
+.msec h2{font:800 17px var(--display);letter-spacing:-.02em}
+.msec a{color:var(--brand);font:700 13px var(--text);cursor:pointer}
+.mtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}.mtabs::-webkit-scrollbar{display:none}
+.mtab{white-space:nowrap;border:none;background:none;padding:8px 4px;font:700 13.5px var(--text);color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}
+.mtab[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mrail{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.mrail::-webkit-scrollbar{display:none}
+.mrail .lcard{min-width:210px}
+.mgrid .heart,.mrail .heart{position:absolute;width:30px;height:30px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.hcard2{min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow);text-align:center;cursor:pointer}
+.hcard2 .hi{height:80px;background:linear-gradient(150deg,var(--surface-2),var(--surface-3));display:flex;align-items:center;justify-content:center;font-size:30px}
+.mtabbar{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:9px 6px calc(env(safe-area-inset-bottom) + 9px);z-index:9}
+.mtabbar .t{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font:600 10px var(--text);color:var(--faint);cursor:pointer;padding:4px 0;min-height:44px;position:relative}
+.mtabbar .t[aria-current="page"]{color:var(--brand)}
+.mtabbar .t .b{position:absolute;top:-2px;right:calc(50% - 18px);background:var(--error);color:#fff;font:700 8px var(--text);min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px}
+.appscrim{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.25s;z-index:50}
+.appscrim.open{opacity:1;pointer-events:auto}
+.appsheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:20px 20px 0 0;padding:18px 18px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(100%);transition:transform .3s cubic-bezier(.05,.7,.1,1);z-index:60;max-height:90%;overflow-y:auto}
+.appsheet.open{transform:translateY(0)}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--border-2);margin:0 auto 14px}
 .screen.fade{visibility:hidden}
 .screen.fade.active{visibility:visible}
 .nav-fab{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#12151A;color:#fff;border:none;border-radius:999px;padding:11px 18px;font:700 12px Inter,sans-serif;box-shadow:0 12px 34px rgba(0,0,0,.55);cursor:pointer;display:flex;gap:8px;align-items:center}
@@ -269,7 +306,7 @@ body{background:#0f1115;display:flex;justify-content:center}
       <p class="sub">Welcome to SP, Rana. Your buyer account is ready — complete KYC anytime to unlock bidding.</p>
       <div class="grow"></div>
       <div style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)">
-        <button class="btn primary block lg" data-toast="Home coming in next batch|ok">Start exploring</button>
+        <button class="btn primary block lg" data-nav="home">Start exploring</button>
         <button class="btn text block" style="margin-top:8px" data-toast="KYC flow — later batch">Complete KYC verification</button>
       </div>
     </div>
@@ -308,7 +345,7 @@ body{background:#0f1115;display:flex;justify-content:center}
         <input inputmode="numeric" maxlength="1"/><input inputmode="numeric" maxlength="1"/><input inputmode="numeric" maxlength="1"/><input inputmode="numeric" maxlength="1"/><input inputmode="numeric" maxlength="1"/><input inputmode="numeric" maxlength="1"/>
       </div>
       <div class="resend">Didn't get it? <b data-toast="Code resent|ok">Resend code</b></div>
-      <button class="btn primary block lg" style="margin-top:24px" data-validate="otp" data-toast="Signed in ✓ · Home lands in the next batch|ok">Verify &amp; sign in</button>
+      <button class="btn primary block lg" style="margin-top:24px" data-validate="otp" data-nav="home">Verify &amp; sign in</button>
       <button class="btn text block" style="margin-top:6px" data-toast="Try another method">Use a different method</button>
     </div>
   </section>
@@ -407,6 +444,74 @@ body{background:#0f1115;display:flex;justify-content:center}
     </div>
   </section>
 
+  <!-- ===== HOME (app main) ===== -->
+  <section class="screen" id="home" aria-label="Home">
+    <div class="mhead">
+      <div class="g"><small>Good morning 👋</small><b>Hi, Rana</b></div>
+      <div class="r">
+        <button class="hib" aria-label="Notifications, 99+" data-toast="Notifications"><span class="pip">99+</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+        <button class="hav" aria-label="Dashboard menu" data-toast="Buyer dashboard &amp; side menu — coming soon">R</button>
+      </div>
+    </div>
+    <div class="pad" style="padding-bottom:98px">
+      <button class="msearch" data-sheet2 aria-label="Search and filters"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search make, model, stock ID… <span class="flt"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters</span></button>
+      <div class="crail" role="group" aria-label="Category">
+        <button class="cchip" aria-pressed="true" data-hcat="all">All</button>
+        <button class="cchip" aria-pressed="false" data-hcat="suv">🚙 SUV</button>
+        <button class="cchip" aria-pressed="false" data-hcat="sedan">🚗 Sedan</button>
+        <button class="cchip" aria-pressed="false" data-hcat="truck">🚚 Truck</button>
+        <button class="cchip" aria-pressed="false" data-hcat="van">🚐 Van</button>
+        <button class="cchip" aria-pressed="false" data-hcat="heavy">🚜 Heavy Eq.</button>
+      </div>
+      <div class="mseg" role="tablist" aria-label="Stock source">
+        <button role="tab" aria-selected="true" data-hstock="all">All Stock</button>
+        <button role="tab" aria-selected="false" data-hstock="sp">🅢 SP Stock</button>
+        <button role="tab" aria-selected="false" data-hstock="foreign">🌐 Foreign</button>
+      </div>
+      <div class="msec"><h2>Featured</h2><a data-toast="Vehicles page — Batch 4">See all</a></div>
+      <div class="mrail" id="homeFeat" aria-label="Featured vehicles"></div>
+      <div class="msec" style="margin-bottom:6px"><h2 id="homeVtitle">New Arrivals</h2></div>
+      <div class="mtabs" role="tablist" aria-label="Vehicle lists">
+        <button class="mtab" role="tab" aria-selected="true" data-vtab="new">New Arrivals</button>
+        <button class="mtab" role="tab" aria-selected="false" data-vtab="disc">Discounted</button>
+        <button class="mtab" role="tab" aria-selected="false" data-vtab="prem">Premium</button>
+        <button class="mtab" role="tab" aria-selected="false" data-vtab="pop">Popular</button>
+        <button class="mtab" role="tab" aria-selected="false" data-vtab="aff">Affordable</button>
+      </div>
+      <div class="mgrid" id="homeGrid" style="margin-top:14px" aria-live="polite"></div>
+      <button class="btn ghost block" style="margin-top:14px" data-toast="Vehicles page — Batch 4">Browse all vehicles</button>
+      <div class="msec"><h2>Heavy Equipment</h2><a data-toast="Vehicles page — Batch 4">View all</a></div>
+      <div class="mrail" id="homeHeavy"></div>
+      <div class="msec"><h2>Live Auctions</h2><a data-toast="Auctions — later batch">See all</a></div>
+      <div class="mrail" id="homeAuc"></div>
+    </div>
+    <nav class="mtabbar" aria-label="Primary">
+      <button class="t" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button>
+      <button class="t" data-sheet2><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search</button>
+      <button class="t" data-toast="Auctions — later batch"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
+      <button class="t" data-toast="Saved — later batch"><span class="b">1</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
+      <button class="t" data-toast="Account / dashboard — later batch"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
+    </nav>
+  </section>
+
+  <!-- filter sheet -->
+  <div class="appscrim" id="appscrim"></div>
+  <section class="appsheet" id="filterSheet" role="dialog" aria-modal="true" aria-label="Search filters">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><b style="font:800 18px var(--display)">Search filters</b><button class="btn text" data-sheetclose>Reset</button></div>
+    <div class="two">
+      <div class="field"><label>Make</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Toyota</option><option>Nissan</option><option>Honda</option><option>Mazda</option><option>Suzuki</option></select></div></div>
+      <div class="field"><label>Body</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>SUV</option><option>Sedan</option><option>Truck</option><option>Van</option></select></div></div>
+    </div>
+    <div class="field"><label>Registration year</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">From</option><option>2018</option><option>2020</option><option>2022</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">To</option><option>2022</option><option>2024</option></select></div></div></div>
+    <div class="field"><label>Price (USD)</label><div class="two"><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Min</option><option>5,000</option><option>10,000</option><option>20,000</option></select></div><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Max</option><option>30,000</option><option>60,000</option><option>100,000+</option></select></div></div></div>
+    <div class="two">
+      <div class="field"><label>Fuel</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option></select></div></div>
+      <div class="field"><label>Steering</label><div class="input" style="padding:0"><select class="ctrl" style="border:none;background:transparent"><option value="">Any</option><option>Right (RHD)</option><option>Left (LHD)</option></select></div></div>
+    </div>
+    <button class="btn primary block lg" style="margin-top:8px" data-sheetclose data-toast="Filters applied ✓|ok">Show results</button>
+  </section>
+
   <div class="toasts" id="toasts" aria-live="polite"></div>
 </div>
 
@@ -481,6 +586,7 @@ body{background:#0f1115;display:flex;justify-content:center}
   function onEnter(id){
     if(id==='su-otp')startResend();
     if(id==='su-processing'){ setTimeout(function(){ nav('su-success'); }, 2200); }
+    if(id==='home'){ renderHome(); }
     var scr=$('#'+id); var otp=scr&&scr.querySelector('.otp-row input'); if(otp)setTimeout(function(){otp.focus();},380);
   }
 
@@ -494,9 +600,49 @@ body{background:#0f1115;display:flex;justify-content:center}
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape')back();});
 
+  /* ===== Home (Batch 3) ===== */
+  var HV=[
+    {id:'SP-JP-48210',t:'Toyota Land Cruiser 300',y:2022,km:'32,400 km',fuel:'Diesel',body:'suv',price:68500,cif:'CIF Mombasa',stock:'sp',disc:12,tabs:['new','prem','pop']},
+    {id:'SP-JP-47188',t:'Nissan Patrol Y62',y:2022,km:'28,000 km',fuel:'Petrol',body:'suv',price:61200,cif:'CIF Dar',stock:'sp',disc:0,tabs:['new','prem']},
+    {id:'FR-UAE-90233',t:'Toyota Hilux Revo',y:2021,km:'54,100 km',fuel:'Diesel',body:'truck',price:27900,cif:'CIF Lagos',stock:'foreign',disc:8,tabs:['disc','pop']},
+    {id:'FR-JP-77410',t:'Honda Fit Hybrid',y:2020,km:'41,300 km',fuel:'Hybrid',body:'sedan',price:8400,cif:'CIF Kampala',stock:'foreign',disc:0,tabs:['aff','pop']},
+    {id:'SP-JP-46901',t:'Toyota Prado TX',y:2020,km:'61,000 km',fuel:'Diesel',body:'suv',price:34600,cif:'CIF Lusaka',stock:'sp',disc:15,tabs:['disc','pop']},
+    {id:'SP-JP-48770',t:'Suzuki Jimny Sierra',y:2022,km:'12,800 km',fuel:'Petrol',body:'suv',price:19400,cif:'CIF Dar',stock:'sp',disc:0,tabs:['new','aff']},
+    {id:'FR-UAE-90455',t:'Mitsubishi Canter',y:2019,km:'88,200 km',fuel:'Diesel',body:'truck',price:15900,cif:'CIF Mombasa',stock:'foreign',disc:0,tabs:['aff']},
+    {id:'SP-JP-48551',t:'Toyota Noah Van',y:2021,km:'22,000 km',fuel:'Petrol',body:'van',price:23400,cif:'CIF Mombasa',stock:'sp',disc:0,tabs:['new','pop']}
+  ];
+  var HE=[{e:'🚜',t:'Motor Grader',s:'Land forming'},{e:'🛞',t:'Paver',s:'Road surfacing'},{e:'🚧',t:'Skid Steer',s:'Compact loader'},{e:'🏗️',t:'Telehandler',s:'Reach & lift'}];
+  var HA=[{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · 24065',grade:'4.5',bid:'¥1,050,000',cd:134},{id:'AUC-31882',t:'Mazda CX-5 2020',lot:'TAA Kansai · 31882',grade:'4.0',bid:'¥1,720,000',cd:512}];
+  var hfav={}, htab='new', hcat='all', hstock='all';
+  function hmoney(n){return '$'+n.toLocaleString('en-US');}
+  var hcar='<svg width="42" height="42" viewBox="0 0 24 24" fill="var(--border-2)"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-6Z"/></svg>';
+  function hfmt(s){var m=Math.floor(s/60),ss=s%60;return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;}
+  function hcard(v){var badge=v.stock==='sp'?'<span class="badge b-info" style="position:absolute;top:9px;left:9px">SP</span>':'<span class="badge b-warning" style="position:absolute;top:9px;left:9px">Foreign</span>';var disc=v.disc?'<span class="badge b-error" style="position:absolute;bottom:9px;left:9px">-'+v.disc+'%</span>':'';var f=!!hfav[v.id];return '<div class="lcard" data-hopen="'+v.id+'"><div class="img">'+badge+disc+'<div class="heart '+(f?'on':'off')+'" data-hfav="'+v.id+'" role="button" aria-pressed="'+f+'" aria-label="Save"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg></div>'+hcar+'</div><div class="bd"><div class="ref">STOCK · '+v.id+'</div><div class="nm">'+v.t+'</div><div class="spx"><span>'+v.y+'</span><span>'+v.km+'</span><span>'+v.fuel+'</span></div><div class="prow"><div class="pr">'+hmoney(v.price)+' <small>Total '+v.cif+'</small></div></div></div></div>';}
+  function haucard(a){return '<div class="lcard au_lot" data-hopen="'+a.id+'" style="min-width:210px"><div class="img"><span class="au_grade">'+a.grade+'<small>GRADE</small></span><span class="badge b-error au_livechip" style="position:absolute;top:10px;left:10px"><span class="dot" style="background:#fff"></span>LIVE</span>'+hcar+'</div><div class="bd"><div class="ref">'+a.lot+'</div><div class="nm">'+a.t+'</div><div class="au_lotpr"><div><div style="font-size:11px;color:var(--faint)">Current bid</div><div class="jp-price" style="font-size:16px">'+a.bid+'</div></div><span class="badge b-error au_cd2" data-hcd="'+a.id+'">⏱ '+hfmt(a.cd)+'</span></div><button class="btn primary block sm" style="margin-top:10px" data-hopen="'+a.id+'">Place bid</button></div></div>';}
+  function hfilter(){return HV.filter(function(v){if(htab&&v.tabs.indexOf(htab)<0)return false;if(hcat!=='all'){if(hcat==='heavy')return false;if(v.body!==hcat)return false;}if(hstock!=='all'&&v.stock!==hstock)return false;return true;});}
+  function renderHome(){
+    var feat=$('#homeFeat'); if(feat)feat.innerHTML=HV.filter(function(v){return v.stock==='sp'||v.disc;}).slice(0,5).map(hcard).join('');
+    var g=$('#homeGrid'); if(g){var list=hfilter();g.innerHTML=list.length?list.map(hcard).join(''):'<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:26px 10px">No vehicles match.<br><button class="btn text" data-hclear>Clear filters</button></div>';}
+    var h=$('#homeHeavy'); if(h)h.innerHTML=HE.map(function(x){return '<div class="hcard2" data-hopen="heavy"><div class="hi">'+x.e+'</div><div style="padding:11px"><div style="font:700 13px var(--display)">'+x.t+'</div><div style="font:400 11px var(--text);color:var(--faint);margin-top:2px">'+x.s+'</div></div></div>';}).join('');
+    var au=$('#homeAuc'); if(au)au.innerHTML=HA.map(haucard).join('');
+  }
+  document.addEventListener('click',function(e){
+    var c=e.target.closest('[data-hcat]'); if(c){hcat=c.getAttribute('data-hcat');$$('[data-hcat]').forEach(function(x){x.setAttribute('aria-pressed',x===c);});renderHome();return;}
+    var cl=e.target.closest('[data-hclear]'); if(cl){hcat='all';htab='new';$$('[data-hcat]').forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-hcat')==='all');});$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x.getAttribute('data-vtab')==='new');});var vt0=$('#homeVtitle');if(vt0)vt0.textContent='New Arrivals';renderHome();return;}
+    var s=e.target.closest('[data-hstock]'); if(s){hstock=s.getAttribute('data-hstock');$$('[data-hstock]').forEach(function(x){x.setAttribute('aria-selected',x===s);});renderHome();return;}
+    var vt=e.target.closest('[data-vtab]'); if(vt){htab=vt.getAttribute('data-vtab');$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x===vt);});var vt1=$('#homeVtitle');if(vt1)vt1.textContent=vt.textContent;renderHome();return;}
+    var hv=e.target.closest('[data-hfav]'); if(hv){e.stopPropagation();var id=hv.getAttribute('data-hfav');hfav[id]=!hfav[id];hv.classList.toggle('on',hfav[id]);hv.classList.toggle('off',!hfav[id]);hv.setAttribute('aria-pressed',!!hfav[id]);toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');return;}
+    var ho=e.target.closest('[data-hopen]'); if(ho){toast('Vehicle Detail → Batch 5');return;}
+    var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
+    var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$('#filterSheet').classList.remove('open');}
+  });
+  var asc=$('#appscrim'); if(asc)asc.addEventListener('click',function(){this.classList.remove('open');$('#filterSheet').classList.remove('open');});
+  setInterval(function(){HA.forEach(function(a){if(a.cd>0)a.cd--;$$('[data-hcd="'+a.id+'"]').forEach(function(el){el.textContent='⏱ '+hfmt(a.cd);});});},1000);
+
   /* ===== screen navigator (review any screen) ===== */
   var SCREENS=[
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
+    ['App',[['home','Home']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
   ];
