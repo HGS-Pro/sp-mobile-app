@@ -36,8 +36,8 @@ body{background:#0f1115;display:flex;justify-content:center}
 .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:var(--page);
   transform:translateX(100%);transition:transform .32s cubic-bezier(.05,.7,.1,1);will-change:transform}
 .screen::-webkit-scrollbar{display:none}
-.screen.active{transform:translateX(0)}
-.screen.back{transform:translateX(-24%)}
+.screen.active{transform:translateX(0);z-index:2}
+.screen.back{transform:translateX(-100%)}
 .screen.fade{transition:opacity .3s;transform:none;opacity:0}
 .screen.fade.active{opacity:1}
 .pad{padding:0 20px}
@@ -654,8 +654,8 @@ body{background:#0f1115;display:flex;justify-content:center}
       to.scrollTop=0;
     }
   }
-  function nav(id){ if(id===cur())return; var from=$('#'+cur()); from.classList.remove('active'); if(!from.classList.contains('fade'))from.classList.add('back'); stack.push(id); var to=$('#'+id); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(id); }
-  function back(){ if(stack.length<2)return; var from=$('#'+stack.pop()); var to=$('#'+cur()); from.classList.remove('active'); to.classList.remove('back'); to.classList.add('active'); onEnter(cur()); }
+  function nav(id){ if(id===cur())return; var from=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from)s.classList.remove('active','back');}); from.classList.remove('active'); if(!from.classList.contains('fade'))from.classList.add('back'); stack.push(id); var to=$('#'+id); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(id); }
+  function back(){ if(stack.length<2)return; var from=$('#'+stack.pop()); var to=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from&&s!==to)s.classList.remove('active','back');}); from.classList.remove('active','back'); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(cur()); }
   function toast(m,cls){var w=$('#toasts');var t=document.createElement('div');t.className='toast'+(cls?' '+cls:'');t.setAttribute('role','status');t.textContent=m;w.appendChild(t);requestAnimationFrame(function(){t.classList.add('show');});setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},260);},1700);}
 
   /* auto: splash -> welcome */
