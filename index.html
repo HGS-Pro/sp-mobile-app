@@ -792,22 +792,57 @@ html.dark .testbanner{color:#FFC043}
       <button class="hav" data-toast="Profile &amp; KYC" aria-label="Profile">R</button>
     </div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 24px">
-      <div class="tiercard">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div><div style="font:500 12px var(--text);opacity:.85">Welcome back</div><div style="font:800 20px var(--display)">Rana Ahmed</div><div style="font-size:11px;opacity:.8;margin-top:2px">🇰🇪 Kenya · KYC verified</div></div>
-          <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">💎 Gold</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px">
-          <div><div style="font:500 11px var(--text);opacity:.8">Reward points</div><div style="font:800 24px var(--display)">1,240</div></div>
-          <div style="text-align:right;font-size:11px;opacity:.85">760 pts to Platinum</div>
-        </div>
-        <div class="bar"><i style="width:62%"></i></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div><div style="font:500 12px var(--text);color:var(--muted)">Welcome back</div><div style="font:800 20px var(--display)">Rana Ahmed</div><div style="font-size:11px;color:var(--faint);margin-top:1px">🇰🇪 Kenya · KYC verified</div></div>
       </div>
-      <div class="dstat-grid" style="margin-top:16px">
-        <div class="stat"><div class="k">Active inquiries</div><div class="v">4</div></div>
-        <div class="stat"><div class="k">Orders in progress</div><div class="v">2</div></div>
-        <div class="stat"><div class="k">Won vehicles</div><div class="v">7</div></div>
-        <div class="stat"><div class="k">Total spent</div><div class="v">$214k</div></div>
+      <!-- membership hero: progress ring + savings + perks -->
+      <div class="dg_hero">
+        <div class="dg_htop"><span class="dg_tier">💎 Gold Member</span><span class="dg_crest">Rank 3 / 5</span></div>
+        <div class="dg_hmid">
+          <div class="dg_ring" style="--ring:72%"><div class="rc"><b>72%</b><small>TO NEXT</small></div></div>
+          <div class="dg_pts"><div class="big">$14,200<small>saved to date</small></div><div class="goal">4 more cars to Platinum · 1,240 pts</div></div>
+        </div>
+        <div class="dg_perks"><span class="dg_perk">$200 tier coupon</span><span class="dg_perk">Priority inspection</span><span class="dg_perk">Dedicated rep</span></div>
+      </div>
+      <!-- trend stat cards with sparklines -->
+      <div style="display:flex;gap:12px;margin-top:14px">
+        <div class="dg_stat primary" style="flex:1.35;min-width:0">
+          <div class="k"><span class="ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>Total Spent</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0">
+            <div class="v"><span class="cur" style="font-size:.6em;color:var(--faint);font-weight:600">$</span>214,300</div>
+            <svg class="spark" viewBox="0 0 60 30" preserveAspectRatio="none"><path class="fill" d="M0,24 L8,20 16,22 24,14 32,16 40,8 52,10 60,4 60,30 0,30Z"/><path class="line" d="M0,24 8,20 16,22 24,14 32,16 40,8 52,10 60,4"/></svg>
+          </div>
+          <div class="trend up">▲ 12% vs last month</div>
+        </div>
+        <div class="dg_stat" style="flex:1;min-width:0">
+          <div class="k"><span class="ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.5 5.5 6 .5-4.5 4 1.4 5.9L12 20l-5.4 3.9 1.4-5.9-4.5-4 6-.5z"/></svg></span>Points</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0">
+            <div class="v">1,240</div>
+            <svg class="spark" viewBox="0 0 60 30" preserveAspectRatio="none"><path class="fill" d="M0,20 L12,22 24,16 36,18 48,10 60,12 60,30 0,30Z"/><path class="line" d="M0,20 12,22 24,16 36,18 48,10 60,12"/></svg>
+          </div>
+          <div class="trend flat">= $1,240 value</div>
+        </div>
+      </div>
+      <!-- spending area chart -->
+      <div class="lcard" style="padding:16px;margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font:800 14px var(--display)">Spending · last 8 months</b><span class="badge b-info">$214k</span></div>
+        <div class="area" role="img" aria-label="Spending trend"><svg class="area-svg" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="areaDash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".30"/><stop offset=".65" stop-color="currentColor" stop-opacity=".08"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs><line class="area-base" x1="0" y1="39" x2="100" y2="39"/><line class="area-base area-mid" x1="0" y1="22" x2="100" y2="22"/><path class="area-fill" d="M0,32 C6,30 9,26 15,26 S24,28 30,28 S40,19 45,18 S55,21 60,20 S70,11 75,10 S92,6 97,6 L100,40 L0,40 Z"/><path class="area-line" d="M0,32 C6,30 9,26 15,26 S24,28 30,28 S40,19 45,18 S55,21 60,20 S70,11 75,10 S92,6 97,6"/></svg><span class="area-dot"></span></div>
+      </div>
+      <!-- order mix donut -->
+      <div class="lcard" style="padding:16px;margin-top:14px">
+        <b style="font:800 14px var(--display)">Order mix</b>
+        <div style="display:flex;align-items:center;gap:18px;margin-top:12px">
+          <div class="donut" role="img" aria-label="Order mix"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="dn-track" cx="18" cy="18" r="15.9155"/><circle class="dn-seg s1" cx="18" cy="18" r="15.9155" style="--l:54;stroke-dasharray:54 100" transform="rotate(0 18 18)"/><circle class="dn-seg s2" cx="18" cy="18" r="15.9155" style="--l:28;stroke-dasharray:28 100" transform="rotate(194.4 18 18)"/><circle class="dn-seg s3" cx="18" cy="18" r="15.9155" style="--l:18;stroke-dasharray:18 100" transform="rotate(295.2 18 18)"/></svg><div class="dn-center"><b class="tnum">18</b><span>orders</span></div></div>
+          <div class="legrow" style="flex-direction:column;align-items:flex-start;gap:8px"><span><i style="background:var(--brand)"></i>Delivered <b>54%</b></span><span><i style="background:var(--success)"></i>In transit <b>28%</b></span><span><i style="background:var(--warning)"></i>Processing <b>18%</b></span></div>
+        </div>
+      </div>
+      <!-- rewards & spending features -->
+      <div class="msec"><h2>Rewards &amp; spending</h2></div>
+      <div class="dmodules">
+        <button class="dmod" data-nav="purchases"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6h-2v-2H7v2H5v-6Z"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/></svg></span><span class="ml">My Purchases</span></button>
+        <button class="dmod" data-nav="dcoupons"><span class="cb">3</span><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V6h16v2a2 2 0 0 0 0 4v2H4v-2a2 2 0 0 0 0-4Z"/><path d="M14 6v12"/></svg></span><span class="ml">My Coupons</span></button>
+        <button class="dmod" data-nav="points"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.5 5.5 6 .5-4.5 4 1.4 5.9L12 20l-5.4 3.9 1.4-5.9-4.5-4 6-.5z"/></svg></span><span class="ml">Points Activity</span></button>
+        <button class="dmod" data-nav="savings"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></span><span class="ml">Savings</span></button>
       </div>
       <div class="msec"><h2>Your modules</h2></div>
       <div class="dmodules">
@@ -966,6 +1001,96 @@ html.dark .testbanner{color:#FFC043}
   <section class="screen" id="shipment" aria-label="Shipment tracking">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Shipment</h1></div>
     <div class="mscroll" id="shipBody"></div>
+  </section>
+
+  <!-- ===== MY PURCHASES ===== -->
+  <section class="screen" id="purchases" aria-label="My purchases">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>My Purchases</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div style="display:flex;gap:12px">
+        <div class="dg_stat primary" style="flex:1;min-width:0"><div class="k">Vehicles bought</div><div class="v">18</div><div class="trend up">▲ 2 this month</div></div>
+        <div class="dg_stat" style="flex:1;min-width:0"><div class="k">Total spent</div><div class="v"><span class="cur" style="font-size:.6em;color:var(--faint);font-weight:600">$</span>214,300</div><div class="trend flat">Lifetime</div></div>
+      </div>
+      <div class="lcard" style="padding:16px;margin-top:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font:800 14px var(--display)">Spend by body type</b></div>
+        <div style="display:flex;align-items:center;gap:18px"><div class="donut" role="img" aria-label="Spend by body type"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="dn-track" cx="18" cy="18" r="15.9155"/><circle class="dn-seg s1" cx="18" cy="18" r="15.9155" style="--l:48;stroke-dasharray:48 100" transform="rotate(0 18 18)"/><circle class="dn-seg s2" cx="18" cy="18" r="15.9155" style="--l:30;stroke-dasharray:30 100" transform="rotate(172.8 18 18)"/><circle class="dn-seg s3" cx="18" cy="18" r="15.9155" style="--l:22;stroke-dasharray:22 100" transform="rotate(280.8 18 18)"/></svg><div class="dn-center"><b class="tnum">$214k</b><span>total</span></div></div>
+          <div class="legrow" style="flex-direction:column;align-items:flex-start;gap:8px"><span><i style="background:var(--brand)"></i>SUV / 4WD <b>48%</b></span><span><i style="background:var(--success)"></i>Trucks <b>30%</b></span><span><i style="background:var(--warning)"></i>Sedan / Van <b>22%</b></span></div></div>
+      </div>
+      <div class="pilltabs" data-tabs style="margin:16px 0 14px"><span class="t on">All</span><span class="t">Delivered</span><span class="t">In transit</span></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="lrow" data-order="SP-23-0955"><span class="av sq" style="background:rgba(5,184,104,.14);color:var(--success)">🚗</span><div style="flex:1;min-width:0"><div class="lt">Nissan Note e-Power</div><div class="ls">SP-23-0955 · Feb 2, 2026 · $9,400</div></div><span class="badge b-success">Delivered</span></div>
+        <div class="lrow" data-order="SP-24-0198"><span class="av sq" style="background:var(--brand-tint);color:var(--brand)">🚐</span><div style="flex:1;min-width:0"><div class="lt">Toyota Hiace GL ×2</div><div class="ls">SP-24-0198 · Mar 12 · $41,800</div></div><span class="badge b-info">In transit</span></div>
+        <div class="lrow" data-order="SP-24-0312"><span class="av sq" style="background:rgba(255,192,67,.18);color:#8a5b00">🚙</span><div style="flex:1;min-width:0"><div class="lt">Land Cruiser 300 + Patrol</div><div class="ls">SP-24-0312 · today · $75,900</div></div><span class="badge b-warning">Payment due</span></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MY DISCOUNT COUPONS ===== -->
+  <section class="screen" id="dcoupons" aria-label="My discount coupons">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>My Discount Coupons</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div class="lcard" style="padding:15px"><div style="font-size:12.5px;color:var(--faint)">Redeem <b class="tnum" style="color:var(--ink)">450 pts</b> as coupons</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><span class="denom">$200 × 2</span><span class="denom">$50 × 1</span></div>
+        <button class="btn primary block sm" data-toast="Converting… coupons issued ✓|ok">Convert to coupons</button></div>
+      <div class="pilltabs" data-tabs style="margin:16px 0 14px"><span class="t on">Active</span><span class="t">Used</span><span class="t">Expired</span></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="coupon"><div class="val">$200<small>OFF</small></div><div style="flex:1;min-width:0"><div style="font:700 14px var(--display)">Gold member coupon</div><div style="font-size:12px;color:var(--faint);margin-top:2px">Orders over $20,000 · exp 31 Aug 2026</div><button class="btn primary sm" style="margin-top:10px" data-toast="Coupon applied — $200 off|ok">Apply</button></div></div>
+        <div class="coupon"><div class="val">$50<small>OFF</small></div><div style="flex:1;min-width:0"><div style="font:700 14px var(--display)">Welcome coupon</div><div style="font-size:12px;color:var(--faint);margin-top:2px">Any order · exp 30 Sep 2026</div><button class="btn primary sm" style="margin-top:10px" data-toast="Coupon applied — $50 off|ok">Apply</button></div></div>
+        <div class="coupon"><div class="val">15<small>% OFF</small></div><div style="flex:1;min-width:0"><div style="font:700 14px var(--display)">Local service discount</div><div style="font-size:12px;color:var(--faint);margin-top:2px">Clearing &amp; delivery · exp 31 Dec 2026</div><button class="btn primary sm" style="margin-top:10px" data-toast="Coupon applied — 15% off|ok">Apply</button></div></div>
+        <div class="coupon" style="opacity:.55"><div class="val" style="background:var(--surface-3);color:var(--faint)">$100<small>OFF</small></div><div style="flex:1;min-width:0"><div style="font:700 14px var(--display)">Spring promo</div><div style="font-size:12px;color:var(--faint);margin-top:2px">Used on Order #SP-24-0198</div><span class="badge b-success" style="margin-top:10px">✓ Used</span></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== POINTS ACTIVITY ===== -->
+  <section class="screen" id="points" aria-label="Points activity">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Points Activity</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div class="dg_hero"><div class="dg_htop"><span class="dg_tier">⭐ Points balance</span><span class="dg_crest">= $1,240</span></div>
+        <div class="dg_hmid"><div class="dg_pts" style="margin-left:0"><div class="big">1,240<small>points</small></div><div class="goal">2,600 earned · 1,360 redeemed lifetime</div></div></div>
+        <div class="dg_perks"><span class="dg_perk">Earn 1 pt / $100</span><span class="dg_perk">Redeem for coupons</span></div></div>
+      <div class="seg2" data-seg2 style="margin-top:16px"><button class="on">Chart</button><button>List</button><div class="thumb2"></div></div>
+      <div data-seg2-group>
+        <div data-panel="0">
+          <div class="barchart reveal in" style="width:100%;margin-top:14px"><div class="bc-plot"><div class="bc-grp"><b style="--h:40%"><em>320</em></b></div><div class="bc-grp"><b style="--h:65%"><em>520</em></b></div><div class="bc-grp"><b style="--h:80%"><em>640</em></b></div><div class="bc-grp"><b style="--h:50%"><em>400</em></b></div><div class="bc-grp"><b style="--h:92%"><em>720</em></b></div></div><div class="bc-leg"><span><i></i>Points earned · last 5 months</span></div></div>
+        </div>
+        <div data-panel="1" hidden>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+            <div class="listrow"><span class="av sq" style="background:rgba(5,184,104,.14);color:var(--success)">＋</span><div style="flex:1"><div style="font:700 13px var(--display)">Order delivered · SP-23-0955</div><div style="font-size:11.5px;color:var(--faint)">Mar 2 · +94 pts</div></div><b class="tnum" style="color:var(--success)">+94</b></div>
+            <div class="listrow"><span class="av sq" style="background:rgba(5,184,104,.14);color:var(--success)">＋</span><div style="flex:1"><div style="font:700 13px var(--display)">Auction won · Toyota Aqua</div><div style="font-size:11.5px;color:var(--faint)">2h ago · +120 pts</div></div><b class="tnum" style="color:var(--success)">+120</b></div>
+            <div class="listrow"><span class="av sq" style="background:var(--brand-tint);color:var(--brand)">−</span><div style="flex:1"><div style="font:700 13px var(--display)">Redeemed → $200 coupon</div><div style="font-size:11.5px;color:var(--faint)">Mar 10 · −200 pts</div></div><b class="tnum" style="color:var(--brand)">−200</b></div>
+            <div class="listrow"><span class="av sq" style="background:rgba(5,184,104,.14);color:var(--success)">＋</span><div style="flex:1"><div style="font:700 13px var(--display)">Referral bonus · Kenji</div><div style="font-size:11.5px;color:var(--faint)">Feb 20 · +150 pts</div></div><b class="tnum" style="color:var(--success)">+150</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="lcard" style="padding:15px;margin-top:16px"><div style="font-size:12.5px;color:var(--faint)">Redeem <b class="tnum" style="color:var(--ink)">1,240 pts</b> as coupons</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><span class="denom">$200 × 6</span><span class="denom">$40 × 1</span></div>
+        <button class="btn primary block sm" data-toast="Converting… coupons issued ✓|ok">Convert to coupons</button></div>
+    </div></div>
+  </section>
+
+  <!-- ===== SAVINGS BREAKDOWN ===== -->
+  <section class="screen" id="savings" aria-label="Savings breakdown">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Savings Breakdown</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div class="dg_hero"><div class="dg_htop"><span class="dg_tier">💰 Total saved</span><span class="dg_crest">vs list price</span></div>
+        <div class="dg_hmid"><div class="dg_ring" style="--ring:64%"><div class="rc"><b>6.6%</b><small>OF SPEND</small></div></div>
+          <div class="dg_pts"><div class="big">$14,200<small>saved to date</small></div><div class="goal">across 18 vehicles</div></div></div></div>
+      <div class="lcard" style="padding:16px;margin-top:14px"><b style="font:800 14px var(--display)">By source</b>
+        <div style="display:flex;align-items:center;gap:18px;margin-top:12px"><div class="donut" role="img" aria-label="Savings by source"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="dn-track" cx="18" cy="18" r="15.9155"/><circle class="dn-seg s1" cx="18" cy="18" r="15.9155" style="--l:44;stroke-dasharray:44 100" transform="rotate(0 18 18)"/><circle class="dn-seg s2" cx="18" cy="18" r="15.9155" style="--l:28;stroke-dasharray:28 100" transform="rotate(158.4 18 18)"/><circle class="dn-seg s3" cx="18" cy="18" r="15.9155" style="--l:28;stroke-dasharray:28 100" transform="rotate(259.2 18 18)"/></svg><div class="dn-center"><b class="tnum">$14.2k</b><span>saved</span></div></div>
+          <div class="legrow" style="flex-direction:column;align-items:flex-start;gap:8px"><span><i style="background:var(--brand)"></i>Coupons <b>$1,400</b></span><span><i style="background:var(--success)"></i>Member discount <b>$900</b></span><span><i style="background:var(--warning)"></i>Auction &amp; nego <b>$900</b></span></div></div>
+      </div>
+      <div class="lcard" style="padding:16px;margin-top:14px"><b style="font:800 14px var(--display)">Where it came from</b>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+          <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px"><span>Coupons applied</span><b class="tnum">$1,400</b></div><div class="pfill" style="height:6px"><i style="width:70%"></i></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px"><span>Member discount</span><b class="tnum">$900</b></div><div class="pfill" style="height:6px"><i style="width:45%"></i></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px"><span>Auction wins vs retail</span><b class="tnum">$620</b></div><div class="pfill" style="height:6px"><i style="width:31%"></i></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px"><span>Negotiated off asking</span><b class="tnum">$280</b></div><div class="pfill" style="height:6px"><i style="width:14%"></i></div></div>
+        </div>
+      </div>
+      <div class="lcard" style="padding:16px;margin-top:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font:800 14px var(--display)">Cumulative savings</b><span class="badge b-success">+$14.2k</span></div>
+        <div class="area" role="img" aria-label="Cumulative savings trend"><svg class="area-svg" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><line class="area-base" x1="0" y1="39" x2="100" y2="39"/><path class="area-fill" d="M0,38 C10,37 18,34 28,30 S44,22 55,18 S72,10 82,7 S94,4 100,3 L100,40 L0,40 Z"/><path class="area-line" d="M0,38 C10,37 18,34 28,30 S44,22 55,18 S72,10 82,7 S94,4 100,3"/></svg><span class="area-dot"></span></div>
+      </div>
+    </div></div>
   </section>
 
   <!-- ===== QUOTES ===== -->
@@ -1206,6 +1331,7 @@ html.dark .testbanner{color:#FFC043}
 
   /* ===== Orders batch: tracker · won · invoices · shipment ===== */
   function usd(n){return '$'+Number(n).toLocaleString('en-US');}
+  function positionThumb2(seg,btn){var th=seg.querySelector('.thumb2');if(!th||!btn)return;th.style.width=btn.offsetWidth+'px';th.style.transform='translateX('+(btn.offsetLeft-4)+'px)';}
   var OK='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>';
   // Canonical SP 12-step order process (steps 7–10 = optional local-services branch)
   var OSTEPS=[
@@ -1348,6 +1474,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='won'){ renderWon(); }
     if(id==='invoices'){ renderInvoices(); }
     if(id==='shipment'){ renderShipment('SP-24-0198'); }
+    if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
     var scr=$('#'+id); var otp=scr&&scr.querySelector('.otp-row input'); if(otp)setTimeout(function(){otp.focus();},380);
   }
 
@@ -1360,6 +1487,7 @@ html.dark .testbanner{color:#FFC043}
     var od=e.target.closest('[data-order]'); if(od){ openOrder(od.getAttribute('data-order')); return; }
     var iv=e.target.closest('[data-invoice]'); if(iv){ openInvoice(iv.getAttribute('data-invoice')); return; }
     var bt=e.target.closest('.obranch-t'); if(bt){ bt.parentNode.classList.toggle('open'); return; }
+    var s2=e.target.closest('.seg2 button'); if(s2){ var seg=s2.parentNode; var btns=seg.querySelectorAll('button'); var idx=Array.prototype.indexOf.call(btns,s2); btns.forEach(function(b){b.classList.remove('on');}); s2.classList.add('on'); positionThumb2(seg,s2); var grp=seg.parentNode.querySelector('[data-seg2-group]'); if(grp){grp.querySelectorAll('[data-panel]').forEach(function(pn){pn.hidden=(parseInt(pn.getAttribute('data-panel'),10)!==idx);});} return; }
     var t=e.target.closest('[data-toast]'); if(t){var p=t.getAttribute('data-toast').split('|');toast(p[0],p[1]);}
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape')back();});
@@ -1555,7 +1683,7 @@ html.dark .testbanner{color:#FFC043}
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
-    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['quotes','Quotes'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['feedback','Feedback'],['membership','Membership & Points']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
   ];
