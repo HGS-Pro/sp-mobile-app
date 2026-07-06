@@ -171,8 +171,9 @@ body{background:#0f1115}
 .hcard2 .hi{height:80px;background:linear-gradient(150deg,var(--surface-2),var(--surface-3));display:flex;align-items:center;justify-content:center;font-size:30px}
 #home{display:flex;flex-direction:column;overflow:hidden}
 #chat{display:flex;flex-direction:column;overflow:hidden}
-#chat .chatscroll{flex:1;overflow-y:auto;padding:14px 14px 6px;background:var(--page)}
+#chat .chatscroll{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;display:flex;flex-direction:column;padding:14px 14px 6px;background:var(--page)}
 #chat .chatscroll::-webkit-scrollbar{display:none}
+#chat .chatwin{margin-top:auto}
 #chat .chatfoot{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);padding:8px 12px calc(env(safe-area-inset-bottom) + 8px)}
 #chat .qr{overflow-x:auto;flex-wrap:nowrap;margin-bottom:8px}
 .chathead{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 12px) 12px 10px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
