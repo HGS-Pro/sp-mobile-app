@@ -1449,7 +1449,13 @@ html.dark .testbanner{color:#FFC043}
     }
   }
   function nav(id){ if(id===cur())return; var from=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from)s.classList.remove('active','back');}); from.classList.remove('active'); if(!from.classList.contains('fade'))from.classList.add('back'); stack.push(id); var to=$('#'+id); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(id); }
-  function back(){ if(stack.length<2)return; var from=$('#'+stack.pop()); var to=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from&&s!==to)s.classList.remove('active','back');}); from.classList.remove('active','back'); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(cur()); }
+  function back(){
+    if(stack.length<2){ // no history (e.g. jumped in via navigator or deep link) — fall back to home so back is never dead
+      if(cur()==='home')return;
+      $$('.screen').forEach(function(s){s.classList.remove('active','back');});
+      var h=$('#home'); if(h){h.classList.add('active');h.scrollTop=0;} stack=['home']; onEnter('home'); return;
+    }
+    var from=$('#'+stack.pop()); var to=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from&&s!==to)s.classList.remove('active','back');}); from.classList.remove('active','back'); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(cur()); }
   function toast(m,cls){var w=$('#toasts');var t=document.createElement('div');t.className='toast'+(cls?' '+cls:'');t.setAttribute('role','status');t.textContent=m;w.appendChild(t);requestAnimationFrame(function(){t.classList.add('show');});setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},260);},1700);}
 
   /* auto: splash -> welcome */
@@ -1941,11 +1947,19 @@ html.dark .testbanner{color:#FFC043}
   ];
   var navList=$('#navList');
   if(navList){SCREENS.forEach(function(g){var h=document.createElement('div');h.className='grp';h.textContent=g[0];navList.appendChild(h);g[1].forEach(function(s){var b=document.createElement('button');b.className='jump';b.textContent=s[1];b.addEventListener('click',function(){jumpTo(s[0]);});navList.appendChild(b);});});}
-  function jumpTo(id){if(id==='detail'){$('#navOv').classList.remove('open');openDetail(HV[0].id);return;}
-    if(id==='order-track'){$('#navOv').classList.remove('open');openOrder('SP-24-0198');return;}
-    if(id==='invoice'){$('#navOv').classList.remove('open');openInvoice('INV-24-0198');return;}
-    if(id==='auction-lot'){$('#navOv').classList.remove('open');openLot('AUC-24065');return;}
-    if(id==='heavy-detail'){$('#navOv').classList.remove('open');openHeavy('HE-9001');return;}$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
+  function jumpTo(id){
+    $('#navOv').classList.remove('open');
+    stack=['home']; // seed a home base so the jumped screen's Back button returns to Home instead of dead-ending
+    if(id==='detail'){openDetail(HV[0].id);return;}
+    if(id==='order-track'){openOrder('SP-24-0198');return;}
+    if(id==='invoice'){openInvoice('INV-24-0198');return;}
+    if(id==='auction-lot'){openLot('AUC-24065');return;}
+    if(id==='heavy-detail'){openHeavy('HE-9001');return;}
+    $$('.screen').forEach(function(s){s.classList.remove('active','back');});
+    var t=$('#'+id);if(!t)return;
+    t.classList.add('active');t.scrollTop=0;
+    stack=(id==='home')?['home']:['home',id];
+    onEnter(id);}
   var nf=$('#navFab'); if(nf)nf.addEventListener('click',function(){$('#navOv').classList.add('open');});
   var no=$('#navOv'); if(no)no.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
