@@ -339,6 +339,7 @@ html.dark .testbanner{color:#FFC043}
 .ostep.up .oc .ot,.ostep.up .dot{opacity:.6}
 .obranch{margin:0 0 22px 46px}
 .obranch-t{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px dashed var(--border-2);border-radius:var(--r-lg);padding:11px 13px;cursor:pointer;font:700 12.5px var(--text);color:var(--muted);width:100%}
+.lsvc-sel{display:flex;align-items:center;gap:8px;background:var(--brand-tint);border:1px solid var(--brand);border-radius:var(--r-lg);padding:11px 13px;font:700 12.5px var(--text);color:var(--brand)}
 .obranch-t .chev{margin-left:auto;transition:.25s}
 .obranch.open .obranch-t .chev{transform:rotate(90deg)}
 .obranch-in{display:none;padding-top:14px}
@@ -1542,8 +1543,9 @@ html.dark .testbanner{color:#FFC043}
     var branch=OSTEPS.filter(function(s){return s.n>=7&&s.n<=10;});
     var after=OSTEPS.filter(function(s){return s.n>=11;});
     var track=before.map(function(s){return stepHtml(s,o.step);}).join('');
-    if(o.local){ track+=branch.map(function(s){return stepHtml(s,o.step);}).join(''); }
-    else { track+='<div class="obranch"><button class="obranch-t"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Add local services (optional)<span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></button><div class="obranch-in">'+branch.map(function(s){return stepHtml(s,0);}).join('')+'</div></div>'; }
+    // "Get Our Local Service" — always shown between Arrived at Port (6) and Received (11): expanded/Selected when chosen, collapsible when optional
+    if(o.local){ track+='<div class="obranch open"><div class="lsvc-sel"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>Get Our Local Service<span class="badge b-success" style="margin-left:auto">Selected</span></div><div class="obranch-in">'+branch.map(function(s){return stepHtml(s,o.step);}).join('')+'</div></div>'; }
+    else { track+='<div class="obranch"><button class="obranch-t"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Get Our Local Service<span style="color:var(--faint);font-weight:600;margin-left:5px">(optional)</span><span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></button><div class="obranch-in">'+branch.map(function(s){return stepHtml(s,0);}).join('')+'</div></div>'; }
     track+=after.map(function(s){return stepHtml(s,o.step);}).join('');
     var badge=o.step>=11?'<span class="badge b-success">Delivered</span>':(o.step<=3?'<span class="badge b-warning">'+(o.step===2?'Payment due':'Processing')+'</span>':'<span class="badge b-info">In transit</span>');
     var acts='';
