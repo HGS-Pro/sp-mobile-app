@@ -547,7 +547,7 @@ html.dark .testbanner{color:#FFC043}
       <div class="grow"></div>
       <div style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)">
         <button class="btn primary block lg" data-nav="home">Start exploring</button>
-        <button class="btn text block" style="margin-top:8px" data-toast="KYC flow — later batch">Complete KYC verification</button>
+        <button class="btn text block" style="margin-top:8px" data-nav="profile">Complete KYC verification</button>
       </div>
     </div>
   </section>
@@ -721,7 +721,7 @@ html.dark .testbanner{color:#FFC043}
       </div>
       <div class="mgrid" id="homeGrid" style="margin-top:14px" aria-live="polite"></div>
       <button class="btn ghost block" style="margin-top:14px" data-nav="vehicles">Browse all vehicles</button>
-      <div class="msec"><h2>Heavy Equipment</h2><a data-toast="Vehicles page — Batch 4">View all</a></div>
+      <div class="msec"><h2>Heavy Equipment</h2><a data-nav="heavy">View all</a></div>
       <div class="mrail" id="homeHeavy"></div>
       <div class="msec"><h2>Live Auctions</h2><a data-nav="auctions">See all</a></div>
       <div class="mrail" id="homeAuc"></div>
@@ -1193,6 +1193,21 @@ html.dark .testbanner{color:#FFC043}
         <div class="lrow" data-nav="messages"><span class="li">🎫</span><div style="flex:1;min-width:0"><div class="lt">#T-1990 · Deposit refund</div><div class="ls">Resolved Mar 9</div></div><span class="badge b-success">Resolved</span></div>
       </div>
     </div></div>
+  </section>
+
+  <!-- ===== HEAVY EQUIPMENT ===== -->
+  <section class="screen" id="heavy" aria-label="Heavy equipment">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Heavy Equipment</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div class="crail"><button class="cchip" aria-pressed="true">All</button><button class="cchip">Excavators</button><button class="cchip">Graders</button><button class="cchip">Loaders</button><button class="cchip">Tractors</button><button class="cchip">Rollers</button></div>
+      <div id="heavyList" class="mgrid" style="margin-top:14px"></div>
+    </div></div>
+  </section>
+
+  <!-- ===== HEAVY EQUIPMENT DETAIL ===== -->
+  <section class="screen" id="heavy-detail" aria-label="Equipment detail">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="heTitle">Equipment</h1></div>
+    <div class="mscroll" id="heBody"></div>
   </section>
 
   <!-- ===== AUCTIONS ===== -->
@@ -1675,6 +1690,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
     if(id==='auctions'){ renderAuctions(); }
     if(id==='saved'){ renderSaved(); }
+    if(id==='heavy'){ renderHeavy(); }
     var scr=$('#'+id); var otp=scr&&scr.querySelector('.otp-row input'); if(otp)setTimeout(function(){otp.focus();},380);
   }
 
@@ -1704,7 +1720,39 @@ html.dark .testbanner{color:#FFC043}
     {id:'FR-UAE-90455',t:'Mitsubishi Canter',y:2019,km:'88,200 km',fuel:'Diesel',body:'truck',price:15900,cif:'CIF Mombasa',stock:'foreign',disc:0,tabs:['aff'],img:'https://loremflickr.com/640/420/truck?lock=17'},
     {id:'SP-JP-48551',t:'Toyota Noah Van',y:2021,km:'22,000 km',fuel:'Petrol',body:'van',price:23400,cif:'CIF Mombasa',stock:'sp',disc:0,tabs:['new','pop'],img:'https://loremflickr.com/640/420/van?lock=18'}
   ];
-  var HE=[{e:'🚜',t:'Motor Grader',s:'Land forming'},{e:'🛞',t:'Paver',s:'Road surfacing'},{e:'🚧',t:'Skid Steer',s:'Compact loader'},{e:'🏗️',t:'Telehandler',s:'Reach & lift'}];
+  var HE=[
+    {id:'HE-9001',e:'🚜',t:'Komatsu GD535-5 Motor Grader',brand:'Komatsu',cat:'Motor Grader',y:2017,hrs:'6,400 h',price:78000,cif:'CIF Mombasa',cond:'Excellent',s:'Land forming'},
+    {id:'HE-9002',e:'🏗️',t:'Caterpillar TH414C Telehandler',brand:'Caterpillar',cat:'Telehandler',y:2018,hrs:'4,100 h',price:52000,cif:'CIF Dar',cond:'Good',s:'Reach & lift'},
+    {id:'HE-9003',e:'🚧',t:'Bobcat S650 Skid Steer',brand:'Bobcat',cat:'Skid Steer',y:2019,hrs:'2,800 h',price:31000,cif:'CIF Lagos',cond:'Excellent',s:'Compact loader'},
+    {id:'HE-9004',e:'🛞',t:'Sakai SV540 Road Roller',brand:'Sakai',cat:'Road Roller',y:2016,hrs:'5,200 h',price:44000,cif:'CIF Mombasa',cond:'Good',s:'Road surfacing'},
+    {id:'HE-9005',e:'🚜',t:'Kubota M9540 Tractor',brand:'Kubota',cat:'Tractor',y:2020,hrs:'1,900 h',price:23500,cif:'CIF Dar',cond:'Excellent',s:'Agriculture'},
+    {id:'HE-9006',e:'⛏️',t:'Hitachi ZX200-5 Excavator',brand:'Hitachi',cat:'Excavator',y:2018,hrs:'7,100 h',price:69000,cif:'CIF Lusaka',cond:'Good',s:'Earthmoving'}
+  ];
+  var HEID={}; HE.forEach(function(x){HEID[x.id]=x;});
+  function heCard(x){return '<div class="lcard" data-hopen="'+x.id+'"><div class="img" style="display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(150deg,var(--surface-2),var(--surface-3))">'+x.e+'<span class="badge b-info" style="position:absolute;top:9px;left:9px">'+x.cat+'</span></div><div class="bd"><div class="ref">'+x.brand+' · '+x.y+'</div><div class="nm">'+x.t+'</div><div class="spx"><span>'+x.hrs+'</span><span>'+x.cond+'</span></div><div class="prow"><div class="pr">'+hmoney(x.price)+' <small>Total '+x.cif+'</small></div></div></div></div>';}
+  function renderHeavy(){var el=$('#heavyList'); if(el)el.innerHTML=HE.map(heCard).join('');}
+  function openHeavy(id){var x=HEID[id]; if(!x)return; $('#heTitle').textContent=x.cat;
+    var fob=Math.round(x.price*0.8);
+    $('#heBody').innerHTML='<div class="hero-emoji" style="height:210px;display:flex;align-items:center;justify-content:center;font-size:96px;background:linear-gradient(160deg,var(--surface-2),var(--surface-3));position:relative"><span class="badge b-info" style="position:absolute;top:14px;left:14px">'+x.cat+'</span></div>'
+      +'<div class="pad" style="padding:16px 16px 120px">'
+      +'<div class="ref" style="font-size:12px;color:var(--faint)">'+x.brand+' · '+x.id+'</div>'
+      +'<h1 style="font:800 21px var(--display);letter-spacing:-.02em;margin-top:3px">'+x.t+'</h1>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><span class="chip">'+x.cond+' condition</span><span class="chip">'+x.hrs+'</span><span class="chip">Year '+x.y+'</span><span class="chip">Inspected ✓</span></div>'
+      +'<div style="font:800 26px var(--display);margin-top:14px">'+hmoney(x.price)+' <span style="font:500 12px var(--text);color:var(--faint)">Total '+x.cif+'</span></div>'
+      +'<div style="font-size:12px;color:var(--faint);margin-top:2px">FOB '+hmoney(fob)+' · freight &amp; insurance included</div>'
+      +'<div class="msec"><h2>Specifications</h2></div>'
+      +'<div class="lcard" style="padding:4px 16px 0">'
+      + specrow('Manufacturer',x.brand)+specrow('Category',x.cat)+specrow('Year',x.y)+specrow('Operating hours',x.hrs)+specrow('Condition',x.cond)+specrow('Export port',x.cif.replace('CIF ',''))
+      +'</div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px"><b style="font:800 14px var(--display)">Price breakdown</b>'
+      +'<div class="prow2" style="margin-top:10px"><span class="k">FOB (Japan)</span><span class="v">'+hmoney(fob)+'</span></div>'
+      +'<div class="prow2"><span class="k">Freight + insurance</span><span class="v">'+hmoney(x.price-fob)+'</span></div>'
+      +'<div class="prow2" style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px"><span class="k" style="color:var(--ink);font-weight:700">Total '+x.cif+'</span><span class="v" style="font-size:16px;color:var(--brand)">'+hmoney(x.price)+'</span></div></div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🛡️</span><div><div style="font:700 13px var(--display)">Buyer protection</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">Pre-shipment inspection, verified hours, and secure escrow payment on every machine.</div></div></div>'
+      +'</div>'
+      +'<div class="dcta"><div><div style="font-size:11px;color:var(--faint)">Total '+x.cif+'</div><div style="font:800 18px var(--display)">'+hmoney(x.price)+'</div></div><button class="btn primary" style="flex:1" data-toast="Inquiry sent — a rep will quote you|ok">Inquire Now</button></div>';
+    nav('heavy-detail');
+  }
   var HA=[{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · 24065',grade:'4.5',bid:'¥1,050,000',cd:134,img:'https://loremflickr.com/640/420/car?lock=21'},{id:'AUC-31882',t:'Mazda CX-5 2020',lot:'TAA Kansai · 31882',grade:'4.0',bid:'¥1,720,000',cd:512,img:'https://loremflickr.com/640/420/suv?lock=22'}];
   var hfav={'SP-JP-48210':true,'FR-JP-77410':true,'AUC-24065':true}, htab='new', hcat='all', hstock='all';
   function hmoney(n){return '$'+n.toLocaleString('en-US');}
@@ -1716,7 +1764,7 @@ html.dark .testbanner{color:#FFC043}
   function renderHome(){
     var feat=$('#homeFeat'); if(feat)feat.innerHTML=HV.filter(function(v){return v.stock==='sp'||v.disc;}).slice(0,5).map(hcard).join('');
     var g=$('#homeGrid'); if(g){var list=hfilter();g.innerHTML=list.length?list.map(hcard).join(''):'<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:26px 10px">No vehicles match.<br><button class="btn text" data-hclear>Clear filters</button></div>';}
-    var h=$('#homeHeavy'); if(h)h.innerHTML=HE.map(function(x){return '<div class="hcard2" data-hopen="heavy"><div class="hi">'+x.e+'</div><div style="padding:11px"><div style="font:700 13px var(--display)">'+x.t+'</div><div style="font:400 11px var(--text);color:var(--faint);margin-top:2px">'+x.s+'</div></div></div>';}).join('');
+    var h=$('#homeHeavy'); if(h)h.innerHTML=HE.slice(0,4).map(function(x){return '<div class="hcard2" data-hopen="'+x.id+'" style="min-width:158px"><div class="hi">'+x.e+'</div><div style="padding:11px;text-align:left"><div style="font:700 13px var(--display)">'+x.cat+'</div><div style="font:400 11px var(--text);color:var(--faint);margin-top:2px">'+x.brand+' · '+x.y+'</div><div style="font:800 13px var(--display);color:var(--brand);margin-top:6px">'+hmoney(x.price)+'</div></div></div>';}).join('');
     var au=$('#homeAuc'); if(au)au.innerHTML=HA.map(haucard).join('');
   }
   document.addEventListener('click',function(e){
@@ -1726,7 +1774,7 @@ html.dark .testbanner{color:#FFC043}
     var vt=e.target.closest('[data-vtab]'); if(vt){htab=vt.getAttribute('data-vtab');$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x===vt);});var vt1=$('#homeVtitle');if(vt1)vt1.textContent=vt.textContent;renderHome();return;}
     var hv=e.target.closest('[data-hfav]'); if(hv){e.stopPropagation();var id=hv.getAttribute('data-hfav');hfav[id]=!hfav[id];hv.classList.toggle('on',hfav[id]);hv.classList.toggle('off',!hfav[id]);hv.setAttribute('aria-pressed',!!hfav[id]);toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');return;}
     var pb=e.target.closest('[data-placebid]'); if(pb){placeBid(pb.getAttribute('data-placebid'));return;}
-    var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(hid==='heavy'){toast('Heavy equipment detail — later batch');}else if(AUC[hid]){openLot(hid);}else{openDetail(hid);} return;}
+    var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(AUC[hid]){openLot(hid);}else if(HEID[hid]){openHeavy(hid);}else{openDetail(hid);} return;}
     var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
     var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$('#filterSheet').classList.remove('open');}
   });
@@ -1886,7 +1934,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-lot','Auction lot (live bid)'],['saved','Saved / Favorites']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
@@ -1896,7 +1944,8 @@ html.dark .testbanner{color:#FFC043}
   function jumpTo(id){if(id==='detail'){$('#navOv').classList.remove('open');openDetail(HV[0].id);return;}
     if(id==='order-track'){$('#navOv').classList.remove('open');openOrder('SP-24-0198');return;}
     if(id==='invoice'){$('#navOv').classList.remove('open');openInvoice('INV-24-0198');return;}
-    if(id==='auction-lot'){$('#navOv').classList.remove('open');openLot('AUC-24065');return;}$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
+    if(id==='auction-lot'){$('#navOv').classList.remove('open');openLot('AUC-24065');return;}
+    if(id==='heavy-detail'){$('#navOv').classList.remove('open');openHeavy('HE-9001');return;}$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
   var nf=$('#navFab'); if(nf)nf.addEventListener('click',function(){$('#navOv').classList.add('open');});
   var no=$('#navOv'); if(no)no.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
