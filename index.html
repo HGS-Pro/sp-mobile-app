@@ -901,6 +901,7 @@ html.dark .testbanner{color:#FFC043}
     <nav class="sdmenu" id="sdMenu">
       <a class="on" data-nav="dashboard"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>Dashboard</a>
       <a data-nav="vehicles"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6h-2v-2H7v2H5v-6Z"/></svg></span>Browse Vehicles</a>
+      <a data-nav="how-to-buy"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3M12 17h.01"/></svg></span>How to Buy</a>
       <a data-nav="quotes"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h10l4 4v14H5z"/><path d="M9 11h6M9 15h4"/></svg></span>Quotes</a>
       <a data-nav="negotiations"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></span>Negotiations</a>
       <a data-nav="orders"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z"/><path d="M8 12h8M8 16h5"/></svg></span>My Orders</a>
@@ -1317,14 +1318,40 @@ html.dark .testbanner{color:#FFC043}
     </nav>
   </section>
 
+  <!-- ===== WON VEHICLE DETAIL ===== -->
+  <section class="screen" id="won-detail" aria-label="Won vehicle detail">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="wonTitle">Won vehicle</h1></div>
+    <div class="mscroll" id="wonBody"></div>
+  </section>
+
+  <!-- ===== QUOTE DETAIL ===== -->
+  <section class="screen" id="quote-detail" aria-label="Quote detail">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="quoteTitle">Quote</h1></div>
+    <div class="mscroll" id="quoteBody"></div>
+  </section>
+
+  <!-- ===== HOW TO BUY ===== -->
+  <section class="screen" id="how-to-buy" aria-label="How to buy">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>How to Buy</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 28px">
+      <div class="shiphero" style="background:linear-gradient(150deg,#0B2A5B,#123E86)"><div class="wm">🚗</div><div class="vs">Buy from Japan in 6 steps</div><div class="vsub" style="margin-top:6px">From browsing 60,000+ inspected vehicles to delivery at your port — SP handles inspection, export docs, shipping &amp; tracking.</div></div>
+      <div class="otrack" style="margin-top:18px">
+        <div class="ostep done"><span class="rail"></span><span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div class="oc"><div class="ot">1 · Browse &amp; find</div><div class="od">Search SP stock or bid at Japanese auction. Every vehicle is inspected and graded.</div></div></div>
+        <div class="ostep done"><span class="rail"></span><span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div class="oc"><div class="ot">2 · Request a quote</div><div class="od">Get an itemized landed-cost (Total CIF) to your nearest port — freight &amp; insurance included.</div></div></div>
+        <div class="ostep cur"><span class="rail"></span><span class="dot">3</span><div class="oc"><div class="ot">3 · Confirm your order</div><div class="od">Accept the quote, choose consignee &amp; optional local services, and place the order.</div><span class="when" style="color:var(--brand)">You are here</span></div></div>
+        <div class="ostep up"><span class="rail"></span><span class="dot">4</span><div class="oc"><div class="ot">4 · Pay securely</div><div class="od">Pay by card or bank transfer via escrow. Deposit or full payment supported.</div></div></div>
+        <div class="ostep up"><span class="rail"></span><span class="dot">5</span><div class="oc"><div class="ot">5 · We ship &amp; you track</div><div class="od">Export documents, RoRo/container booking, and live shipment tracking to your port.</div></div></div>
+        <div class="ostep up"><span class="rail"></span><span class="dot">6</span><div class="oc"><div class="ot">6 · Clear &amp; receive</div><div class="od">Optional clearing, delivery &amp; registration, then confirm delivery and leave feedback.</div></div></div>
+      </div>
+      <div class="dstat-grid" style="margin-top:16px"><div class="stat"><div class="k">Inspected stock</div><div class="v" style="font-size:15px">60,000+</div></div><div class="stat"><div class="k">Export ports</div><div class="v" style="font-size:15px">50+</div></div><div class="stat"><div class="k">Pricing</div><div class="v" style="font-size:15px">Total CIF</div></div><div class="stat"><div class="k">Payment</div><div class="v" style="font-size:15px">Escrow</div></div></div>
+      <div style="display:flex;gap:10px;margin-top:18px"><button class="btn primary" style="flex:1" data-nav="vehicles">Browse vehicles</button><button class="btn ghost" style="flex:1" data-nav="auction-process">Auction route</button></div>
+    </div></div>
+  </section>
+
   <!-- ===== QUOTES ===== -->
   <section class="screen" id="quotes" aria-label="Quotes">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Quotes</h1></div>
-    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px"><div style="display:flex;flex-direction:column;gap:12px">
-      <div class="lrow" data-toast="Quote detail — later"><span class="li">📝</span><div style="flex:1;min-width:0"><div class="lt">QT-2048 · Land Cruiser 300</div><div class="ls">Landed $75,900 (CIF Mombasa)</div></div><span class="badge b-info">Sent</span></div>
-      <div class="lrow" data-toast="Quote detail — later"><span class="li">📝</span><div style="flex:1;min-width:0"><div class="lt">QT-2041 · Hilux Revo</div><div class="ls">Landed $31,200 (CIF Lagos)</div></div><span class="badge b-success">Accepted</span></div>
-      <div class="lrow" data-toast="Quote detail — later"><span class="li">📝</span><div style="flex:1;min-width:0"><div class="lt">QT-2033 · Honda Fit Hybrid</div><div class="ls">Requested 2h ago</div></div><span class="badge b-warning">Pending</span></div>
-    </div></div></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px"><div id="quoteList" style="display:flex;flex-direction:column;gap:12px"></div></div></div>
   </section>
 
   <!-- ===== NEGOTIATIONS ===== -->
@@ -1655,21 +1682,89 @@ html.dark .testbanner{color:#FFC043}
     nav('order-track');
   }
   var WON=[
-    {id:'AUC-88231',t:'Toyota Aqua G',lot:'Lot 40218',grade:'4.5 B',price:6820,when:'Won 2h ago',status:'awaiting',auc:'USS Nagoya'},
-    {id:'AUC-88117',t:'Mazda CX-5 XD',lot:'Lot 11902',grade:'4 B',price:14250,when:'Won yesterday',status:'awaiting',auc:'TAA Kyushu'},
-    {id:'AUC-87994',t:'Subaru Forester',lot:'Lot 55810',grade:'4.5 A',price:11900,when:'Won Mar 10',status:'ordered',auc:'USS Tokyo'}
+    {id:'AUC-88231',t:'Toyota Aqua G',lot:'Lot 40218',auc:'USS Nagoya',grade:'4.5',ext:'B',intr:'B',price:6820,hammer:1023000,when:'Won 2h ago',status:'awaiting',img:'https://loremflickr.com/640/420/toyota,aqua,hatchback?lock=31',body:'sedan',y:'2018 / Reg 2018-06',km:'52,300 km',chassis:'NHP10-24xxxxx',disp:'1,500 cc · Hybrid',trans:'CVT auto',color:'Pearl White',drive:'2WD (FF)',shaken:'Aug 2026',equip:['AAC','PS','PW','ABS','SRS','Navi','Back camera','Keyless','ETC'],notes:'Well-kept one-owner hybrid, non-smoker interior. Minor curb rash on the front-left alloy; runs and drives A1.',dmg:['A1 scratch — rear bumper (light)','U1 dent — bonnet (minor)']},
+    {id:'AUC-88117',t:'Mazda CX-5 XD',lot:'Lot 11902',auc:'TAA Kyushu',grade:'4',ext:'B',intr:'C',price:14250,hammer:2137000,when:'Won yesterday',status:'awaiting',img:'https://loremflickr.com/640/420/mazda,cx5,suv?lock=32',body:'suv',y:'2020 / Reg 2020-03',km:'36,500 km',chassis:'KF2P-30xxxxx',disp:'2,200 cc · Diesel',trans:'6-speed auto',color:'Soul Red',drive:'AWD',shaken:'Feb 2027',equip:['AAC','PS','PW','ABS','SRS','AW','Leather','Sunroof','Navi','Radar cruise','Blind-spot'],notes:'Diesel AWD with full Mazda service history. A few stone chips on the bonnet; interior graded C for normal wear on driver bolster.',dmg:['A2 scratch — LH front door','W1 repaired — RR quarter panel']},
+    {id:'AUC-87994',t:'Subaru Forester',lot:'Lot 55810',auc:'USS Tokyo',grade:'4.5',ext:'A',intr:'B',price:11900,hammer:1785000,when:'Won Mar 10',status:'ordered',img:'https://loremflickr.com/640/420/subaru,forester,suv?lock=33',body:'suv',y:'2019 / Reg 2019-09',km:'41,000 km',chassis:'SK9-40xxxxx',disp:'2,500 cc',trans:'CVT (Lineartronic)',color:'Crystal Black',drive:'Symmetrical AWD',shaken:'Nov 2026',equip:['AAC','PS','PW','ABS','SRS','AW','EyeSight','Navi','Back camera','Power seats','X-Mode'],notes:'Excellent-condition Forester with EyeSight driver assist. No notable exterior damage — genuine grade 4.5 A.',dmg:['No significant damage recorded on the sheet']}
   ];
   function renderWon(){
     var el=$('#wonList'); if(!el)return;
     el.innerHTML=WON.map(function(w){
       var sb=w.status==='awaiting'?'<span class="badge b-warning">Awaiting order</span>':'<span class="badge b-success">Ordered</span>';
-      var cta=w.status==='awaiting'?'<button class="btn primary" style="flex:1" data-nav="cart">Create order</button>':'<button class="btn ghost" style="flex:1" data-order="SP-24-0198">View order</button>';
-      return '<div class="lcard" style="padding:14px">'
-        +'<div style="display:flex;gap:12px;align-items:center"><div class="thumb" style="width:46px;height:46px;border-radius:12px;background:var(--brand-tint);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:22px">🏆</div>'
-        +'<div style="flex:1;min-width:0"><div style="font:800 15px var(--display)">'+w.t+'</div><div style="font-size:12px;color:var(--muted);margin-top:2px">'+w.auc+' · '+w.lot+' · Grade '+w.grade+'</div></div>'+sb+'</div>'
-        +'<div style="display:flex;align-items:center;margin-top:12px"><div style="flex:1"><div style="font:800 17px var(--display)">'+usd(w.price)+'</div><div style="font-size:11px;color:var(--faint)">'+w.when+'</div></div></div>'
-        +'<div style="display:flex;gap:10px;margin-top:12px">'+cta+'<button class="btn ghost" style="flex:1" data-toast="Auction sheet ↗">Auction sheet</button></div></div>';
+      return '<div class="lcard" data-won="'+w.id+'" style="overflow:hidden;cursor:pointer">'
+        +'<div style="height:150px;background-image:url('+w.img+');background-size:cover;background-position:center;position:relative"><span class="badge b-info" style="position:absolute;top:10px;left:10px">🏆 Won</span><span class="au_grade" style="position:absolute;top:10px;right:10px">'+w.grade+'<small>GRADE</small></span></div>'
+        +'<div class="bd" style="padding:13px 14px"><div class="ref">'+w.auc+' · '+w.lot+'</div><div class="nm">'+w.t+'</div>'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><div><div style="font:800 17px var(--display)">'+usd(w.price)+'</div><div style="font-size:11px;color:var(--faint)">'+w.when+'</div></div>'+sb+'</div>'
+        +'<div style="display:flex;gap:10px;margin-top:12px"><button class="btn primary block sm" data-won="'+w.id+'">View &amp; auction sheet</button></div></div></div>';
     }).join('');
+  }
+  /* ===== Auction sheet (authentic Japanese sheet) ===== */
+  function auctionSheet(o){
+    function f(k,v){return '<div class="prow2"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+    var eq=(o.equip||[]).map(function(e){return '<span class="chip">'+e+'</span>';}).join('');
+    var dmg=(o.dmg||[]).map(function(d){return '<div style="font-size:12px;color:var(--muted);display:flex;gap:7px;margin-top:4px"><span style="color:var(--warning);font-weight:800">•</span><span>'+d+'</span></div>';}).join('');
+    return '<div class="lcard" style="padding:0;overflow:hidden">'
+      +'<div style="background:linear-gradient(135deg,#1b2740,#0b1220);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:14px">'
+      +'<div style="width:58px;height:58px;border-radius:50%;background:#fff;color:#0b1220;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><b style="font:800 20px var(--display);line-height:1">'+o.grade+'</b><span style="font-size:8px;letter-spacing:.06em">GRADE</span></div>'
+      +'<div style="flex:1;min-width:0"><div style="font:800 14px var(--display)">Japanese Auction Sheet</div><div style="font-size:11.5px;opacity:.82;margin-top:2px">Independently inspected · 11-field</div></div>'
+      +'<div style="text-align:right;flex-shrink:0"><div style="font-size:10px;opacity:.7">EXT / INT</div><div style="font:800 15px var(--display)">'+o.ext+' / '+o.intr+'</div></div></div>'
+      +'<div style="padding:4px 16px">'+f('Year / Registration',o.y)+f('Mileage (verified)',o.km)+f('Chassis / Model code',o.chassis)+f('Displacement / Fuel',o.disp)+f('Transmission',o.trans)+f('Exterior colour',o.color)+f('Drivetrain',o.drive)+f('Shaken (JCI) valid to',o.shaken)+'</div>'
+      +'<div style="padding:6px 16px 2px"><div class="fsec" style="margin:6px 0 8px">Equipment codes</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+eq+'</div></div>'
+      +'<div style="padding:12px 16px 16px"><div class="fsec" style="margin:2px 0 8px">Inspector notes &amp; damage map</div><div style="font-size:12.5px;color:var(--ink);line-height:1.55">'+o.notes+'</div>'+dmg+'</div>'
+      +'</div>';
+  }
+  function openWon(id){
+    var w=WON.filter(function(x){return x.id===id;})[0]; if(!w)return; $('#wonTitle').textContent=w.t;
+    var landed=Math.round(w.price*1.18)+1500;
+    var sb=w.status==='awaiting'?'<span class="badge b-warning">Final order sheet — pay within 72h</span>':'<span class="badge b-success">Ordered · in process</span>';
+    var cta=w.status==='awaiting'?'<button class="btn primary" style="flex:1" data-toast="Opening secure payment…|ok">Pay balance</button>':'<button class="btn primary" style="flex:1" data-order="SP-24-0198">View order</button>';
+    $('#wonBody').innerHTML='<div style="height:200px;background-image:url('+w.img+');background-size:cover;background-position:center;position:relative"><span class="badge b-info" style="position:absolute;top:14px;left:14px">🏆 Won</span></div>'
+      +'<div class="pad" style="padding:16px 16px 108px">'
+      +'<div class="ref">'+w.auc+' · '+w.lot+'</div><h1 style="font:800 21px var(--display);letter-spacing:-.02em;margin-top:3px">'+w.t+'</h1><div style="margin-top:8px">'+sb+'</div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px"><b style="font:800 14px var(--display)">Purchase &amp; costs</b>'
+      +'<div class="prow2" style="margin-top:10px"><span class="k">Hammer price</span><span class="v">'+yen(w.hammer)+'</span></div>'
+      +'<div class="prow2"><span class="k">≈ in USD</span><span class="v">'+usd(w.price)+'</span></div>'
+      +'<div class="prow2"><span class="k">Auction house + SP fees</span><span class="v">'+usd(Math.round(w.price*0.18))+'</span></div>'
+      +'<div class="prow2"><span class="k">Freight + insurance (est.)</span><span class="v">'+usd(1500)+'</span></div>'
+      +'<div class="prow2" style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px"><span class="k" style="color:var(--ink);font-weight:700">Estimated landed (CIF)</span><span class="v" style="font-size:16px;color:var(--brand)">'+usd(landed)+'</span></div></div>'
+      +'<div class="msec"><h2>Auction sheet</h2><span class="badge b-info">Grade '+w.grade+' '+w.ext+'</span></div>'+auctionSheet(w)
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">⏱️</span><div><div style="font:700 13px var(--display)">What happens next</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">Your final order sheet is ready. Pay 100% within 72 hours, then we prepare export docs and ship to your port.</div></div></div>'
+      +'</div>'
+      +'<div class="dcta"><div><div style="font-size:11px;color:var(--faint)">Estimated landed</div><div style="font:800 18px var(--display)">'+usd(landed)+'</div></div>'+cta+'</div>';
+    nav('won-detail');
+  }
+  /* ===== Quotes ===== */
+  var QUOTES=[
+    {id:'QT-2048',t:'Toyota Land Cruiser 300',fob:56100,freight:4200,ins:520,inspect:280,port:'Mombasa, KE',status:'sent',when:'Sent 1d ago',valid:'Valid 7 days',img:'https://loremflickr.com/640/420/toyota,landcruiser,suv?lock=34',body:'suv',y:2022,km:'32,400 km',stock:'SP-JP-48210'},
+    {id:'QT-2041',t:'Toyota Hilux Revo',fob:26800,freight:3900,ins:300,inspect:200,port:'Lagos, NG',status:'accepted',when:'Accepted',valid:'Price locked',img:'https://loremflickr.com/640/420/toyota,hilux,pickup?lock=35',body:'truck',y:2021,km:'54,100 km',stock:'FR-UAE-90233'},
+    {id:'QT-2033',t:'Honda Fit Hybrid',fob:7600,freight:1400,ins:180,inspect:150,port:'Kampala, UG',status:'pending',when:'Requested 2h ago',valid:'Awaiting SP',img:'https://loremflickr.com/640/420/honda,fit,hatchback?lock=36',body:'car',y:2020,km:'41,300 km',stock:'FR-JP-77410'}
+  ];
+  function qTotal(q){return q.fob+q.freight+q.ins+q.inspect;}
+  function renderQuotes(){
+    var el=$('#quoteList'); if(!el)return;
+    var map={sent:['b-info','Sent'],accepted:['b-success','Accepted'],pending:['b-warning','Pending']};
+    el.innerHTML=QUOTES.map(function(q){var m=map[q.status];
+      return '<div class="lrow" data-quote="'+q.id+'"><span class="av sq" style="background-image:url('+q.img+');background-size:cover;background-position:center"></span><div style="flex:1;min-width:0"><div class="lt">'+q.id+' · '+q.t+'</div><div class="ls">Landed '+usd(qTotal(q))+' · CIF '+q.port.split(',')[0]+'</div></div><span class="badge '+m[0]+'">'+m[1]+'</span></div>';
+    }).join('');
+  }
+  function openQuote(id){
+    var q=QUOTES.filter(function(x){return x.id===id;})[0]; if(!q)return; $('#quoteTitle').textContent=q.id;
+    var tot=qTotal(q);
+    var map={sent:['b-info','Sent — awaiting your decision'],accepted:['b-success','Accepted · price locked'],pending:['b-warning','Pending — SP preparing quote']};var m=map[q.status];
+    var acts=q.status==='accepted'?'<button class="btn primary" style="flex:1" data-nav="cart">Add to order</button>':(q.status==='sent'?'<button class="btn primary" style="flex:1" data-toast="Quote accepted ✓ — added to cart|ok">Accept quote</button>':'<button class="btn ghost" style="flex:1" data-toast="We\'ll notify you when ready">Awaiting quote</button>');
+    $('#quoteBody').innerHTML='<div style="height:190px;background-image:url('+q.img+');background-size:cover;background-position:center;position:relative"><span class="badge '+m[0]+'" style="position:absolute;top:14px;left:14px">'+m[1]+'</span></div>'
+      +'<div class="pad" style="padding:16px 16px 108px">'
+      +'<div class="ref">Stock '+q.stock+' · '+q.y+' · '+q.km+'</div><h1 style="font:800 21px var(--display);letter-spacing:-.02em;margin-top:3px">'+q.t+'</h1>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><span class="chip">'+q.valid+'</span><span class="chip">CIF '+q.port+'</span><span class="chip">Inspected ✓</span></div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px"><b style="font:800 14px var(--display)">Landed cost breakdown</b>'
+      +'<div class="prow2" style="margin-top:10px"><span class="k">Vehicle (FOB Japan)</span><span class="v">'+usd(q.fob)+'</span></div>'
+      +'<div class="prow2"><span class="k">Ocean freight</span><span class="v">'+usd(q.freight)+'</span></div>'
+      +'<div class="prow2"><span class="k">Marine insurance</span><span class="v">'+usd(q.ins)+'</span></div>'
+      +'<div class="prow2"><span class="k">Pre-shipment inspection</span><span class="v">'+usd(q.inspect)+'</span></div>'
+      +'<div class="prow2" style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px"><span class="k" style="color:var(--ink);font-weight:700">Total CIF '+q.port.split(',')[0]+'</span><span class="v" style="font-size:16px;color:var(--brand)">'+usd(tot)+'</span></div></div>'
+      +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn ghost" style="flex:1" data-nav="negotiations">Negotiate</button><button class="btn ghost" style="flex:1" data-toast="Quote PDF downloaded ✓|ok">Download</button></div>'
+      +'</div>'
+      +'<div class="dcta"><div><div style="font-size:11px;color:var(--faint)">Total CIF '+q.port.split(',')[0]+'</div><div style="font:800 18px var(--display)">'+usd(tot)+'</div></div>'+acts+'</div>';
+    nav('quote-detail');
   }
   var INVOICES={
     'INV-24-0312':{no:'INV-24-0312',date:'Jul 6, 2026',order:'SP-24-0312',status:'unpaid',consignee:'John Otieno · Mombasa, KE',items:[['Toyota Land Cruiser 300 (2022)',48500],['Nissan Patrol Y62 (2022)',22400]],freight:4200,ins:520,inspect:280,paid:0},
@@ -1735,11 +1830,11 @@ html.dark .testbanner{color:#FFC043}
   /* ===== Auctions batch: live bidding + saved ===== */
   function yen(n){return '¥'+Number(n).toLocaleString('en-US');}
   var AUC={
-    'AUC-40218':{id:'AUC-40218',t:'Toyota Aqua G 2018',lot:'USS Nagoya · Lot 40218',grade:'4.5',y:2018,km:'52,300 km',bid:820000,inc:10000,cd:78,bidders:4,img:'https://loremflickr.com/640/420/hatchback?lock=23',leaders:[['SP','S. Park',820000,'20s ago'],['MO','M. Otieno',810000,'55s ago']]},
-    'AUC-24065':{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · Lot 24065',grade:'4.5',y:2019,km:'48,000 km',bid:1050000,inc:10000,cd:134,bidders:6,img:'https://loremflickr.com/640/420/car?lock=21',leaders:[['HK','H. Kimura',1050000,'12s ago'],['RA','R. Ahmed',1040000,'40s ago'],['MO','M. Otieno',1020000,'1m ago']]},
-    'AUC-31882':{id:'AUC-31882',t:'Mazda CX-5 2020',lot:'TAA Kansai · Lot 31882',grade:'4.0',y:2020,km:'36,500 km',bid:1720000,inc:20000,cd:512,bidders:9,img:'https://loremflickr.com/640/420/suv?lock=22',leaders:[['YT','Y. Tanaka',1720000,'30s ago'],['RA','R. Ahmed',1700000,'2m ago']]},
-    'AUC-55810':{id:'AUC-55810',t:'Subaru Forester 2019',lot:'USS Tokyo · Lot 55810',grade:'4.5',y:2019,km:'41,000 km',bid:1390000,inc:20000,cd:905,bidders:7,img:'https://loremflickr.com/640/420/suv?lock=24',leaders:[['DK','D. Kim',1390000,'1m ago']]},
-    'AUC-11902':{id:'AUC-11902',t:'Nissan X-Trail 2020',lot:'TAA Kyushu · Lot 11902',grade:'4.0',y:2020,km:'29,800 km',bid:1560000,inc:20000,cd:1440,bidders:5,img:'https://loremflickr.com/640/420/suv?lock=25',leaders:[['AA','A. Ali',1560000,'3m ago']]}
+    'AUC-40218':{id:'AUC-40218',t:'Toyota Aqua G 2018',lot:'USS Nagoya · Lot 40218',grade:'4.5',y:2018,km:'52,300 km',bid:820000,inc:10000,cd:78,bidders:4,img:'https://loremflickr.com/640/420/toyota,aqua,hatchback?lock=23',body:'sedan',ext:'B',intr:'B',chassis:'NHP10-24xxxxx',disp:'1,500 cc · Hybrid',trans:'CVT',color:'Pearl White',drive:'2WD (FF)',shaken:'Aug 2026',equip:['AAC','PS','PW','ABS','SRS','Navi','Keyless'],notes:'Clean one-owner hybrid, non-smoker. Light curb rash front-left alloy.',dmg:['A1 scratch — rear bumper','U1 dent — bonnet'],leaders:[['SP','S. Park',820000,'20s ago'],['MO','M. Otieno',810000,'55s ago']]},
+    'AUC-24065':{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · Lot 24065',grade:'4.5',y:2019,km:'48,000 km',bid:1050000,inc:10000,cd:134,bidders:6,img:'https://loremflickr.com/640/420/toyota,aqua,car?lock=21',body:'sedan',ext:'B',intr:'B',chassis:'NHP10-63xxxxx',disp:'1,500 cc · Hybrid',trans:'CVT',color:'Silver Metallic',drive:'2WD (FF)',shaken:'May 2026',equip:['AAC','PS','PW','ABS','SRS','Navi','Back camera','ETC'],notes:'Well-maintained Aqua, records present. Minor interior wear.',dmg:['A1 scratch — LH sill','No structural damage']},
+    'AUC-31882':{id:'AUC-31882',t:'Mazda CX-5 2020',lot:'TAA Kansai · Lot 31882',grade:'4.0',y:2020,km:'36,500 km',bid:1720000,inc:20000,cd:512,bidders:9,img:'https://loremflickr.com/640/420/mazda,cx5,suv?lock=22',body:'suv',ext:'B',intr:'C',chassis:'KF2P-30xxxxx',disp:'2,200 cc · Diesel',trans:'6AT',color:'Soul Red',drive:'AWD',shaken:'Feb 2027',equip:['AAC','PS','PW','ABS','SRS','AW','Leather','Sunroof','Navi'],notes:'Diesel AWD, full service history. Interior C for driver-bolster wear.',dmg:['A2 scratch — LH front door','W1 repaired — RR quarter']},
+    'AUC-55810':{id:'AUC-55810',t:'Subaru Forester 2019',lot:'USS Tokyo · Lot 55810',grade:'4.5',y:2019,km:'41,000 km',bid:1390000,inc:20000,cd:905,bidders:7,img:'https://loremflickr.com/640/420/subaru,forester,suv?lock=24',body:'suv',ext:'A',intr:'B',chassis:'SK9-40xxxxx',disp:'2,500 cc',trans:'CVT',color:'Crystal Black',drive:'Symmetrical AWD',shaken:'Nov 2026',equip:['AAC','PS','PW','ABS','SRS','AW','EyeSight','Navi'],notes:'Excellent condition with EyeSight. Genuine grade 4.5 A exterior.',dmg:['No significant damage recorded']},
+    'AUC-11902':{id:'AUC-11902',t:'Nissan X-Trail 2020',lot:'TAA Kyushu · Lot 11902',grade:'4.0',y:2020,km:'29,800 km',bid:1560000,inc:20000,cd:1440,bidders:5,img:'https://loremflickr.com/640/420/nissan,xtrail,suv?lock=25',body:'suv',ext:'B',intr:'B',chassis:'T32-55xxxxx',disp:'2,000 cc',trans:'CVT',color:'Gun Metallic',drive:'4WD',shaken:'Sep 2026',equip:['AAC','PS','PW','ABS','SRS','AW','Around-view','Navi'],notes:'Family 4WD SUV, low mileage. A couple of light scuffs.',dmg:['A1 scratch — RR bumper','A1 — LH mirror cap']},
   };
   var AUC_ORDER=['AUC-40218','AUC-24065','AUC-31882','AUC-55810','AUC-11902'];
   function aucard(a){var f=!!hfav[a.id];return '<div class="lcard au_lot" data-hopen="'+a.id+'"><div class="img" style="background-image:url('+a.img+');background-size:cover;background-position:center">'
@@ -1756,7 +1851,8 @@ html.dark .testbanner{color:#FFC043}
   function renderLot(a){
     var min=a.bid+a.inc, leading=!!a.youLeading;
     var leaders=(a.leaders||[]).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+yen(l[2])+'</span></div>';}).join('');
-    $('#lotBody').innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+    $('#lotBody').innerHTML='<div style="height:190px;background-image:url('+a.img+');background-size:cover;background-position:center;position:relative"><span class="badge b-error au_livechip" style="position:absolute;top:12px;left:12px"><span class="dot" style="background:#fff"></span>LIVE</span><span class="au_grade" style="position:absolute;top:12px;right:12px">'+a.grade+'<small>GRADE</small></span></div>'
+      +'<div class="pad" style="padding:14px 16px 26px">'
       +'<div class="au_hero"><div class="au_heroglow"></div>'
       +'<div class="au_herotop"><span class="au_live"><span class="au_livedot"></span>LIVE</span>'
       +'<span class="au_timer"><svg width="38" height="38" viewBox="0 0 36 36"><circle class="au_tt" cx="18" cy="18" r="15.5"/><circle class="au_tp" cx="18" cy="18" r="15.5"/></svg><span data-acd="'+a.id+'">'+hfmt(a.cd)+'</span></span></div>'
@@ -1768,6 +1864,7 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="au_lb lcard" style="margin-top:14px"><div class="bd"><div class="au_lbhead"><span class="subl" style="margin:0">Leaderboard</span><span class="au_lbcount">'+a.bidders+' bidders</span></div><div>'+leaders+'</div></div></div>'
       +'<div class="msec"><h2>Lot details</h2></div>'
       +'<div class="lcard" style="padding:4px 16px 0">'+specrow('Auction house',a.lot.split(' · ')[0])+specrow('Lot number',(a.lot.split('Lot ')[1]||'—'))+specrow('Year',a.y)+specrow('Mileage',a.km)+specrow('Auction grade',a.grade+' / 5')+'</div>'
+      +'<div class="msec"><h2>Auction sheet</h2><span class="badge b-info">Grade '+a.grade+' '+a.ext+'</span></div>'+auctionSheet(a)
       +'<div class="lcard" style="padding:14px 16px;margin-top:12px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🔒</span><div><div style="font:700 13px var(--display)">Bidding deposit</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">A refundable deposit secures bidding. You have <b>$350 usable</b> in your auction wallet — released if you don\'t win.</div></div></div>'
       +'</div>';
   }
@@ -1927,6 +2024,7 @@ html.dark .testbanner{color:#FFC043}
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='messages'){ renderMessages(); }
+    if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
     if(id==='bids'){ renderBids(); }
     if(id==='auction-cal'){ renderCal(); }
@@ -1955,6 +2053,8 @@ html.dark .testbanner{color:#FFC043}
     if(n){ $('#appscrim').classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); nav(n.getAttribute('data-nav')); return; }
     var od=e.target.closest('[data-order]'); if(od){ openOrder(od.getAttribute('data-order')); return; }
     var iv=e.target.closest('[data-invoice]'); if(iv){ openInvoice(iv.getAttribute('data-invoice')); return; }
+    var wo=e.target.closest('[data-won]'); if(wo){ openWon(wo.getAttribute('data-won')); return; }
+    var qo=e.target.closest('[data-quote]'); if(qo){ openQuote(qo.getAttribute('data-quote')); return; }
     var ch=e.target.closest('[data-chat]'); if(ch){ openChat(ch.getAttribute('data-chat')); return; }
     var qr=e.target.closest('[data-qr]'); if(qr){ sendMsg(qr.getAttribute('data-qr')); return; }
     var sd2=e.target.closest('[data-send]'); if(sd2){ sendMsg($('#chatInput')?$('#chatInput').value:''); return; }
@@ -2191,8 +2291,8 @@ html.dark .testbanner{color:#FFC043}
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
-    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
+    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
@@ -2208,6 +2308,8 @@ html.dark .testbanner{color:#FFC043}
     if(id==='auction-lot'){openLot('AUC-24065');return;}
     if(id==='heavy-detail'){openHeavy('HE-9001');return;}
     if(id==='chat'){openChat('kenji');return;}
+    if(id==='won-detail'){openWon('AUC-88231');return;}
+    if(id==='quote-detail'){openQuote('QT-2048');return;}
     $$('.screen').forEach(function(s){s.classList.remove('active','back');});
     var t=$('#'+id);if(!t)return;
     t.classList.add('active');t.scrollTop=0;
