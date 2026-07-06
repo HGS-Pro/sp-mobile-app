@@ -690,7 +690,7 @@ html.dark .testbanner{color:#FFC043}
     <div class="mhead">
       <div class="g"><small>Good morning 👋</small><b>Hi, Rana</b></div>
       <div class="r">
-        <button class="hib" aria-label="Notifications, 99+" data-toast="Notifications"><span class="pip">99+</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+        <button class="hib" aria-label="Notifications, 3 unread" data-opensheet="notifSheet"><span class="pip">3</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
         <button class="hav" aria-label="Dashboard" data-nav="dashboard">R</button>
       </div>
     </div>
@@ -790,7 +790,8 @@ html.dark .testbanner{color:#FFC043}
     <div class="dbhead">
       <button class="mb" id="sideMenuBtn" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
       <h1>Dashboard</h1>
-      <button class="hav" data-nav="profile" aria-label="Profile">R</button>
+      <button class="hib" data-opensheet="notifSheet" aria-label="Notifications, 3 unread"><span class="pip">3</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+      <button class="hav" data-opensheet="profileSheet" aria-label="Account menu">R</button>
     </div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 24px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
@@ -1460,6 +1461,34 @@ html.dark .testbanner{color:#FFC043}
     </div>
   </section>
 
+  <!-- Notifications sheet -->
+  <section class="appsheet" id="notifSheet" role="dialog" aria-modal="true" aria-label="Notifications">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="font:800 17px var(--display)">Notifications</h3><button class="btn text sm" style="height:auto;padding:4px 6px" data-sheetclose data-toast="All marked read ✓|ok">Mark all read</button></div>
+    <button style="display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--brand-tint);border:none;border-radius:var(--r-lg);padding:12px;cursor:pointer;margin-bottom:8px" data-hopen="AUC-24065"><span style="font-size:18px;flex-shrink:0">🔨</span><div style="flex:1;min-width:0"><div style="font:700 13px var(--display)">You've been outbid</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Toyota Aqua now ¥1,080,000 · 2m ago</div></div><span style="width:8px;height:8px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:4px"></span></button>
+    <button style="display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--brand-tint);border:none;border-radius:var(--r-lg);padding:12px;cursor:pointer;margin-bottom:8px" data-nav="won"><span style="font-size:18px;flex-shrink:0">🏆</span><div style="flex:1;min-width:0"><div style="font:700 13px var(--display)">Auction won — Toyota Aqua G</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Lot 40218 · finalize within 7h · 1h ago</div></div><span style="width:8px;height:8px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:4px"></span></button>
+    <button style="display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--brand-tint);border:none;border-radius:var(--r-lg);padding:12px;cursor:pointer;margin-bottom:8px" data-invoice="INV-24-0312"><span style="font-size:18px;flex-shrink:0">🧾</span><div style="flex:1;min-width:0"><div style="font:700 13px var(--display)">Invoice INV-24-0312 issued</div><div style="font-size:12px;color:var(--muted);margin-top:2px">$75,900 · payment due · 3h ago</div></div><span style="width:8px;height:8px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:4px"></span></button>
+    <button style="display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--surface-2);border:none;border-radius:var(--r-lg);padding:12px;cursor:pointer;margin-bottom:8px" data-nav="shipment"><span style="font-size:18px;flex-shrink:0">🚢</span><div style="flex:1;min-width:0"><div style="font:700 13px var(--display)">Shipment departed Yokohama</div><div style="font-size:12px;color:var(--faint);margin-top:2px">Order SP-24-0198 · ETA ~3 wks · 1d ago</div></div></button>
+    <button style="display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--surface-2);border:none;border-radius:var(--r-lg);padding:12px;cursor:pointer;margin-bottom:8px" data-nav="dcoupons"><span style="font-size:18px;flex-shrink:0">🎟️</span><div style="flex:1;min-width:0"><div style="font:700 13px var(--display)">New coupon: $50 off</div><div style="font-size:12px;color:var(--faint);margin-top:2px">Welcome offer · expires 30 Sep · 2d ago</div></div></button>
+    <button class="btn ghost block" style="margin-top:6px" data-nav="messages">Open messages</button>
+  </section>
+
+  <!-- Account / profile menu sheet -->
+  <section class="appsheet" id="profileSheet" role="dialog" aria-modal="true" aria-label="Account menu">
+    <div class="grab"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="hav" style="width:52px;height:52px;font-size:18px">R</span><div style="flex:1;min-width:0"><div style="font:800 16px var(--display)">Rana Ahmed</div><div style="font-size:12px;color:var(--faint)">💎 Gold member · KYC verified</div></div><button class="btn ghost sm" data-nav="profile">View</button></div>
+    <div class="fsec">🌐 Language</div>
+    <div class="crail" id="langSeg" style="padding:2px 0"><button class="cchip" data-lang="English" aria-pressed="true">English</button><button class="cchip" data-lang="Kiswahili" aria-pressed="false">Kiswahili</button><button class="cchip" data-lang="日本語" aria-pressed="false">日本語</button><button class="cchip" data-lang="Français" aria-pressed="false">Français</button><button class="cchip" data-lang="العربية" aria-pressed="false">العربية</button></div>
+    <div class="fsec">🎨 Appearance</div>
+    <div class="themeseg" id="themeSeg3" role="group" aria-label="Theme"><button data-theme="light" class="on">☀ Light</button><button data-theme="dark">🌙 Dark</button></div>
+    <div style="margin-top:16px">
+      <button style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;padding:13px 4px;font:600 14px var(--text);color:var(--ink);cursor:pointer;border-bottom:1px solid var(--border-soft)" data-nav="profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile &amp; KYC</button>
+      <button style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;padding:13px 4px;font:600 14px var(--text);color:var(--ink);cursor:pointer;border-bottom:1px solid var(--border-soft)" data-nav="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 0 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 0 1 0-4h.1A1.7 1.7 0 0 0 4.6 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9.4A1.7 1.7 0 0 0 10.6 3V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1A1.7 1.7 0 0 0 21 10.6H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
+      <button style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;padding:13px 4px;font:600 14px var(--text);color:var(--ink);cursor:pointer;border-bottom:1px solid var(--border-soft)" data-nav="support"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3M12 17h.01"/></svg>Help &amp; Support</button>
+      <button style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;padding:13px 4px;font:600 14px var(--text);color:var(--error);cursor:pointer" data-sheetclose data-toast="Signed out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button>
+    </div>
+  </section>
+
   <div class="toasts" id="toasts" aria-live="polite"></div>
 </div><!-- /.app -->
    <div class="homebar" aria-hidden="true"></div>
@@ -1495,7 +1524,7 @@ html.dark .testbanner{color:#FFC043}
       to.scrollTop=0;
     }
   }
-  function nav(id){ if(id===cur())return; var from=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from)s.classList.remove('active','back');}); from.classList.remove('active'); if(!from.classList.contains('fade'))from.classList.add('back'); stack.push(id); var to=$('#'+id); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(id); }
+  function nav(id){ $$('.appsheet').forEach(function(s){s.classList.remove('open');}); var _sc=$('#appscrim'); if(_sc)_sc.classList.remove('open'); if(id===cur())return; var from=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from)s.classList.remove('active','back');}); from.classList.remove('active'); if(!from.classList.contains('fade'))from.classList.add('back'); stack.push(id); var to=$('#'+id); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(id); }
   function back(){
     if(stack.length<2){ // no history (e.g. jumped in via navigator or deep link) — fall back to home so back is never dead
       if(cur()==='home')return;
@@ -1846,7 +1875,7 @@ html.dark .testbanner{color:#FFC043}
     var b=e.target.closest('[data-back]'); if(b){back();return;}
     var v=e.target.closest('[data-validate]'); var n=e.target.closest('[data-nav]');
     if(v){ if(!validateStep(v.getAttribute('data-validate')))return; }
-    if(n){ nav(n.getAttribute('data-nav')); return; }
+    if(n){ $('#appscrim').classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); nav(n.getAttribute('data-nav')); return; }
     var od=e.target.closest('[data-order]'); if(od){ openOrder(od.getAttribute('data-order')); return; }
     var iv=e.target.closest('[data-invoice]'); if(iv){ openInvoice(iv.getAttribute('data-invoice')); return; }
     var bt=e.target.closest('.obranch-t'); if(bt){ bt.parentNode.classList.toggle('open'); return; }
@@ -1923,14 +1952,16 @@ html.dark .testbanner{color:#FFC043}
     var pb=e.target.closest('[data-placebid]'); if(pb){placeBid(pb.getAttribute('data-placebid'));return;}
     var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(AUC[hid]){openLot(hid);}else if(HEID[hid]){openHeavy(hid);}else{openDetail(hid);} return;}
     var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
-    var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$('#filterSheet').classList.remove('open');}
+    var oo=e.target.closest('[data-opensheet]'); if(oo){$('#appscrim').classList.add('open');var tgt=$('#'+oo.getAttribute('data-opensheet'));if(tgt)tgt.classList.add('open');return;}
+    var lg=e.target.closest('[data-lang]'); if(lg){var lp=lg.parentNode;lp.querySelectorAll('[data-lang]').forEach(function(b){b.classList.remove('on');b.setAttribute('aria-pressed','false');});lg.classList.add('on');lg.setAttribute('aria-pressed','true');toast('Language set to '+lg.getAttribute('data-lang'),'ok');return;}
+    var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});}
   });
   /* advanced-search sheet: toggle chips + reset */
   document.addEventListener('click',function(e){
     var stg=e.target.closest('.sheet-toggle'); if(stg){e.preventDefault();stg.setAttribute('aria-pressed',stg.getAttribute('aria-pressed')!=='true');return;}
     var rst=e.target.closest('[data-sheetreset]'); if(rst){$$('#filterSheet select').forEach(function(s){s.selectedIndex=0;});$$('#filterSheet .sheet-toggle').forEach(function(c){c.setAttribute('aria-pressed','false');});toast('Filters reset');}
   });
-  var asc=$('#appscrim'); if(asc)asc.addEventListener('click',function(){this.classList.remove('open');$('#filterSheet').classList.remove('open');var sd=$('#sideDrawer');if(sd){sd.classList.remove('open');sd.setAttribute('aria-hidden','true');}});
+  var asc=$('#appscrim'); if(asc)asc.addEventListener('click',function(){this.classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});var sd=$('#sideDrawer');if(sd){sd.classList.remove('open');sd.setAttribute('aria-hidden','true');}});
   var sideBtn=$('#sideMenuBtn'); if(sideBtn)sideBtn.addEventListener('click',function(){$('#appscrim').classList.add('open');var sd=$('#sideDrawer');sd.classList.add('open');sd.setAttribute('aria-hidden','false');});
   var sdMenu=$('#sdMenu'); if(sdMenu)sdMenu.addEventListener('click',function(e){if(e.target.closest('a')){$('#appscrim').classList.remove('open');$('#sideDrawer').classList.remove('open');$('#sideDrawer').setAttribute('aria-hidden','true');}});
   setInterval(function(){HA.forEach(function(a){if(a.cd>0)a.cd--;$$('[data-hcd="'+a.id+'"]').forEach(function(el){el.textContent='⏱ '+hfmt(a.cd);});});},1000);
