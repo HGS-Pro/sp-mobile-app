@@ -1222,6 +1222,7 @@ html.dark .testbanner{color:#FFC043}
         <div class="au_wsplit"><span><i class="held"></i>$650 held</span><span><i class="usable"></i>$350 usable</span></div>
         <div class="au_wbtns"><button class="au_wbtn solid" data-nav="wallet">Top up</button><button class="au_wbtn ghost" data-nav="won">Won lots</button></div>
       </div>
+      <button class="lcard" style="width:100%;border:none;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-top:12px" data-nav="auction-process"><span style="font-size:20px">📋</span><div style="flex:1;text-align:left;min-width:0"><div style="font:700 13px var(--display)">How auction buying works</div><div style="font-size:11.5px;color:var(--faint)">7-step process · deposits · when you win</div></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
       <div class="crail" style="margin-top:14px"><button class="cchip" aria-pressed="true">All lots</button><button class="cchip">Ending soon</button><button class="cchip">Grade 4.5+</button><button class="cchip">SUV</button><button class="cchip">Sedan</button></div>
       <div class="pilltabs" data-tabs style="margin:8px 0 14px"><span class="t on">Live now</span><span class="t">Upcoming</span><span class="t">Won</span></div>
       <div id="aucList" style="display:flex;flex-direction:column;gap:14px"></div>
@@ -1233,6 +1234,12 @@ html.dark .testbanner{color:#FFC043}
       <button class="t" data-nav="saved"><span class="b">3</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
       <button class="t" data-nav="dashboard"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
     </nav>
+  </section>
+
+  <!-- ===== AUCTION PROCESS (how it works) ===== -->
+  <section class="screen" id="auction-process" aria-label="Auction process">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>How Auctions Work</h1></div>
+    <div class="mscroll" id="apBody"></div>
   </section>
 
   <!-- ===== AUCTION LOT (live bidding) ===== -->
@@ -1682,6 +1689,50 @@ html.dark .testbanner{color:#FFC043}
     el.innerHTML=html;
   }
 
+  /* ===== Auction overall process (grounded in howToBuyAuctionStockPage + auctionProcessPage) ===== */
+  var APROC=[
+    {t:'Auction ID & Password',sub:'Register & place a $1,000 deposit',when:'Same day',chips:['VISA · MC · AMEX','PayPal · Apple · Google Pay','$800 refundable']},
+    {t:'KYC & Profile Verification',sub:'Compliance review of your documents',when:'48 hrs',chips:['Passport copy','Proof of address','Business license (B2B)']},
+    {t:'Vehicle Purchase Advance',sub:'Advance a 50% deposit before bidding',when:'Before each bid',chips:['Min 50% of expected bid','Reusable if bid is lost','Upload proof of payment']},
+    {t:'Bidding & Selection',sub:'Live auction action on your lots',when:'Auction day',chips:['Live bidding','Real-time updates','Multiple bids supported']},
+    {t:'Final Order Sheet',sub:'Bid won — every cost itemized',when:'Within 7 hrs',chips:['Itemized cost breakdown','Inspection report included']},
+    {t:'Full Payment',sub:'Pay 100% of the total cost',when:'72 hrs STRICT',chips:['100% of total','Upload receipts to dashboard']},
+    {t:'Payment Verification',sub:'Order confirmed & handed to logistics',when:'24–72 hrs',chips:['POP verification','Banking hours only']}
+  ];
+  var APROC_STEP=3; // ID + KYC done, user is at Purchase Advance
+  var AWORK=[
+    ['🏭','Vehicle Consignment','Rental fleets, dealer trade-ins & Shaken-renewal cars are consigned to USS, TAA, CAA, JU, Aucnet.'],
+    ['🔍','Professional Inspection','Independent inspectors assess all 11 auction-sheet fields: grade, interior, damage, mileage, chassis.'],
+    ['🌐','Global Bidding','Licensed exporters bid in real-time or by proxy for buyers across 150+ countries at once.'],
+    ['📑','Purchase & Documentation','Export certificate, deregistration & Japan Customs clearance prepared.'],
+    ['🚢','Shipping Dispatch','RoRo or container shipping to 50+ ports with marine insurance & cargo tracking.'],
+    ['📦','Destination Delivery','You receive the vehicle with full docs, auction sheet & mileage-verification certificate.']
+  ];
+  function apStepHtml(s,i,cur){
+    var n=i+1, cls=n<cur?'done':(n===cur?'cur':'up'), dot=n<cur?OK:n;
+    var bcls=n<cur?'b-success':(n===cur?'b-warning':'b-info');
+    var chips=s.chips.map(function(c){return '<span class="chip">'+c+'</span>';}).join('');
+    return '<div class="ostep '+cls+'"><span class="rail"></span><span class="dot">'+dot+'</span>'
+      +'<div class="oc"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div class="ot">'+s.t+'</div><span class="badge '+bcls+'" style="flex-shrink:0;white-space:nowrap">'+s.when+'</span></div>'
+      +'<div class="od">'+s.sub+'</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">'+chips+'</div></div></div>';
+  }
+  function renderAuctionProcess(){
+    var body=$('#apBody'); if(!body)return;
+    var steps=APROC.map(function(s,i){return apStepHtml(s,i,APROC_STEP);}).join('');
+    var work=AWORK.map(function(w,i){return '<div class="rleg done"><span class="rl"></span><span class="rd" style="font-size:12px">'+(i+1)+'</span><div style="min-width:0"><div class="rt">'+w[0]+' '+w[1]+'</div><div class="rs">'+w[2]+'</div></div></div>';}).join('');
+    body.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div class="shiphero" style="background:linear-gradient(150deg,#0B2A5B,#123E86)"><div class="wm">🔨</div><div class="vs">Buy at Japanese auction</div><div class="vsub" style="margin-top:6px">180,000+ inspected vehicles auctioned weekly across USS, TAA, CAA &amp; more — bid at true market price with SP as your licensed exporter.</div></div>'
+      +'<div class="dstat-grid" style="margin-top:14px"><div class="stat"><div class="k">Inspection</div><div class="v" style="font-size:15px">Independent</div></div><div class="stat"><div class="k">Grading</div><div class="v" style="font-size:15px">11-field sheet</div></div><div class="stat"><div class="k">Mileage</div><div class="v" style="font-size:15px">Verified</div></div><div class="stat"><div class="k">Weekly lots</div><div class="v" style="font-size:15px">180K+</div></div></div>'
+      +'<div class="msec"><h2>Your bidding journey</h2><span class="badge b-warning">Step '+APROC_STEP+' of '+APROC.length+'</span></div>'
+      +'<div class="otrack">'+steps+'</div>'
+      +'<div class="msec"><h2>How Japanese auctions work</h2></div>'
+      +'<div>'+work+'</div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🛡️</span><div><div style="font:700 13px var(--display)">When you win</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">Your advance deposit applies to the purchase, you get a final order sheet within 7 hours, then pay the balance within 72 hours. Lost bids release your deposit back to your wallet.</div></div></div>'
+      +'<button class="btn primary block" style="margin-top:18px" data-nav="auctions">Browse live auctions</button>'
+      +'<button class="btn ghost block" style="margin-top:10px" data-nav="wallet">Manage auction deposit</button>'
+      +'</div>';
+  }
+
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='su-otp')startResend();
@@ -1695,6 +1746,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='shipment'){ renderShipment('SP-24-0198'); }
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
     if(id==='auctions'){ renderAuctions(); }
+    if(id==='auction-process'){ renderAuctionProcess(); }
     if(id==='saved'){ renderSaved(); }
     if(id==='heavy'){ renderHeavy(); }
     var scr=$('#'+id); var otp=scr&&scr.querySelector('.otp-row input'); if(otp)setTimeout(function(){otp.focus();},380);
@@ -1940,7 +1992,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
