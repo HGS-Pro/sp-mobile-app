@@ -723,15 +723,15 @@ html.dark .testbanner{color:#FFC043}
       <button class="btn ghost block" style="margin-top:14px" data-nav="vehicles">Browse all vehicles</button>
       <div class="msec"><h2>Heavy Equipment</h2><a data-toast="Vehicles page — Batch 4">View all</a></div>
       <div class="mrail" id="homeHeavy"></div>
-      <div class="msec"><h2>Live Auctions</h2><a data-toast="Auctions — later batch">See all</a></div>
+      <div class="msec"><h2>Live Auctions</h2><a data-nav="auctions">See all</a></div>
       <div class="mrail" id="homeAuc"></div>
     </div>
     </div>
     <nav class="mtabbar" aria-label="Primary">
       <button class="t" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button>
       <button class="t" data-nav="vehicles"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search</button>
-      <button class="t" data-toast="Auctions — later batch"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
-      <button class="t" data-toast="Saved — later batch"><span class="b">1</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
+      <button class="t" data-nav="auctions"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
+      <button class="t" data-nav="saved"><span class="b">1</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
       <button class="t" data-nav="dashboard"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
     </nav>
   </section>
@@ -853,7 +853,7 @@ html.dark .testbanner{color:#FFC043}
         <button class="dmod" data-nav="shipment"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg></span><span class="ml">Shipment</span></button>
         <button class="dmod" data-nav="wallet"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/></svg></span><span class="ml">Wallet</span></button>
         <button class="dmod" data-nav="cart"><span class="cb" data-cartcount>2</span><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M6 6L5 3H2"/></svg></span><span class="ml">Inquiry Cart</span></button>
-        <button class="dmod" data-toast="Favorites — open Saved"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg></span><span class="ml">Favorites</span></button>
+        <button class="dmod" data-nav="saved"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg></span><span class="ml">Favorites</span></button>
         <button class="dmod" data-nav="quotes"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h10l4 4v14H5z"/><path d="M9 11h6M9 15h4"/></svg></span><span class="ml">Quotes</span></button>
         <button class="dmod" data-nav="negotiations"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></span><span class="ml">Negotiations</span></button>
         <button class="dmod" data-nav="coupons"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V6h16v2a2 2 0 0 0 0 4v2H4v-2a2 2 0 0 0 0-4Z"/><path d="M14 6v12"/></svg></span><span class="ml">Coupons</span></button>
@@ -870,8 +870,8 @@ html.dark .testbanner{color:#FFC043}
     <nav class="mtabbar" aria-label="Primary">
       <button class="t" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button>
       <button class="t" data-nav="vehicles"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search</button>
-      <button class="t" data-toast="Auctions — later batch"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
-      <button class="t" data-toast="Saved — later batch"><span class="b">1</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
+      <button class="t" data-nav="auctions"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
+      <button class="t" data-nav="saved"><span class="b">1</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
       <button class="t" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
     </nav>
   </section>
@@ -1193,6 +1193,50 @@ html.dark .testbanner{color:#FFC043}
         <div class="lrow" data-nav="messages"><span class="li">🎫</span><div style="flex:1;min-width:0"><div class="lt">#T-1990 · Deposit refund</div><div class="ls">Resolved Mar 9</div></div><span class="badge b-success">Resolved</span></div>
       </div>
     </div></div>
+  </section>
+
+  <!-- ===== AUCTIONS ===== -->
+  <section class="screen" id="auctions" aria-label="Live auctions">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Live Auctions</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div class="au_wallet">
+        <div class="au_wglow"></div>
+        <div class="au_wtop"><span class="au_wlabel">Auction wallet</span><span class="au_wverified">✓ Verified</span></div>
+        <div class="au_wbal"><span class="cur">$</span><span>1,000</span><span class="au_wcents">.00</span></div>
+        <div class="au_wmeter"><div class="au_wmeterfill" style="width:65%"></div></div>
+        <div class="au_wsplit"><span><i class="held"></i>$650 held</span><span><i class="usable"></i>$350 usable</span></div>
+        <div class="au_wbtns"><button class="au_wbtn solid" data-nav="wallet">Top up</button><button class="au_wbtn ghost" data-nav="won">Won lots</button></div>
+      </div>
+      <div class="crail" style="margin-top:14px"><button class="cchip" aria-pressed="true">All lots</button><button class="cchip">Ending soon</button><button class="cchip">Grade 4.5+</button><button class="cchip">SUV</button><button class="cchip">Sedan</button></div>
+      <div class="pilltabs" data-tabs style="margin:8px 0 14px"><span class="t on">Live now</span><span class="t">Upcoming</span><span class="t">Won</span></div>
+      <div id="aucList" style="display:flex;flex-direction:column;gap:14px"></div>
+    </div></div>
+    <nav class="mtabbar" aria-label="Primary">
+      <button class="t" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button>
+      <button class="t" data-nav="vehicles"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search</button>
+      <button class="t" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
+      <button class="t" data-nav="saved"><span class="b">3</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
+      <button class="t" data-nav="dashboard"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
+    </nav>
+  </section>
+
+  <!-- ===== AUCTION LOT (live bidding) ===== -->
+  <section class="screen" id="auction-lot" aria-label="Auction lot">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="lotTitle">Lot</h1></div>
+    <div class="mscroll" id="lotBody"></div>
+  </section>
+
+  <!-- ===== SAVED / FAVORITES ===== -->
+  <section class="screen" id="saved" aria-label="Saved vehicles">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Saved</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px"><div id="savedList"></div></div></div>
+    <nav class="mtabbar" aria-label="Primary">
+      <button class="t" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button>
+      <button class="t" data-nav="vehicles"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search</button>
+      <button class="t" data-nav="auctions"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button>
+      <button class="t" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg>Saved</button>
+      <button class="t" data-nav="dashboard"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
+    </nav>
   </section>
 
   <!-- ===== QUOTES ===== -->
@@ -1565,6 +1609,58 @@ html.dark .testbanner{color:#FFC043}
       +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn primary" style="flex:1" data-invoice="INV-24-0198">View invoice</button><button class="btn ghost" style="flex:1" data-toast="Live vessel map ↗">Live map</button></div></div>';
   }
 
+  /* ===== Auctions batch: live bidding + saved ===== */
+  function yen(n){return '¥'+Number(n).toLocaleString('en-US');}
+  var AUC={
+    'AUC-40218':{id:'AUC-40218',t:'Toyota Aqua G 2018',lot:'USS Nagoya · Lot 40218',grade:'4.5',y:2018,km:'52,300 km',bid:820000,inc:10000,cd:78,bidders:4,img:'https://loremflickr.com/640/420/hatchback?lock=23',leaders:[['SP','S. Park',820000,'20s ago'],['MO','M. Otieno',810000,'55s ago']]},
+    'AUC-24065':{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · Lot 24065',grade:'4.5',y:2019,km:'48,000 km',bid:1050000,inc:10000,cd:134,bidders:6,img:'https://loremflickr.com/640/420/car?lock=21',leaders:[['HK','H. Kimura',1050000,'12s ago'],['RA','R. Ahmed',1040000,'40s ago'],['MO','M. Otieno',1020000,'1m ago']]},
+    'AUC-31882':{id:'AUC-31882',t:'Mazda CX-5 2020',lot:'TAA Kansai · Lot 31882',grade:'4.0',y:2020,km:'36,500 km',bid:1720000,inc:20000,cd:512,bidders:9,img:'https://loremflickr.com/640/420/suv?lock=22',leaders:[['YT','Y. Tanaka',1720000,'30s ago'],['RA','R. Ahmed',1700000,'2m ago']]},
+    'AUC-55810':{id:'AUC-55810',t:'Subaru Forester 2019',lot:'USS Tokyo · Lot 55810',grade:'4.5',y:2019,km:'41,000 km',bid:1390000,inc:20000,cd:905,bidders:7,img:'https://loremflickr.com/640/420/suv?lock=24',leaders:[['DK','D. Kim',1390000,'1m ago']]},
+    'AUC-11902':{id:'AUC-11902',t:'Nissan X-Trail 2020',lot:'TAA Kyushu · Lot 11902',grade:'4.0',y:2020,km:'29,800 km',bid:1560000,inc:20000,cd:1440,bidders:5,img:'https://loremflickr.com/640/420/suv?lock=25',leaders:[['AA','A. Ali',1560000,'3m ago']]}
+  };
+  var AUC_ORDER=['AUC-40218','AUC-24065','AUC-31882','AUC-55810','AUC-11902'];
+  function aucard(a){var f=!!hfav[a.id];return '<div class="lcard au_lot" data-hopen="'+a.id+'"><div class="img" style="background-image:url('+a.img+');background-size:cover;background-position:center">'
+    +'<span class="au_grade">'+a.grade+'<small>GRADE</small></span>'
+    +'<span class="badge b-error au_livechip" style="position:absolute;top:10px;left:10px"><span class="dot" style="background:#fff"></span>LIVE</span>'
+    +'<div class="heart '+(f?'on':'off')+'" data-hfav="'+a.id+'" role="button" aria-pressed="'+f+'" aria-label="Save" style="top:auto;bottom:10px;right:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg></div>'
+    +'</div><div class="bd"><div class="ref">'+a.lot+'</div><div class="nm">'+a.t+'</div>'
+    +'<div class="spx"><span>'+a.y+'</span><span>'+a.km+'</span><span>Grade '+a.grade+'</span></div>'
+    +'<div class="au_lotpr"><div><div style="font-size:11px;color:var(--faint)">Current bid</div><div class="jp-price" style="font-size:17px">'+yen(a.bid)+'</div></div><span class="badge b-error au_cd2" data-acd="'+a.id+'">⏱ '+hfmt(a.cd)+'</span></div>'
+    +'<button class="btn primary block sm" style="margin-top:12px" data-hopen="'+a.id+'">Place bid</button></div></div>';}
+  function renderAuctions(){var el=$('#aucList'); if(el)el.innerHTML=AUC_ORDER.map(function(id){return aucard(AUC[id]);}).join('');}
+  function specrow(k,v){return '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px"><span style="color:var(--muted)">'+k+'</span><b>'+v+'</b></div>';}
+  function openLot(id){var a=AUC[id]; if(!a)return; $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
+  function renderLot(a){
+    var min=a.bid+a.inc, leading=!!a.youLeading;
+    var leaders=(a.leaders||[]).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+yen(l[2])+'</span></div>';}).join('');
+    $('#lotBody').innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div class="au_hero"><div class="au_heroglow"></div>'
+      +'<div class="au_herotop"><span class="au_live"><span class="au_livedot"></span>LIVE</span>'
+      +'<span class="au_timer"><svg width="38" height="38" viewBox="0 0 36 36"><circle class="au_tt" cx="18" cy="18" r="15.5"/><circle class="au_tp" cx="18" cy="18" r="15.5"/></svg><span data-acd="'+a.id+'">'+hfmt(a.cd)+'</span></span></div>'
+      +'<div class="au_cblabel">Current bid · '+a.lot+'</div><div class="au_cbid" data-lotcur>'+yen(a.bid)+'</div>'
+      +'<div class="au_state '+(leading?'leading':'neutral')+'" data-lotstate>'+(leading?"✓ You're the highest bidder":'Not bidding yet')+'</div>'
+      +'<div class="au_bidform"><div class="au_inwrap"><span class="au_cur">¥</span><input id="lotBidInput" type="text" inputmode="numeric" value="'+min.toLocaleString('en-US')+'"/></div>'
+      +'<button class="btn primary au_confirm" data-placebid="'+a.id+'">Confirm bid</button></div>'
+      +'<div class="au_hint">Minimum next bid '+yen(min)+' · +'+yen(a.inc)+' increments</div></div>'
+      +'<div class="au_lb lcard" style="margin-top:14px"><div class="bd"><div class="au_lbhead"><span class="subl" style="margin:0">Leaderboard</span><span class="au_lbcount">'+a.bidders+' bidders</span></div><div>'+leaders+'</div></div></div>'
+      +'<div class="msec"><h2>Lot details</h2></div>'
+      +'<div class="lcard" style="padding:4px 16px 0">'+specrow('Auction house',a.lot.split(' · ')[0])+specrow('Lot number',(a.lot.split('Lot ')[1]||'—'))+specrow('Year',a.y)+specrow('Mileage',a.km)+specrow('Auction grade',a.grade+' / 5')+'</div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:12px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🔒</span><div><div style="font:700 13px var(--display)">Bidding deposit</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">A refundable deposit secures bidding. You have <b>$350 usable</b> in your auction wallet — released if you don\'t win.</div></div></div>'
+      +'</div>';
+  }
+  function placeBid(id){var a=AUC[id];if(!a)return;var inp=$('#lotBidInput');var val=parseInt((inp&&inp.value||'').replace(/[^0-9]/g,''),10);var min=a.bid+a.inc;if(!val||val<min){toast('Bid must be at least '+yen(min),'bad');return;}a.bid=val;a.bidders++;a.youLeading=true;a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);renderLot(a);toast("You're the highest bidder ✓",'ok');}
+  setInterval(function(){Object.keys(AUC).forEach(function(id){var a=AUC[id];if(a.cd>0){a.cd--;$$('[data-acd="'+id+'"]').forEach(function(el){el.textContent=(el.classList.contains('au_cd2')?'⏱ ':'')+hfmt(a.cd);});}else{$$('[data-acd="'+id+'"]').forEach(function(el){el.textContent='Ended';});}});},1000);
+  function renderSaved(){
+    var el=$('#savedList'); if(!el)return; var ids=Object.keys(hfav).filter(function(k){return hfav[k];});
+    var cars=ids.filter(function(id){return HV.some(function(v){return v.id===id;});});
+    var lots=ids.filter(function(id){return !!AUC[id];});
+    if(!cars.length&&!lots.length){el.innerHTML='<div class="empty" style="text-align:center;padding:48px 20px;color:var(--faint)"><div style="font-size:40px">🤍</div><div style="font:800 16px var(--display);color:var(--ink);margin-top:10px">No saved items yet</div><div style="font-size:13px;margin-top:4px">Tap the heart on any vehicle or lot to save it here.</div><button class="btn primary" style="margin-top:16px" data-nav="vehicles">Browse vehicles</button></div>';return;}
+    var html='';
+    if(cars.length){html+='<div class="msec" style="margin-top:4px"><h2>Saved vehicles</h2><span class="badge b-info">'+cars.length+'</span></div><div class="mgrid">'+cars.map(function(id){return hcard(HV.filter(function(v){return v.id===id;})[0]);}).join('')+'</div>';}
+    if(lots.length){html+='<div class="msec"><h2>Saved auctions</h2><span class="badge b-error">'+lots.length+'</span></div><div style="display:flex;flex-direction:column;gap:12px">'+lots.map(function(id){return aucard(AUC[id]);}).join('')+'</div>';}
+    el.innerHTML=html;
+  }
+
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='su-otp')startResend();
@@ -1577,6 +1673,8 @@ html.dark .testbanner{color:#FFC043}
     if(id==='invoices'){ renderInvoices(); }
     if(id==='shipment'){ renderShipment('SP-24-0198'); }
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
+    if(id==='auctions'){ renderAuctions(); }
+    if(id==='saved'){ renderSaved(); }
     var scr=$('#'+id); var otp=scr&&scr.querySelector('.otp-row input'); if(otp)setTimeout(function(){otp.focus();},380);
   }
 
@@ -1608,7 +1706,7 @@ html.dark .testbanner{color:#FFC043}
   ];
   var HE=[{e:'🚜',t:'Motor Grader',s:'Land forming'},{e:'🛞',t:'Paver',s:'Road surfacing'},{e:'🚧',t:'Skid Steer',s:'Compact loader'},{e:'🏗️',t:'Telehandler',s:'Reach & lift'}];
   var HA=[{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · 24065',grade:'4.5',bid:'¥1,050,000',cd:134,img:'https://loremflickr.com/640/420/car?lock=21'},{id:'AUC-31882',t:'Mazda CX-5 2020',lot:'TAA Kansai · 31882',grade:'4.0',bid:'¥1,720,000',cd:512,img:'https://loremflickr.com/640/420/suv?lock=22'}];
-  var hfav={}, htab='new', hcat='all', hstock='all';
+  var hfav={'SP-JP-48210':true,'FR-JP-77410':true,'AUC-24065':true}, htab='new', hcat='all', hstock='all';
   function hmoney(n){return '$'+n.toLocaleString('en-US');}
   var hcar='<svg width="42" height="42" viewBox="0 0 24 24" fill="var(--border-2)"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-6Z"/></svg>';
   function hfmt(s){var m=Math.floor(s/60),ss=s%60;return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;}
@@ -1627,7 +1725,8 @@ html.dark .testbanner{color:#FFC043}
     var s=e.target.closest('[data-hstock]'); if(s){hstock=s.getAttribute('data-hstock');$$('[data-hstock]').forEach(function(x){x.setAttribute('aria-selected',x===s);});renderHome();return;}
     var vt=e.target.closest('[data-vtab]'); if(vt){htab=vt.getAttribute('data-vtab');$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x===vt);});var vt1=$('#homeVtitle');if(vt1)vt1.textContent=vt.textContent;renderHome();return;}
     var hv=e.target.closest('[data-hfav]'); if(hv){e.stopPropagation();var id=hv.getAttribute('data-hfav');hfav[id]=!hfav[id];hv.classList.toggle('on',hfav[id]);hv.classList.toggle('off',!hfav[id]);hv.setAttribute('aria-pressed',!!hfav[id]);toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');return;}
-    var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(hid==='heavy'){toast('Heavy equipment detail — later batch');}else{openDetail(hid);} return;}
+    var pb=e.target.closest('[data-placebid]'); if(pb){placeBid(pb.getAttribute('data-placebid'));return;}
+    var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(hid==='heavy'){toast('Heavy equipment detail — later batch');}else if(AUC[hid]){openLot(hid);}else{openDetail(hid);} return;}
     var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
     var sx=e.target.closest('[data-sheetclose]'); if(sx){$('#appscrim').classList.remove('open');$('#filterSheet').classList.remove('open');}
   });
@@ -1787,6 +1886,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-lot','Auction lot (live bid)'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
@@ -1795,7 +1895,8 @@ html.dark .testbanner{color:#FFC043}
   if(navList){SCREENS.forEach(function(g){var h=document.createElement('div');h.className='grp';h.textContent=g[0];navList.appendChild(h);g[1].forEach(function(s){var b=document.createElement('button');b.className='jump';b.textContent=s[1];b.addEventListener('click',function(){jumpTo(s[0]);});navList.appendChild(b);});});}
   function jumpTo(id){if(id==='detail'){$('#navOv').classList.remove('open');openDetail(HV[0].id);return;}
     if(id==='order-track'){$('#navOv').classList.remove('open');openOrder('SP-24-0198');return;}
-    if(id==='invoice'){$('#navOv').classList.remove('open');openInvoice('INV-24-0198');return;}$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
+    if(id==='invoice'){$('#navOv').classList.remove('open');openInvoice('INV-24-0198');return;}
+    if(id==='auction-lot'){$('#navOv').classList.remove('open');openLot('AUC-24065');return;}$$('.screen').forEach(function(s){s.classList.remove('active','back');});var t=$('#'+id);if(!t)return;t.classList.add('active');t.scrollTop=0;stack=[id];onEnter(id);$('#navOv').classList.remove('open');}
   var nf=$('#navFab'); if(nf)nf.addEventListener('click',function(){$('#navOv').classList.add('open');});
   var no=$('#navOv'); if(no)no.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
