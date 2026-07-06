@@ -185,6 +185,43 @@ body{background:#0f1115}
 .chataction:active{transform:scale(.92)}
 .composer .attach{background:none;border:none;padding:0;color:var(--faint);display:flex;align-items:center;flex-shrink:0;cursor:pointer;transition:transform .15s}
 .composer .attach:active{transform:scale(.9)}
+/* ===== Marketing accent palette + gradient layer (color palette.txt) ===== */
+:root{
+  --acc-blue:#276EF1;--acc-blue-d:#1A3FD4;--acc-green:#05B86B;--acc-green-d:#00875A;
+  --acc-orange:#FF6700;--acc-orange-d:#D90000;--acc-amber:#FFB400;--acc-amber-d:#FF7A00;
+  --acc-purple:#8B5CF6;--acc-purple-d:#6D28D9;--acc-pink:#EC4899;--acc-pink-d:#BE185D;
+  --acc-teal:#14B8A6;--acc-teal-d:#0D9488;--acc-cyan:#0E7490;--acc-cyan-d:#0891B2;
+  --acc-indigo:#4F46E5;--acc-indigo-d:#4338CA;--acc-violet:#7C3AED;--acc-violet-d:#6D28D9;
+  --grad-title:linear-gradient(100deg,#0E7490,#4F46E5,#7C3AED);
+  --grad-brand:linear-gradient(135deg,#276EF1 0%,#1A3FD4 100%);
+  --grad-cta:linear-gradient(135deg,#6D28D9 0%,#4F46E5 100%);
+  --grad-node:linear-gradient(135deg,#4F46E5,#7C3AED);
+}
+html.dark{--grad-title:linear-gradient(100deg,#67E8F9,#A5B4FC,#D8B4FE)}
+/* gradient primary actions (on-brand blue depth) */
+.btn.primary{background:var(--grad-brand)}
+.btn.primary:active{filter:brightness(.96)}
+.send,.chataction{background:var(--grad-brand);color:#fff}
+.chataction{color:#fff}
+.au_confirm{background:var(--grad-brand)!important}
+/* multi-stop gradient section titles (bg-clip-text) */
+.gt,.msec h2{background:var(--grad-title);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* active tabs/chips share the brand gradient */
+.cchip[aria-pressed="true"]{background:var(--grad-brand);border-color:transparent}
+.pilltabs .t.on{background:var(--grad-brand)}
+.seg2 .thumb2{background:var(--grad-brand)}
+.seg2 button.on{color:#fff}
+/* accent-varied module & feature icons for colour appeal */
+.dmodules .dmod:nth-child(6n+1) .mi{background:rgba(39,110,241,.12);color:var(--acc-blue)}
+.dmodules .dmod:nth-child(6n+2) .mi{background:rgba(20,184,166,.15);color:var(--acc-teal-d)}
+.dmodules .dmod:nth-child(6n+3) .mi{background:rgba(139,92,246,.15);color:var(--acc-purple-d)}
+.dmodules .dmod:nth-child(6n+4) .mi{background:rgba(255,103,0,.13);color:var(--acc-orange)}
+.dmodules .dmod:nth-child(6n+5) .mi{background:rgba(5,184,107,.15);color:var(--acc-green-d)}
+.dmodules .dmod:nth-child(6n+6) .mi{background:rgba(236,72,153,.14);color:var(--acc-pink-d)}
+/* splash + brand marks get the brand gradient */
+#splash .lg{background:var(--grad-brand)}
+/* gradient wash behind the welcome hero */
+#welcome{background:linear-gradient(160deg,#0B0D12 0%,#141133 45%,#12203f 100%)}
 .mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mscroll::-webkit-scrollbar{display:none}
 .mtabbar{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:9px 6px calc(env(safe-area-inset-bottom) + 9px);z-index:9}
