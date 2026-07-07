@@ -235,6 +235,8 @@ html.dealer .dealer-only{display:block}
 .au_maxbid .mxl{font:700 12px var(--text);color:#fff;display:flex;align-items:center;gap:7px;margin-bottom:7px}
 .au_maxbid .mxopt{font-weight:600;font-size:10px;color:rgba(255,255,255,.65);background:rgba(255,255,255,.14);padding:2px 8px;border-radius:999px;letter-spacing:.02em}
 .au_maxbid .mxnote{font-size:11px;color:rgba(255,255,255,.72);margin-top:7px;line-height:1.4}
+.pspin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:5px}
+#paySheet .pilltabs .t{flex:1;text-align:center}
 .mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mscroll::-webkit-scrollbar{display:none}
 .mtabbar{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:9px 6px calc(env(safe-area-inset-bottom) + 9px);z-index:9}
@@ -1028,7 +1030,7 @@ html.dark .testbanner{color:#FFC043}
       <h1 class="h1">Order placed! 🎉</h1>
       <p class="sub">Order <b id="orderNo" style="color:var(--ink)">#SP-24-0312</b> is confirmed. We'll prepare export documents and keep you posted at every step.</p>
       <div class="grow"></div>
-      <div style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button class="btn primary block lg" data-toast="Order tracker — next batch">Track your order</button><button class="btn text block" style="margin-top:8px" data-nav="home">Continue browsing</button></div>
+      <div style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button class="btn primary block lg" data-nav="orders">Track your order</button><button class="btn text block" style="margin-top:8px" data-nav="home">Continue browsing</button></div>
     </div>
   </section>
 
@@ -1656,6 +1658,36 @@ html.dark .testbanner{color:#FFC043}
     <div style="display:flex;gap:10px;margin-top:12px"><button class="btn ghost" style="flex:1" data-sheetclose>Cancel</button><button class="btn primary" style="flex:2" data-conssave>Save consignee</button></div>
   </section>
 
+  <!-- Secure payment sheet -->
+  <section class="appsheet" id="paySheet" role="dialog" aria-modal="true" aria-label="Secure payment">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="font:800 17px var(--display)">Secure payment</h3><span class="badge b-info">🔒 Escrow</span></div>
+    <div class="lcard" style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:11.5px;color:var(--faint)">Amount due · <span id="payLabel">Payment</span></div><div id="payAmt" style="font:800 22px var(--display)">$0</div></div><span style="font-size:26px">💳</span></div>
+    <div class="pilltabs" id="payMethods" style="margin-top:14px"><span class="t on" data-paymethod="card">Card</span><span class="t" data-paymethod="bank">Bank transfer</span><span class="t" data-paymethod="wallet">Wallet</span></div>
+    <div id="payCard" class="paypane" style="margin-top:14px">
+      <div class="testbanner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Stripe test mode · card 4242 4242 4242 4242</div>
+      <div class="field sm" style="margin-top:10px"><label>Card number</label><div class="input"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><input id="payCcNum" inputmode="numeric" placeholder="4242 4242 4242 4242" value="4242 4242 4242 4242"/><span style="margin-left:auto;font:800 12px var(--display);color:#1a1f71">VISA</span></div></div>
+      <div class="two" style="margin-top:12px"><div class="field sm"><label>Expiry</label><div class="input"><input id="payExp" placeholder="MM/YY" value="12/27"/></div></div><div class="field sm"><label>CVC</label><div class="input"><input id="payCvc" inputmode="numeric" placeholder="123" value="123"/></div></div></div>
+      <div class="field sm" style="margin-top:12px"><label>Name on card</label><div class="input"><input id="payName" placeholder="Name on card" value="Rana Ahmed"/></div></div>
+    </div>
+    <div id="payBank" class="paypane" style="margin-top:14px" hidden>
+      <div class="lcard" style="padding:4px 16px 0">
+        <div class="prow2"><span class="k">Beneficiary</span><span class="v">SP Company Ltd</span></div>
+        <div class="prow2"><span class="k">Bank</span><span class="v">MUFG Bank, Yokohama</span></div>
+        <div class="prow2"><span class="k">Account</span><span class="v">0123-456-7890123</span></div>
+        <div class="prow2"><span class="k">SWIFT / BIC</span><span class="v">BOTKJPJT</span></div>
+        <div class="prow2" style="border-bottom:none"><span class="k">Reference</span><span class="v">Your order ID</span></div>
+      </div>
+      <div class="lcard" style="padding:12px 14px;margin-top:10px;background:var(--brand-tint);border-color:transparent;font-size:11.5px;color:var(--brand);line-height:1.45">Transfer usually clears in 1–2 business days. Upload proof of payment to speed verification.</div>
+    </div>
+    <div id="payWallet" class="paypane" style="margin-top:14px" hidden>
+      <div class="lcard" style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:11.5px;color:var(--faint)">Wallet balance</div><div style="font:800 18px var(--display)">$3,200 <span style="font:600 11px var(--text);color:var(--success)">· $350 usable now</span></div></div><span style="font-size:22px">👛</span></div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45">Pay instantly from your SP wallet balance. Deposits and refunds are applied automatically.</div>
+    </div>
+    <button class="btn primary block" id="payGo" data-paygo style="margin-top:16px">Pay <span id="payGoAmt">$0</span></button>
+    <p style="text-align:center;font-size:11px;color:var(--faint);margin-top:10px">256-bit encrypted · funds held in escrow until you confirm delivery.</p>
+  </section>
+
   <div class="toasts" id="toasts" aria-live="polite"></div>
 </div><!-- /.app -->
    <div class="homebar" aria-hidden="true"></div>
@@ -1798,7 +1830,7 @@ html.dark .testbanner{color:#FFC043}
     track+=after.map(function(s){return stepHtml(s,o.step);}).join('');
     var badge=o.step>=11?'<span class="badge b-success">Delivered</span>':(o.step<=3?'<span class="badge b-warning">'+(o.step===2?'Payment due':'Processing')+'</span>':'<span class="badge b-info">In transit</span>');
     var acts='';
-    if(o.step===2)acts+='<button class="btn primary" style="flex:1" data-toast="Opening secure payment…|ok">Pay now</button>';
+    if(o.step===2)acts+='<button class="btn primary" style="flex:1" data-pay="'+o.total+'" data-paylabel="Order #'+o.id+'">Pay now</button>';
     if(o.step>=4&&o.step<=10)acts+='<button class="btn primary" style="flex:1" data-nav="shipment">Track shipment</button>';
     acts+='<button class="btn ghost" style="flex:1" data-invoice="'+o.inv+'">View invoice</button>';
     $('#otBody').innerHTML='<div class="pad" style="padding:14px 16px 28px">'
@@ -1845,7 +1877,7 @@ html.dark .testbanner{color:#FFC043}
     var w=WON.filter(function(x){return x.id===id;})[0]; if(!w)return; $('#wonTitle').textContent=w.t;
     var landed=Math.round(w.price*1.18)+1500;
     var sb=w.status==='awaiting'?'<span class="badge b-warning">Final order sheet — pay within 72h</span>':'<span class="badge b-success">Ordered · in process</span>';
-    var cta=w.status==='awaiting'?'<button class="btn primary" style="flex:1" data-toast="Opening secure payment…|ok">Pay balance</button>':'<button class="btn primary" style="flex:1" data-order="SP-24-0198">View order</button>';
+    var cta=w.status==='awaiting'?'<button class="btn primary" style="flex:1" data-pay="'+landed+'" data-paylabel="Won · '+w.t+'">Pay balance</button>':'<button class="btn primary" style="flex:1" data-order="SP-24-0198">View order</button>';
     $('#wonBody').innerHTML='<div style="height:200px;background-image:url('+pickImg(w)+');background-size:cover;background-position:center;position:relative"><span class="badge b-info" style="position:absolute;top:14px;left:14px">🏆 Won</span></div>'
       +'<div class="pad" style="padding:16px 16px 108px">'
       +'<div class="ref">'+w.auc+' · '+w.lot+'</div><h1 style="font:800 21px var(--display);letter-spacing:-.02em;margin-top:3px">'+w.t+'</h1><div style="margin-top:8px">'+sb+'</div>'
@@ -1916,7 +1948,7 @@ html.dark .testbanner{color:#FFC043}
     var lines=v.items.map(function(i){return '<div class="invrow li"><span class="l">'+i[0]+'</span><span class="r">'+usd(i[1])+'</span></div>';}).join('');
     var sb=v.status==='paid'?'<span class="badge b-success">Paid</span>':'<span class="badge b-error">Unpaid</span>';
     var payline=v.status==='paid'?'<div class="invrow"><span class="l">Amount paid</span><span class="r" style="color:var(--success)">-'+usd(v.paid)+'</span></div>':'<div class="invrow"><span class="l">Balance due</span><span class="r" style="color:var(--error)">'+usd(bal)+'</span></div>';
-    var acts=v.status==='unpaid'?'<button class="btn primary" style="flex:1" data-toast="Opening secure payment…|ok">Pay '+usd(bal)+'</button>':'';
+    var acts=v.status==='unpaid'?'<button class="btn primary" style="flex:1" data-pay="'+bal+'" data-paylabel="'+v.no+'">Pay '+usd(bal)+'</button>':'';
     $('#invBody').innerHTML='<div class="pad" style="padding:14px 16px 28px">'
       +'<div class="invcard"><div class="invhead"><div><div class="no">'+v.no+'</div><div class="dt">Issued '+v.date+' · Order #'+v.order+'</div></div>'+sb+'</div>'
       +'<div class="invrow" style="padding-top:14px"><span class="l">Consignee</span><span class="r" style="font-weight:600;text-align:right">'+v.consignee+'</span></div>'
@@ -2210,6 +2242,27 @@ html.dark .testbanner{color:#FFC043}
     toast('Consignee added ✓','ok');
   }
 
+  /* ===== Reusable secure-payment sheet ===== */
+  var payCtx={amount:0};
+  function showPayPane(m){['card','bank','wallet'].forEach(function(n){var el=$('#pay'+n.charAt(0).toUpperCase()+n.slice(1));if(el)el.hidden=(n!==m);});}
+  function openPay(amount,label){
+    payCtx.amount=amount||0; var f=usd(payCtx.amount);
+    if($('#payLabel'))$('#payLabel').textContent=label||'Payment';
+    if($('#payAmt'))$('#payAmt').textContent=f; if($('#payGoAmt'))$('#payGoAmt').textContent=f;
+    $$('#payMethods .t').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-paymethod')==='card');});
+    showPayPane('card');
+    var b=$('#payGo'); if(b){b.disabled=false;b.innerHTML='Pay <span id="payGoAmt">'+f+'</span>';}
+    $('#appscrim').classList.add('open'); $('#paySheet').classList.add('open');
+  }
+  function payGo(){
+    var b=$('#payGo'); if(!b)return; b.disabled=true; b.innerHTML='<span class="pspin"></span> Processing…';
+    setTimeout(function(){
+      var sc=$('#appscrim'); if(sc)sc.classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');});
+      b.disabled=false; b.innerHTML='Pay <span id="payGoAmt">'+usd(payCtx.amount)+'</span>';
+      toast('Payment successful ✓ · '+usd(payCtx.amount),'ok');
+    },1500);
+  }
+
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='consignees'){ renderConsignees(); }
@@ -2245,10 +2298,13 @@ html.dark .testbanner{color:#FFC043}
     var iv=e.target.closest('[data-invoice]'); if(iv){ openInvoice(iv.getAttribute('data-invoice')); return; }
     var wo=e.target.closest('[data-won]'); if(wo){ openWon(wo.getAttribute('data-won')); return; }
     var qo=e.target.closest('[data-quote]'); if(qo){ openQuote(qo.getAttribute('data-quote')); return; }
-    var pt=e.target.closest('.pilltabs .t'); if(pt){ var pw=pt.closest('.pilltabs'); if(pw){pw.querySelectorAll('.t').forEach(function(x){x.classList.remove('on');}); pt.classList.add('on'); filterPillList(pw,pt);} return; }
+    var pt=e.target.closest('.pilltabs .t'); if(pt&&!pt.hasAttribute('data-paymethod')){ var pw=pt.closest('.pilltabs'); if(pw){pw.querySelectorAll('.t').forEach(function(x){x.classList.remove('on');}); pt.classList.add('on'); filterPillList(pw,pt);} return; }
     var cp=e.target.closest('[data-copy]'); if(cp){ var txt=cp.getAttribute('data-copy'); try{if(navigator.clipboard)navigator.clipboard.writeText(txt);}catch(err){} toast('Copied · '+txt,'ok'); return; }
     var rl=e.target.closest('[data-role]'); if(rl){ applyRole(rl.getAttribute('data-role')); toast('Viewing as '+(rl.getAttribute('data-role')==='dealer'?'Dealer account':'Buyer account'),'ok'); return; }
     var cs=e.target.closest('[data-conssave]'); if(cs){ saveConsignee(); return; }
+    var py=e.target.closest('[data-pay]'); if(py){ openPay(parseInt(py.getAttribute('data-pay'),10)||0, py.getAttribute('data-paylabel')); return; }
+    var pmth=e.target.closest('[data-paymethod]'); if(pmth){ var pw2=pmth.parentNode; pw2.querySelectorAll('[data-paymethod]').forEach(function(x){x.classList.remove('on');}); pmth.classList.add('on'); showPayPane(pmth.getAttribute('data-paymethod')); return; }
+    var pg=e.target.closest('[data-paygo]'); if(pg){ payGo(); return; }
     var ch=e.target.closest('[data-chat]'); if(ch){ openChat(ch.getAttribute('data-chat')); return; }
     var qr=e.target.closest('[data-qr]'); if(qr){ sendMsg(qr.getAttribute('data-qr')); return; }
     var sd2=e.target.closest('[data-send]'); if(sd2){ sendMsg($('#chatInput')?$('#chatInput').value:''); return; }
