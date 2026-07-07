@@ -1447,17 +1447,12 @@ html.dark .testbanner{color:#FFC043}
   <section class="screen" id="how-to-buy" aria-label="How to buy">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>How to Buy</h1></div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 28px">
-      <div class="shiphero" style="background:linear-gradient(150deg,#0B2A5B,#123E86)"><div class="wm">🚗</div><div class="vs">Buy from Japan in 6 steps</div><div class="vsub" style="margin-top:6px">From browsing 60,000+ inspected vehicles to delivery at your port — SP handles inspection, export docs, shipping &amp; tracking.</div></div>
-      <div class="otrack" style="margin-top:18px">
-        <div class="ostep done"><span class="rail"></span><span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div class="oc"><div class="ot">1 · Browse &amp; find</div><div class="od">Search SP stock or bid at Japanese auction. Every vehicle is inspected and graded.</div></div></div>
-        <div class="ostep done"><span class="rail"></span><span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><div class="oc"><div class="ot">2 · Request a quote</div><div class="od">Get an itemized landed-cost (Total CIF) to your nearest port — freight &amp; insurance included.</div></div></div>
-        <div class="ostep cur"><span class="rail"></span><span class="dot">3</span><div class="oc"><div class="ot">3 · Confirm your order</div><div class="od">Accept the quote, choose consignee &amp; optional local services, and place the order.</div><span class="when" style="color:var(--brand)">You are here</span></div></div>
-        <div class="ostep up"><span class="rail"></span><span class="dot">4</span><div class="oc"><div class="ot">4 · Pay securely</div><div class="od">Pay by card or bank transfer via escrow. Deposit or full payment supported.</div></div></div>
-        <div class="ostep up"><span class="rail"></span><span class="dot">5</span><div class="oc"><div class="ot">5 · We ship &amp; you track</div><div class="od">Export documents, RoRo/container booking, and live shipment tracking to your port.</div></div></div>
-        <div class="ostep up"><span class="rail"></span><span class="dot">6</span><div class="oc"><div class="ot">6 · Clear &amp; receive</div><div class="od">Optional clearing, delivery &amp; registration, then confirm delivery and leave feedback.</div></div></div>
-      </div>
-      <div class="dstat-grid" style="margin-top:16px"><div class="stat"><div class="k">Inspected stock</div><div class="v" style="font-size:15px">60,000+</div></div><div class="stat"><div class="k">Export ports</div><div class="v" style="font-size:15px">50+</div></div><div class="stat"><div class="k">Pricing</div><div class="v" style="font-size:15px">Total CIF</div></div><div class="stat"><div class="k">Payment</div><div class="v" style="font-size:15px">Escrow</div></div></div>
-      <div style="display:flex;gap:10px;margin-top:18px"><button class="btn primary" style="flex:1" data-nav="vehicles">Browse vehicles</button><button class="btn ghost" style="flex:1" data-nav="auction-process">Auction route</button></div>
+      <div class="shiphero" style="background:linear-gradient(150deg,#0B2A5B,#123E86)"><div class="wm">🚗</div><div class="vs">How to buy from Japan</div><div class="vsub" style="margin-top:6px">From your first inquiry to delivery at your door — SP guides every step: quote, order, payment, shipping, docs &amp; optional local service.</div></div>
+      <div class="dstat-grid" style="margin-top:14px"><div class="stat"><div class="k">Inspected stock</div><div class="v" style="font-size:15px">60,000+</div></div><div class="stat"><div class="k">Export ports</div><div class="v" style="font-size:15px">50+</div></div><div class="stat"><div class="k">Pricing</div><div class="v" style="font-size:15px">Total CIF</div></div><div class="stat"><div class="k">Payment</div><div class="v" style="font-size:15px">Escrow</div></div></div>
+      <div class="msec"><h2>Your buying journey</h2><span class="badge b-info">Inquiry → Delivery</span></div>
+      <div class="otrack" id="htbBody"></div>
+      <div class="lcard" style="padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🛡️</span><div><div style="font:700 13px var(--display)">Every step protected</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">Inspected vehicles, Total-CIF pricing (freight &amp; insurance included), escrow payment, and live tracking to your port.</div></div></div>
+      <div style="display:flex;gap:10px;margin-top:16px"><button class="btn primary" style="flex:1" data-nav="vehicles">Browse vehicles</button><button class="btn ghost" style="flex:1" data-nav="auction-process">Auction route</button></div>
     </div></div>
   </section>
 
@@ -2425,8 +2420,40 @@ html.dark .testbanner{color:#FFC043}
     },1500);
   }
 
+  /* ===== How to Buy — full stock journey (grounded in HowToBuyPage stepsData) ===== */
+  var HTB_MAIN=[
+    ['Send Inquiry','Pick a vehicle from SP stock and send an inquiry to our team.','#059669'],
+    ['Get a Quote','Receive an itemized landed-cost (Total CIF) to your nearest port.','#7C3AED'],
+    ['Order','Confirm the vehicle, consignee &amp; options, then place the order.','#2563EB'],
+    ['Payment','Pay a deposit or the full amount securely via escrow.','#E11D48'],
+    ['Payment Verification','SP verifies your payment and confirms the order.','#D97706'],
+    ['Shipment','Your vehicle is booked and shipped — track it live.','#0891B2'],
+    ['Export Documents','Download the B/L, invoice &amp; export certificate.','#4F46E5'],
+    ['Arrived at Port','Your vehicle arrives at the destination port.','#0D9488']
+  ];
+  var HTB_LOCAL=[
+    ['Local Payment','Pay for the local services you selected.'],
+    ['Port Clearance','Customs clearance at the destination port.'],
+    ['Import &amp; Delivery','Import processing and delivery to you.'],
+    ['Registration','Vehicle registration in your country.']
+  ];
+  var HTB_END=[
+    ['Received','Confirm delivery of your vehicle. ✅','#05B86B'],
+    ['Feedback','Rate your experience and leave a review. ⭐','#FF6700']
+  ];
+  function htbStep(n,name,desc,color){return '<div class="ostep htbs"><span class="rail"></span><span class="dot" style="background:'+color+';border-color:'+color+';color:#fff;font-weight:800">'+n+'</span><div class="oc"><div class="ot">'+name+'</div><div class="od">'+desc+'</div></div></div>';}
+  function renderHowToBuy(){
+    var el=$('#htbBody'); if(!el)return;
+    var main=HTB_MAIN.map(function(s,i){return htbStep(i+1,s[0],s[1],s[2]);}).join('');
+    var local=HTB_LOCAL.map(function(s){return '<div class="ostep htbs"><span class="rail"></span><span class="dot" style="background:#FF6700;border-color:#FF6700;color:#fff;font-weight:800">•</span><div class="oc"><div class="ot">'+s[0]+'</div><div class="od">'+s[1]+'</div></div></div>';}).join('');
+    var branch='<div class="obranch"><button class="obranch-t"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Get our local service<span style="color:var(--faint);font-weight:600;margin-left:5px">(optional)</span><span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></button><div class="obranch-in">'+local+'</div></div>';
+    var end=HTB_END.map(function(s,i){return htbStep(i+9,s[0],s[1],s[2]);}).join('');
+    el.innerHTML=main+branch+end;
+  }
+
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
+    if(id==='how-to-buy'){ renderHowToBuy(); }
     if(id==='consignees'){ renderConsignees(); }
     if(id==='negotiations'){ renderNegos(); }
     if(id==='wallet'){ renderWallet(); }
