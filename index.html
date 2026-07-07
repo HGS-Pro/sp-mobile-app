@@ -230,6 +230,11 @@ html.dark{--grad-title:linear-gradient(100deg,#67E8F9,#A5B4FC,#D8B4FE)}
 .repcard .rv{font:700 14px var(--display);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dealer-only{display:none}
 html.dealer .dealer-only{display:block}
+/* Max auto-bid (proxy) field inside the live-bid hero */
+.au_maxbid{margin-top:12px}
+.au_maxbid .mxl{font:700 12px var(--text);color:#fff;display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.au_maxbid .mxopt{font-weight:600;font-size:10px;color:rgba(255,255,255,.65);background:rgba(255,255,255,.14);padding:2px 8px;border-radius:999px;letter-spacing:.02em}
+.au_maxbid .mxnote{font-size:11px;color:rgba(255,255,255,.72);margin-top:7px;line-height:1.4}
 .mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mscroll::-webkit-scrollbar{display:none}
 .mtabbar{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:9px 6px calc(env(safe-area-inset-bottom) + 9px);z-index:9}
@@ -1941,7 +1946,8 @@ html.dark .testbanner{color:#FFC043}
     +'<button class="btn primary block sm" style="margin-top:12px" data-hopen="'+a.id+'">Place bid</button></div></div>';}
   function renderAuctions(){var el=$('#aucList'); if(el)el.innerHTML=AUC_ORDER.map(function(id){return aucard(AUC[id]);}).join('');}
   function specrow(k,v){return '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px"><span style="color:var(--muted)">'+k+'</span><b>'+v+'</b></div>';}
-  function openLot(id){var a=AUC[id]; if(!a)return; $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
+  var curLot=null, rivalTimer=null;
+  function openLot(id){var a=AUC[id]; if(!a)return; curLot=id; clearTimeout(rivalTimer); $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
   function renderLot(a){
     var min=a.bid+a.inc, leading=!!a.youLeading;
     var leaders=(a.leaders||[]).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+yen(l[2])+'</span></div>';}).join('');
@@ -1951,9 +1957,12 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="au_herotop"><span class="au_live"><span class="au_livedot"></span>LIVE</span>'
       +'<span class="au_timer"><svg width="38" height="38" viewBox="0 0 36 36"><circle class="au_tt" cx="18" cy="18" r="15.5"/><circle class="au_tp" cx="18" cy="18" r="15.5"/></svg><span data-acd="'+a.id+'">'+hfmt(a.cd)+'</span></span></div>'
       +'<div class="au_cblabel">Current bid · '+a.lot+'</div><div class="au_cbid" data-lotcur>'+yen(a.bid)+'</div>'
-      +'<div class="au_state '+(leading?'leading':'neutral')+'" data-lotstate>'+(leading?"✓ You're the highest bidder":'Not bidding yet')+'</div>'
+      +'<div class="au_state '+(leading?'leading':'neutral')+'" data-lotstate>'+(leading?(a.ceiling?"✓ Leading · auto-bid up to "+yen(a.ceiling):"✓ You're the highest bidder"):'Not bidding yet')+'</div>'
       +'<div class="au_bidform"><div class="au_inwrap"><span class="au_cur">¥</span><input id="lotBidInput" type="text" inputmode="numeric" value="'+min.toLocaleString('en-US')+'"/></div>'
       +'<button class="btn primary au_confirm" data-placebid="'+a.id+'">Confirm bid</button></div>'
+      +'<div class="au_maxbid"><div class="mxl">🤖 Max auto-bid <span class="mxopt">proxy · optional</span></div>'
+      +'<div class="au_inwrap"><span class="au_cur">¥</span><input id="lotMaxBid" type="text" inputmode="numeric" placeholder="Leave empty for open-ended" value="'+(a.ceiling?a.ceiling.toLocaleString('en-US'):'')+'"/></div>'
+      +'<div class="mxnote">SP bids on your behalf up to this ceiling — never above it.</div></div>'
       +'<div class="au_hint">Minimum next bid '+yen(min)+' · +'+yen(a.inc)+' increments</div></div>'
       +'<div class="au_lb lcard" style="margin-top:14px"><div class="bd"><div class="au_lbhead"><span class="subl" style="margin:0">Leaderboard</span><span class="au_lbcount">'+a.bidders+' bidders</span></div><div>'+leaders+'</div></div></div>'
       +'<div class="msec"><h2>Lot details</h2></div>'
@@ -1962,7 +1971,37 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="lcard" style="padding:14px 16px;margin-top:12px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🔒</span><div><div style="font:700 13px var(--display)">Bidding deposit</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">A refundable deposit secures bidding. You have <b>$350 usable</b> in your auction wallet — released if you don\'t win.</div></div></div>'
       +'</div>';
   }
-  function placeBid(id){var a=AUC[id];if(!a)return;var inp=$('#lotBidInput');var val=parseInt((inp&&inp.value||'').replace(/[^0-9]/g,''),10);var min=a.bid+a.inc;if(!val||val<min){toast('Bid must be at least '+yen(min),'bad');return;}a.bid=val;a.bidders++;a.youLeading=true;a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);renderLot(a);toast("You're the highest bidder ✓",'ok');}
+  function placeBid(id){var a=AUC[id];if(!a)return;
+    var val=parseInt(($('#lotBidInput')&&$('#lotBidInput').value||'').replace(/[^0-9]/g,''),10);
+    var mx=parseInt(($('#lotMaxBid')&&$('#lotMaxBid').value||'').replace(/[^0-9]/g,''),10)||0;
+    var min=a.bid+a.inc;
+    if(!val||val<min){toast('Bid must be at least '+yen(min),'bad');return;}
+    if(mx&&mx<val){toast('Max auto-bid must be higher than your bid','bad');return;}
+    a.bid=val;a.bidders++;a.youLeading=true;a.ceiling=mx;
+    a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);
+    renderLot(a);
+    toast(mx?'Bid placed · auto-bid active up to '+yen(mx):"You're the highest bidder ✓",'ok');
+    if(mx)scheduleRival(id);
+  }
+  function scheduleRival(id){clearTimeout(rivalTimer);rivalTimer=setTimeout(function(){rivalBid(id);},2600);}
+  function rivalBid(id){
+    var a=AUC[id]; if(!a||!a.youLeading||curLot!==id||cur()!=='auction-lot')return;
+    var names=['H. Kimura','Y. Tanaka','A. Ali','D. Kim','S. Park']; var rn=names[a.bidders%names.length]; var ri=rn.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase();
+    var rival=a.bid+a.inc;
+    if(a.ceiling&&rival<a.ceiling){
+      var yours=Math.min(rival+a.inc,a.ceiling); a.bid=yours; a.bidders++;
+      a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});
+      a.leaders.unshift(['YO','You (R. Ahmed)',yours,'auto-bid ✓',true]);
+      a.leaders.splice(1,0,[ri,rn,rival,'outbid attempt']);
+      renderLot(a); toast('Auto-bid: SP raised you to '+yen(yours),'ok');
+      if(a.bid<a.ceiling)scheduleRival(id);
+    } else {
+      var rb=(a.ceiling?a.ceiling+a.inc:a.bid+a.inc); a.bid=rb; a.youLeading=false; a.ceiling=0;
+      a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});
+      a.leaders.unshift([ri,rn,rb,'just now']);
+      renderLot(a); toast('Outbid — your auto-bid ceiling was reached','bad');
+    }
+  }
   setInterval(function(){Object.keys(AUC).forEach(function(id){var a=AUC[id];if(a.cd>0){a.cd--;$$('[data-acd="'+id+'"]').forEach(function(el){el.textContent=(el.classList.contains('au_cd2')?'⏱ ':'')+hfmt(a.cd);});}else{$$('[data-acd="'+id+'"]').forEach(function(el){el.textContent='Ended';});}});},1000);
   function renderSaved(){
     var el=$('#savedList'); if(!el)return; var ids=Object.keys(hfav).filter(function(k){return hfav[k];});
