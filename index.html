@@ -1204,20 +1204,25 @@ html.dark .testbanner{color:#FFC043}
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Wallet &amp; Deposits</h1></div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
       <div class="dg_hero"><div class="dg_htop"><span class="dg_tier">💳 Wallet balance</span><span class="dg_crest">USD</span></div>
-        <div class="dg_hmid"><div class="dg_pts" style="margin-left:0"><div class="big">$3,200<small>available</small></div><div class="goal">$1,500 held as auction deposits</div></div></div>
-        <div style="display:flex;gap:10px;margin-top:14px"><button class="btn block sm" style="flex:1;background:#fff;color:var(--brand)" data-toast="Add funds — secure top-up|ok">＋ Add funds</button><button class="btn ghost block sm" style="flex:1;background:rgba(255,255,255,.16);color:#fff;border:none" data-toast="Withdraw request submitted|ok">Withdraw</button></div></div>
+        <div class="dg_hmid"><div class="dg_pts" style="margin-left:0"><div class="big" id="walBal">$3,200<small>available</small></div><div class="goal" id="walHeld">$1,500 held as auction deposits</div></div></div>
+        <div style="display:flex;gap:10px;margin-top:14px"><button class="btn block sm" style="flex:1;background:#fff;color:var(--brand)" data-wallet="topup">＋ Add funds</button><button class="btn ghost block sm" style="flex:1;background:rgba(255,255,255,.16);color:#fff;border:none" data-wallet="withdraw">Withdraw</button></div></div>
       <div style="display:flex;gap:12px;margin-top:14px">
         <div class="dg_stat" style="flex:1;min-width:0"><div class="k">Auction deposit</div><div class="v"><span class="cur" style="font-size:.6em;color:var(--faint);font-weight:600">$</span>1,500</div><div class="trend flat">On hold · 3 bids</div></div>
         <div class="dg_stat" style="flex:1;min-width:0"><div class="k">Store credit</div><div class="v"><span class="cur" style="font-size:.6em;color:var(--faint);font-weight:600">$</span>420</div><div class="trend up">▲ refund applied</div></div>
       </div>
       <div class="lcard" style="padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🔨</span><div><div style="font:700 13.5px var(--display)">Auction bidding deposit</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">A refundable deposit secures auction bidding. Unused deposits are released back to your balance after each sale closes.</div></div></div>
-      <div class="msec"><h2>Transactions</h2><a data-toast="Full statement ↗">Statement</a></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="listrow"><span class="av sq" style="background:rgba(5,184,104,.14);color:var(--success)">＋</span><div style="flex:1"><div style="font:700 13px var(--display)">Deposit top-up</div><div style="font-size:11.5px;color:var(--faint)">Today · Card ****4242</div></div><b class="tnum" style="color:var(--success)">+$2,000</b></div>
-        <div class="listrow"><span class="av sq" style="background:var(--brand-tint);color:var(--brand)">🔒</span><div style="flex:1"><div style="font:700 13px var(--display)">Auction deposit held</div><div style="font-size:11.5px;color:var(--faint)">2d ago · USS Nagoya</div></div><b class="tnum">−$500</b></div>
-        <div class="listrow"><span class="av sq" style="background:rgba(5,184,104,.14);color:var(--success)">↩</span><div style="flex:1"><div style="font:700 13px var(--display)">Deposit refunded</div><div style="font-size:11.5px;color:var(--faint)">Mar 9 · lot not won</div></div><b class="tnum" style="color:var(--success)">+$500</b></div>
-        <div class="listrow"><span class="av sq" style="background:rgba(255,192,67,.18);color:#8a5b00">🧾</span><div style="flex:1"><div style="font:700 13px var(--display)">Applied to Order #SP-24-0198</div><div style="font-size:11.5px;color:var(--faint)">Mar 12 · balance payment</div></div><b class="tnum">−$1,320</b></div>
-      </div>
+      <div class="msec"><h2>Transactions</h2><a data-nav="statement">Statement</a></div>
+      <div id="walTx" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div></div>
+  </section>
+
+  <!-- ===== WALLET STATEMENT ===== -->
+  <section class="screen" id="statement" aria-label="Wallet statement">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Statement</h1><button class="ic" data-toast="Statement PDF downloaded ✓|ok" aria-label="Download"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></button></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div style="display:flex;gap:12px" id="stmtSummary"></div>
+      <div class="msec"><h2>All transactions</h2></div>
+      <div id="statementList" style="display:flex;flex-direction:column;gap:10px"></div>
     </div></div>
   </section>
 
@@ -1668,6 +1673,20 @@ html.dark .testbanner{color:#FFC043}
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 2px 4px"><div><div style="font:600 13.5px var(--text)">Set as default consignee</div><div style="font-size:11.5px;color:var(--faint)">Used automatically at checkout</div></div><span class="switch off" id="consDefault" data-switch><i></i></span></div>
     <div class="lcard" style="padding:11px 14px;margin:8px 0 4px;display:flex;gap:10px;align-items:flex-start;background:var(--brand-tint);border-color:transparent"><span style="font-size:16px">🚢</span><div style="font-size:11.5px;color:var(--brand);line-height:1.45">Sea freight is recommended for vehicles — choose the port nearest your destination.</div></div>
     <div style="display:flex;gap:10px;margin-top:12px"><button class="btn ghost" style="flex:1" data-sheetclose>Cancel</button><button class="btn primary" style="flex:2" data-conssave>Save consignee</button></div>
+  </section>
+
+  <!-- Wallet action sheet (add funds / withdraw) -->
+  <section class="appsheet" id="walletSheet" role="dialog" aria-modal="true" aria-label="Wallet action">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><h3 id="walActTitle" style="font:800 17px var(--display)">Add funds</h3><span class="badge b-info">🔒 Secure</span></div>
+    <p id="walActNote" style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Top up your SP wallet.</p>
+    <div class="fsec">Amount (USD)</div>
+    <div class="input"><span style="color:var(--faint);font-weight:800;font-size:16px">$</span><input id="walAmt" inputmode="numeric" placeholder="0" style="font:800 18px var(--display)"/></div>
+    <div class="crail" style="margin-top:10px"><button class="cchip" data-walamt="500">$500</button><button class="cchip" data-walamt="1000">$1,000</button><button class="cchip" data-walamt="2000">$2,000</button><button class="cchip" data-walamt="5000">$5,000</button></div>
+    <div class="fsec">Method</div>
+    <div class="pilltabs" id="walActMethods"><span class="t on">Card ****4242</span><span class="t">Bank transfer</span></div>
+    <button class="btn primary block" id="walActGo" data-walletgo style="margin-top:16px">Add funds</button>
+    <p style="text-align:center;font-size:11px;color:var(--faint);margin-top:10px">Instant top-ups · withdrawals clear in 1–2 business days.</p>
   </section>
 
   <!-- Reusable confirm modal -->
@@ -2286,6 +2305,35 @@ html.dark .testbanner{color:#FFC043}
   function openConfirm(title,msg,cb){confirmCb=cb;if($('#confTitle'))$('#confTitle').textContent=title;if($('#confMsg'))$('#confMsg').textContent=msg;$('#appscrim').classList.add('open');$('#confirmSheet').classList.add('open');}
   function confirmGo(){var cb=confirmCb;confirmCb=null;var sc=$('#appscrim');if(sc)sc.classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});if(cb)cb();}
 
+  /* ===== Wallet (dynamic balance + top-up / withdraw / statement) ===== */
+  var WALLET={balance:3200,held:1500,tx:[
+    {ic:'＋',c:'success',t:'Deposit top-up',d:'Today · Card ****4242',amt:2000},
+    {ic:'🔒',c:'brand',t:'Auction deposit held',d:'2d ago · USS Nagoya',amt:-500},
+    {ic:'↩',c:'success',t:'Deposit refunded',d:'Mar 9 · lot not won',amt:500},
+    {ic:'🧾',c:'amber',t:'Applied to Order #SP-24-0198',d:'Mar 12 · balance payment',amt:-1320}
+  ]};
+  function txRow(x){var bg=x.c==='success'?'rgba(5,184,104,.14);color:var(--success)':(x.c==='brand'?'var(--brand-tint);color:var(--brand)':(x.c==='error'?'rgba(240,68,56,.12);color:var(--error)':'rgba(255,192,67,.18);color:#8a5b00'));
+    return '<div class="listrow"><span class="av sq" style="background:'+bg+'">'+x.ic+'</span><div style="flex:1;min-width:0"><div style="font:700 13px var(--display)">'+x.t+'</div><div style="font-size:11.5px;color:var(--faint)">'+x.d+'</div></div><b class="tnum"'+(x.amt>0?' style="color:var(--success)"':'')+'>'+(x.amt>0?'+':'−')+'$'+Math.abs(x.amt).toLocaleString('en-US')+'</b></div>';}
+  function renderWallet(){var b=$('#walBal');if(b)b.innerHTML=usd(WALLET.balance)+'<small>available</small>';var hh=$('#walHeld');if(hh)hh.textContent=usd(WALLET.held)+' held as auction deposits';var t=$('#walTx');if(t)t.innerHTML=WALLET.tx.map(txRow).join('');}
+  function renderStatement(){var t=$('#statementList');if(t)t.innerHTML=WALLET.tx.map(txRow).join('');var s=$('#stmtSummary');if(s){var inN=0,outN=0;WALLET.tx.forEach(function(x){if(x.amt>0)inN+=x.amt;else outN+=-x.amt;});s.innerHTML='<div class="dg_stat" style="flex:1"><div class="k">Money in</div><div class="v" style="color:var(--success)">'+usd(inN)+'</div></div><div class="dg_stat" style="flex:1"><div class="k">Money out</div><div class="v">'+usd(outN)+'</div></div>';}}
+  var walMode='topup';
+  function openWalletAction(mode){walMode=mode;var ttl=$('#walActTitle'),go=$('#walActGo'),note=$('#walActNote');
+    if(ttl)ttl.textContent=mode==='topup'?'Add funds':'Withdraw funds';
+    if(note)note.textContent=mode==='topup'?'Top up your SP wallet — used for auction deposits & order balances.':'Withdraw available balance to your bank. Held deposits can’t be withdrawn.';
+    if(go)go.textContent=mode==='topup'?'Add funds':'Request withdrawal';
+    var inp=$('#walAmt');if(inp)inp.value='';
+    $$('#walActMethods .t').forEach(function(x,i){x.classList.toggle('on',i===0);});
+    $('#appscrim').classList.add('open');$('#walletSheet').classList.add('open');
+  }
+  function walletGo(){var amt=parseInt(($('#walAmt')&&$('#walAmt').value||'').replace(/[^0-9]/g,''),10)||0;
+    if(!amt){toast('Enter an amount','bad');return;}
+    if(walMode==='withdraw'){var usable=WALLET.balance-WALLET.held; if(amt>usable){toast('Max withdrawable is '+usd(usable>0?usable:0),'bad');return;} WALLET.balance-=amt; WALLET.tx.unshift({ic:'↑',c:'brand',t:'Withdrawal to bank',d:'Just now · pending',amt:-amt});}
+    else { WALLET.balance+=amt; WALLET.tx.unshift({ic:'＋',c:'success',t:'Wallet top-up',d:'Just now · Card ****4242',amt:amt}); }
+    renderWallet();
+    var sc=$('#appscrim');if(sc)sc.classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});
+    toast(walMode==='topup'?'Added '+usd(amt)+' to wallet ✓':'Withdrawal of '+usd(amt)+' requested','ok');
+  }
+
   /* ===== Negotiations (list + offer thread) ===== */
   var NEGOS=[
     {id:'NG-01',t:'Toyota Land Cruiser 300',stock:'SP-JP-48210',status:'ongoing',you:71000,seller:73500,thread:[{w:'seller',amt:76900,t:'Listed price'},{w:'you',amt:69000,t:'My offer'},{w:'seller',amt:74500,t:'I can do 74,500'},{w:'you',amt:71000,t:'Meet at 71,000?'},{w:'seller',amt:73500,t:'73,500 is my final offer.'}]},
@@ -2352,6 +2400,8 @@ html.dark .testbanner{color:#FFC043}
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='consignees'){ renderConsignees(); }
     if(id==='negotiations'){ renderNegos(); }
+    if(id==='wallet'){ renderWallet(); }
+    if(id==='statement'){ renderStatement(); }
     if(id==='messages'){ renderMessages(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
@@ -2393,6 +2443,9 @@ html.dark .testbanner{color:#FFC043}
     var cdel=e.target.closest('[data-consdel]'); if(cdel){ delConsignee(parseInt(cdel.getAttribute('data-consdel'),10)); return; }
     var cset=e.target.closest('[data-conset]'); if(cset){ setDefaultConsignee(parseInt(cset.getAttribute('data-conset'),10)); return; }
     var cgo=e.target.closest('[data-confirmgo]'); if(cgo){ confirmGo(); return; }
+    var wl=e.target.closest('[data-wallet]'); if(wl){ openWalletAction(wl.getAttribute('data-wallet')); return; }
+    var wa=e.target.closest('[data-walamt]'); if(wa){ var wi=$('#walAmt'); if(wi)wi.value='$'+parseInt(wa.getAttribute('data-walamt'),10).toLocaleString('en-US'); return; }
+    var wg=e.target.closest('[data-walletgo]'); if(wg){ walletGo(); return; }
     var ng=e.target.closest('[data-nego]'); if(ng){ openNego(ng.getAttribute('data-nego')); return; }
     var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
     var py=e.target.closest('[data-pay]'); if(py){ openPay(parseInt(py.getAttribute('data-pay'),10)||0, py.getAttribute('data-paylabel')); return; }
@@ -2636,7 +2689,7 @@ html.dark .testbanner{color:#FFC043}
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
     ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
-    ['Account',[['wallet','Wallet & Deposits'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
+    ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
   ];
