@@ -1129,6 +1129,22 @@ html.dark .testbanner{color:#FFC043}
       <div class="lcard" style="padding:15px;margin-top:16px"><div style="font-size:12.5px;color:var(--faint)">Redeem <b class="tnum" style="color:var(--ink)">1,240 pts</b> as coupons</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><span class="denom">$200 × 6</span><span class="denom">$40 × 1</span></div>
         <button class="btn primary block sm" data-toast="Converting… coupons issued ✓|ok">Convert to coupons</button></div>
+      <div class="msec"><h2>Refer &amp; earn</h2><span class="badge b-success">+250 pts each</span></div>
+      <div class="lcard" style="padding:15px">
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:10px">Invite dealers &amp; friends — you both get <b>250 points</b> when they complete their first order.</div>
+        <div class="input" data-copy="SP-RANA-2026" style="justify-content:space-between;cursor:pointer"><span class="tnum" style="font-weight:700;letter-spacing:1px">SP-RANA-2026</span><span class="btn text sm" style="height:auto;padding:0;color:var(--brand)">Copy</span></div>
+        <div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:11.5px"><span class="tnum" style="color:var(--muted)">Referrals · <b style="color:var(--brand)">6 / 10</b> to Elite bonus</span></div><div class="pfill" style="height:6px;margin-top:5px"><i style="width:60%"></i></div></div>
+        <button class="btn outline block sm" style="margin-top:12px" data-toast="Invite link shared 🔗|ok">Share invite link</button>
+      </div>
+      <div class="msec"><h2>Badges</h2><span class="badge b-info">3 / 6</span></div>
+      <div class="badge-grid">
+        <div class="cell"><div class="em2">🚗</div><small>First Buy</small></div>
+        <div class="cell"><div class="em2">🔥</div><small>5 Orders</small></div>
+        <div class="cell"><div class="em2">⭐</div><small>Top Rated</small></div>
+        <div class="cell"><div class="em2">🔨</div><small>First Bid</small></div>
+        <div class="cell locked"><div class="em2">🏆</div><small>10 Wins</small></div>
+        <div class="cell locked"><div class="em2">💎</div><small>Platinum</small></div>
+      </div>
     </div></div>
   </section>
 
@@ -1667,6 +1683,17 @@ html.dark .testbanner{color:#FFC043}
   /* ===== Orders batch: tracker · won · invoices · shipment ===== */
   function usd(n){return '$'+Number(n).toLocaleString('en-US');}
   function positionThumb2(seg,btn){var th=seg.querySelector('.thumb2');if(!th||!btn)return;th.style.width=btn.offsetWidth+'px';th.style.transform='translateX('+(btn.offsetLeft-4)+'px)';}
+  /* filter a status list by the active pill tab (with safe fallback) */
+  var PILL_SYN={'in progress':['transit','payment','processing','shipped','ongoing','pending','await'],'completed':['delivered','accepted','won','paid','responded','reviewed'],'live':['leading','outbid','live'],'won':['won'],'lost':['lost'],'delivered':['delivered'],'in transit':['transit'],'active':['apply','sent'],'used':['used'],'expired':['expired'],'unpaid':['unpaid'],'paid':['paid'],'accepted':['accepted'],'pending':['pending','await'],'sent':['sent'],'awaiting order':['awaiting'],'ordered':['ordered']};
+  function filterPillList(pw,tab){
+    var label=tab.textContent.trim().toLowerCase();
+    var scope=pw.closest('.pad')||pw.parentNode; if(!scope)return;
+    var rows=scope.querySelectorAll('.lrow,.lcard,.coupon,.listrow'); if(!rows.length)return;
+    var keys=(label==='all')?null:PILL_SYN[label];
+    rows.forEach(function(r){ if(!keys){r.style.display='';return;} var show=keys.some(function(k){return r.textContent.toLowerCase().indexOf(k)>-1;}); r.style.display=show?'':'none'; });
+    var anyShown=Array.prototype.some.call(rows,function(r){return r.style.display!=='none';});
+    if(!anyShown)rows.forEach(function(r){r.style.display='';});
+  }
   var OK='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>';
   // Canonical SP 12-step order process (steps 7–10 = optional local-services branch)
   var OSTEPS=[
@@ -2095,6 +2122,8 @@ html.dark .testbanner{color:#FFC043}
     var iv=e.target.closest('[data-invoice]'); if(iv){ openInvoice(iv.getAttribute('data-invoice')); return; }
     var wo=e.target.closest('[data-won]'); if(wo){ openWon(wo.getAttribute('data-won')); return; }
     var qo=e.target.closest('[data-quote]'); if(qo){ openQuote(qo.getAttribute('data-quote')); return; }
+    var pt=e.target.closest('.pilltabs .t'); if(pt){ var pw=pt.closest('.pilltabs'); if(pw){pw.querySelectorAll('.t').forEach(function(x){x.classList.remove('on');}); pt.classList.add('on'); filterPillList(pw,pt);} return; }
+    var cp=e.target.closest('[data-copy]'); if(cp){ var txt=cp.getAttribute('data-copy'); try{if(navigator.clipboard)navigator.clipboard.writeText(txt);}catch(err){} toast('Copied · '+txt,'ok'); return; }
     var ch=e.target.closest('[data-chat]'); if(ch){ openChat(ch.getAttribute('data-chat')); return; }
     var qr=e.target.closest('[data-qr]'); if(qr){ sendMsg(qr.getAttribute('data-qr')); return; }
     var sd2=e.target.closest('[data-send]'); if(sd2){ sendMsg($('#chatInput')?$('#chatInput').value:''); return; }
