@@ -222,6 +222,14 @@ html.dark{--grad-title:linear-gradient(100deg,#67E8F9,#A5B4FC,#D8B4FE)}
 #splash .lg{background:var(--grad-brand)}
 /* gradient wash behind the welcome hero */
 #welcome{background:linear-gradient(160deg,#0B0D12 0%,#141133 45%,#12203f 100%)}
+/* Representative info cards + Buyer/Dealer role visibility */
+.repgrid{display:flex;flex-direction:column;gap:10px}
+.repcard{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:11px 13px}
+.repic{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.repcard .rk{font-size:11.5px;color:var(--faint)}
+.repcard .rv{font:700 14px var(--display);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dealer-only{display:none}
+html.dealer .dealer-only{display:block}
 .mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mscroll::-webkit-scrollbar{display:none}
 .mtabbar{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:9px 6px calc(env(safe-area-inset-bottom) + 9px);z-index:9}
@@ -847,7 +855,8 @@ html.dark .testbanner{color:#FFC043}
     </div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 24px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div><div style="font:500 12px var(--text);color:var(--muted)">Welcome back</div><div style="font:800 20px var(--display)">Rana Ahmed</div><div style="font-size:11px;color:var(--faint);margin-top:1px">🇰🇪 Kenya · KYC verified</div></div>
+        <div style="flex:1;min-width:0"><div style="font:500 12px var(--text);color:var(--muted)">Welcome back</div><div style="font:800 20px var(--display)" id="dashName">Rana Ahmed</div><div style="font-size:11px;color:var(--faint);margin-top:1px" id="dashSub">🇰🇪 Kenya · Individual buyer · KYC verified</div></div>
+        <span class="badge b-info" id="dashRole">Buyer</span>
       </div>
       <!-- membership hero: progress ring + savings + perks -->
       <div class="dg_hero">
@@ -933,7 +942,7 @@ html.dark .testbanner{color:#FFC043}
   <!-- side module drawer -->
   <aside class="sidedrawer" id="sideDrawer" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
     <div class="sdhead">
-      <div style="display:flex;align-items:center;gap:12px"><span class="hav" style="background:rgba(255,255,255,.2);color:#fff;width:46px;height:46px;font-size:16px">R</span><div><div style="font:800 15px var(--display)">Rana Ahmed</div><div style="font-size:11px;opacity:.85">💎 Gold member · KYC verified</div></div></div>
+      <div style="display:flex;align-items:center;gap:12px"><span class="hav" style="background:rgba(255,255,255,.2);color:#fff;width:46px;height:46px;font-size:16px">R</span><div><div style="font:800 15px var(--display)" id="sdName">Rana Ahmed</div><div style="font-size:11px;opacity:.85" id="sdSub">💎 Gold member · KYC verified</div></div></div>
     </div>
     <nav class="sdmenu" id="sdMenu">
       <a class="on" data-nav="dashboard"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>Dashboard</a>
@@ -1200,9 +1209,25 @@ html.dark .testbanner{color:#FFC043}
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Profile &amp; KYC</h1></div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
       <div style="display:flex;align-items:center;gap:14px">
-        <span class="hav" style="width:60px;height:60px;font-size:22px">R</span>
-        <div style="flex:1;min-width:0"><div style="font:800 18px var(--display)">Rana Ahmed</div><div style="font-size:12.5px;color:var(--muted)">Buyer · 🇰🇪 Kenya</div>
+        <span class="hav" style="width:60px;height:60px;font-size:22px" id="profAv">R</span>
+        <div style="flex:1;min-width:0"><div style="font:800 18px var(--display)" id="profName">Rana Ahmed</div><div style="font-size:12.5px;color:var(--muted)" id="profSub">Buyer · 🇰🇪 Kenya</div>
           <span class="badge b-success" style="margin-top:6px">✓ KYC Verified</span></div>
+      </div>
+      <div class="dealer-only">
+        <div class="msec"><h2>Business Information</h2><span class="badge b-info">Dealer</span></div>
+        <div class="lcard" style="padding:4px 16px 0">
+          <div class="prow2"><span class="k">Company name</span><span class="v">Sahara Motors Ltd</span></div>
+          <div class="prow2"><span class="k">Tax ID</span><span class="v">KRA-P051 448 921X</span></div>
+          <div class="prow2"><span class="k">Years in business</span><span class="v">8 years</span></div>
+          <div class="prow2"><span class="k">Website</span><span class="v">saharamotors.co.ke</span></div>
+          <div class="prow2" style="border-bottom:none"><span class="k">Business address</span><span class="v">Mombasa Rd, Nairobi</span></div>
+        </div>
+      </div>
+      <div class="msec"><h2>Representative Information</h2></div>
+      <div class="repgrid">
+        <div class="repcard"><span class="repic" style="background:#d3ffe0;color:#05b86b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div style="min-width:0"><div class="rk">Full name</div><div class="rv" id="repName">Rana Ahmed</div></div></div>
+        <div class="repcard"><span class="repic" style="background:var(--brand-tint);color:var(--brand)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M4 7l6.5 5a2.5 2.5 0 0 0 3 0L20 7"/></svg></span><div style="min-width:0"><div class="rk">Email</div><div class="rv">rana@example.com</div></div></div>
+        <div class="repcard"><span class="repic" style="background:#f3e6ff;color:#7c3aed"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1Z"/></svg></span><div style="min-width:0"><div class="rk" id="repPosK">Position</div><div class="rv" id="repPos">Account holder</div></div></div>
       </div>
       <div class="lcard" style="padding:16px;margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b style="font:800 14px var(--display)">Verification status</b><span class="badge b-success">Approved</span></div>
         <div class="tl"><div class="ev"><span class="dot done">✓</span><div class="ti">Identity document</div><div class="ds">Passport · verified Feb 4</div></div>
@@ -1581,7 +1606,9 @@ html.dark .testbanner{color:#FFC043}
   <!-- Account / profile menu sheet -->
   <section class="appsheet" id="profileSheet" role="dialog" aria-modal="true" aria-label="Account menu">
     <div class="grab"></div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="hav" style="width:52px;height:52px;font-size:18px">R</span><div style="flex:1;min-width:0"><div style="font:800 16px var(--display)">Rana Ahmed</div><div style="font-size:12px;color:var(--faint)">💎 Gold member · KYC verified</div></div><button class="btn ghost sm" data-nav="profile">View</button></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="hav" style="width:52px;height:52px;font-size:18px" id="acctAv">R</span><div style="flex:1;min-width:0"><div style="font:800 16px var(--display)" id="acctName">Rana Ahmed</div><div style="font-size:12px;color:var(--faint)" id="acctSub">💎 Gold member · KYC verified</div></div><button class="btn ghost sm" data-nav="profile">View</button></div>
+    <div class="fsec">👤 Account type</div>
+    <div class="themeseg" id="roleSeg" role="group" aria-label="Account type"><button data-role="buyer" class="on">🧑 Buyer</button><button data-role="dealer">🏢 Dealer</button></div>
     <div class="fsec">🌐 Language</div>
     <div class="crail" id="langSeg" style="padding:2px 0"><button class="cchip" data-lang="English" aria-pressed="true">English</button><button class="cchip" data-lang="Kiswahili" aria-pressed="false">Kiswahili</button><button class="cchip" data-lang="日本語" aria-pressed="false">日本語</button><button class="cchip" data-lang="Français" aria-pressed="false">Français</button><button class="cchip" data-lang="العربية" aria-pressed="false">العربية</button></div>
     <div class="fsec">🎨 Appearance</div>
@@ -2124,6 +2151,7 @@ html.dark .testbanner{color:#FFC043}
     var qo=e.target.closest('[data-quote]'); if(qo){ openQuote(qo.getAttribute('data-quote')); return; }
     var pt=e.target.closest('.pilltabs .t'); if(pt){ var pw=pt.closest('.pilltabs'); if(pw){pw.querySelectorAll('.t').forEach(function(x){x.classList.remove('on');}); pt.classList.add('on'); filterPillList(pw,pt);} return; }
     var cp=e.target.closest('[data-copy]'); if(cp){ var txt=cp.getAttribute('data-copy'); try{if(navigator.clipboard)navigator.clipboard.writeText(txt);}catch(err){} toast('Copied · '+txt,'ok'); return; }
+    var rl=e.target.closest('[data-role]'); if(rl){ applyRole(rl.getAttribute('data-role')); toast('Viewing as '+(rl.getAttribute('data-role')==='dealer'?'Dealer account':'Buyer account'),'ok'); return; }
     var ch=e.target.closest('[data-chat]'); if(ch){ openChat(ch.getAttribute('data-chat')); return; }
     var qr=e.target.closest('[data-qr]'); if(qr){ sendMsg(qr.getAttribute('data-qr')); return; }
     var sd2=e.target.closest('[data-send]'); if(sd2){ sendMsg($('#chatInput')?$('#chatInput').value:''); return; }
@@ -2388,9 +2416,32 @@ html.dark .testbanner{color:#FFC043}
   var no=$('#navOv'); if(no)no.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
   /* ===== Theme (light/dark) — applies to every screen via html.dark ===== */
+  /* Buyer / Dealer account — minor info differences (company + representative + business info) */
+  function applyRole(role){
+    var dealer=role==='dealer';
+    document.documentElement.classList.toggle('dealer',dealer);
+    var D={name:dealer?'Sahara Motors Ltd':'Rana Ahmed',av:dealer?'S':'R',
+      dashSub:dealer?'🇰🇪 Nairobi · Dealer account · KYC verified':'🇰🇪 Kenya · Individual buyer · KYC verified',
+      role:dealer?'🏢 Dealer':'Buyer',
+      sdSub:dealer?'🏢 Dealer · Gold partner · KYC verified':'💎 Gold member · KYC verified',
+      acctSub:dealer?'🏢 Dealer account · Gold partner':'💎 Gold member · KYC verified',
+      profSub:dealer?'Dealer · 🇰🇪 Nairobi':'Buyer · 🇰🇪 Kenya',
+      repName:dealer?'Kwame Mensah':'Rana Ahmed',
+      repPosK:dealer?'Position':'Role',
+      repPos:dealer?'Managing Director':'Account holder'};
+    function set(id,v){var el=$('#'+id);if(el)el.textContent=v;}
+    set('dashName',D.name);set('dashSub',D.dashSub);set('dashRole',D.role);
+    set('sdName',D.name);set('sdSub',D.sdSub);
+    set('acctName',D.name);set('acctSub',D.acctSub);set('acctAv',D.av);set('profAv',D.av);
+    set('profName',D.name);set('profSub',D.profSub);
+    set('repName',D.repName);set('repPos',D.repPos);set('repPosK',D.repPosK);
+    $$('#roleSeg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-role')===role);});
+    try{localStorage.setItem('sp_role',role);}catch(e){}
+  }
   function applyTheme(t){document.documentElement.classList.toggle('dark',t==='dark');var mtc=document.querySelector('meta[name=theme-color]');if(mtc)mtc.setAttribute('content',t==='dark'?'#1C1C1D':'#276EF1');$$('.themeseg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-theme')===t);});try{localStorage.setItem('sp_theme',t);}catch(e){}}
   document.addEventListener('click',function(e){var b=e.target.closest('.themeseg button');if(b)applyTheme(b.getAttribute('data-theme'));});
   try{var savedT=localStorage.getItem('sp_theme');if(savedT)applyTheme(savedT);}catch(e){}
+  try{var savedR=localStorage.getItem('sp_role');applyRole(savedR==='dealer'?'dealer':'buyer');}catch(e){applyRole('buyer');}
 })();
 </script>
 </body>
