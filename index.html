@@ -1449,12 +1449,11 @@ html.dark .testbanner{color:#FFC043}
 
   <!-- ===== CONSIGNEES ===== -->
   <section class="screen" id="consignees" aria-label="Consignees">
-    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Consignees</h1><button class="ic" data-toast="Add consignee — form" aria-label="Add"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button></div>
-    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px"><div style="display:flex;flex-direction:column;gap:12px">
-      <div class="listrow"><span class="av sq">JM</span><div style="flex:1;min-width:0"><b style="font-family:var(--display)">James Mwangi</b><div style="font-size:12px;color:var(--faint)">⚓ Port of Mombasa · Kenya 🇰🇪</div><div style="font-size:12px;color:var(--faint)">+254 712 345 678</div></div><span class="badge b-success">Default</span></div>
-      <div class="listrow"><span class="av sq">AO</span><div style="flex:1;min-width:0"><b style="font-family:var(--display)">Ama Osei</b><div style="font-size:12px;color:var(--faint)">⚓ Port of Tema · Ghana 🇬🇭</div><div style="font-size:12px;color:var(--faint)">+233 24 123 4567</div></div></div>
-      <button class="btn ghost block" data-toast="Add consignee — form"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add consignee</button>
-    </div></div></div>
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Consignees</h1><button class="ic" data-opensheet="consigneeSheet" aria-label="Add"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px">
+      <div id="consigneeList" style="display:flex;flex-direction:column;gap:12px"></div>
+      <button class="btn ghost block" style="margin-top:14px" data-opensheet="consigneeSheet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add consignee</button>
+    </div></div>
   </section>
 
   <!-- ===== COUPONS ===== -->
@@ -1624,6 +1623,37 @@ html.dark .testbanner{color:#FFC043}
       <button style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;padding:13px 4px;font:600 14px var(--text);color:var(--ink);cursor:pointer;border-bottom:1px solid var(--border-soft)" data-nav="support"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3M12 17h.01"/></svg>Help &amp; Support</button>
       <button style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;padding:13px 4px;font:600 14px var(--text);color:var(--error);cursor:pointer" data-sheetclose data-toast="Signed out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button>
     </div>
+  </section>
+
+  <!-- Add consignee modal (bottom sheet) -->
+  <section class="appsheet" id="consigneeSheet" role="dialog" aria-modal="true" aria-label="Add consignee">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px"><h3 style="font:800 17px var(--display)">Add consignee</h3><button class="ic" data-sheetclose aria-label="Close" style="width:34px;height:34px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:6px">Save a recipient for faster checkout, shipping docs &amp; delivery.</p>
+    <div class="fsec">Contact person</div>
+    <div class="field sm"><label>Full name *</label><div class="input"><input id="consName" placeholder="e.g. James Mwangi" autocomplete="off"/></div></div>
+    <div class="two" style="margin-top:12px">
+      <div class="field sm"><label>Email</label><div class="input"><input id="consEmail" type="email" placeholder="email@example.com" autocomplete="off"/></div></div>
+      <div class="field sm"><label>Phone *</label><div class="input"><input id="consPhone" inputmode="tel" placeholder="+254 7…" autocomplete="off"/></div></div>
+    </div>
+    <div class="fsec">Shipping destination</div>
+    <div class="two">
+      <div class="field sm"><label>Country *</label><div class="input" style="padding:0"><select id="consCountry" class="ctrl" style="border:none;background:transparent"><option value="">Select</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>Nigeria</option><option>Uganda</option><option>Zambia</option><option>DR Congo</option><option>Mozambique</option><option>South Africa</option></select></div></div>
+      <div class="field sm"><label>Destination port *</label><div class="input" style="padding:0"><select id="consPort" class="ctrl" style="border:none;background:transparent"><option value="">Select</option><option>Mombasa</option><option>Dar es Salaam</option><option>Tema</option><option>Lagos (Tin Can)</option><option>Kampala (ICD)</option><option>Lusaka (dry)</option><option>Dar (transit DRC)</option><option>Maputo</option><option>Durban</option></select></div></div>
+    </div>
+    <div class="two" style="margin-top:12px">
+      <div class="field sm"><label>City</label><div class="input"><input id="consCity" placeholder="City" autocomplete="off"/></div></div>
+      <div class="field sm"><label>Postal code</label><div class="input"><input id="consPostal" placeholder="Postal / ZIP" autocomplete="off"/></div></div>
+    </div>
+    <div class="fsec">Company (optional)</div>
+    <div class="field sm"><label>Company name</label><div class="input"><input id="consCompany" placeholder="Company / business name" autocomplete="off"/></div></div>
+    <div class="two" style="margin-top:12px">
+      <div class="field sm"><label>Registration no.</label><div class="input"><input id="consReg" placeholder="Reg / Tax ID" autocomplete="off"/></div></div>
+      <div class="field sm"><label>Designation</label><div class="input"><input id="consDesig" placeholder="e.g. Director" autocomplete="off"/></div></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 2px 4px"><div><div style="font:600 13.5px var(--text)">Set as default consignee</div><div style="font-size:11.5px;color:var(--faint)">Used automatically at checkout</div></div><span class="switch off" id="consDefault" data-switch><i></i></span></div>
+    <div class="lcard" style="padding:11px 14px;margin:8px 0 4px;display:flex;gap:10px;align-items:flex-start;background:var(--brand-tint);border-color:transparent"><span style="font-size:16px">🚢</span><div style="font-size:11.5px;color:var(--brand);line-height:1.45">Sea freight is recommended for vehicles — choose the port nearest your destination.</div></div>
+    <div style="display:flex;gap:10px;margin-top:12px"><button class="btn ghost" style="flex:1" data-sheetclose>Cancel</button><button class="btn primary" style="flex:2" data-conssave>Save consignee</button></div>
   </section>
 
   <div class="toasts" id="toasts" aria-live="polite"></div>
@@ -2154,8 +2184,35 @@ html.dark .testbanner{color:#FFC043}
     },1300);
   }
 
+  /* ===== Consignees (list + add modal) ===== */
+  var CONSIGNEES=[
+    {init:'JM',name:'James Mwangi',port:'Mombasa',country:'Kenya',flag:'🇰🇪',phone:'+254 712 345 678',def:true},
+    {init:'AO',name:'Ama Osei',port:'Tema',country:'Ghana',flag:'🇬🇭',phone:'+233 24 123 4567',def:false}
+  ];
+  var CFLAG={'Kenya':'🇰🇪','Tanzania':'🇹🇿','Ghana':'🇬🇭','Nigeria':'🇳🇬','Uganda':'🇺🇬','Zambia':'🇿🇲','DR Congo':'🇨🇩','Mozambique':'🇲🇿','South Africa':'🇿🇦'};
+  function renderConsignees(){
+    var el=$('#consigneeList'); if(!el)return;
+    el.innerHTML=CONSIGNEES.map(function(c){
+      return '<div class="listrow"><span class="av sq">'+c.init+'</span><div style="flex:1;min-width:0"><b style="font-family:var(--display)">'+c.name+'</b><div style="font-size:12px;color:var(--faint)">⚓ Port of '+c.port+' · '+c.country+' '+c.flag+'</div><div style="font-size:12px;color:var(--faint)">'+c.phone+'</div></div>'+(c.def?'<span class="badge b-success">Default</span>':'')+'</div>';
+    }).join('');
+  }
+  function saveConsignee(){
+    var name=($('#consName')&&$('#consName').value||'').trim(), phone=($('#consPhone')&&$('#consPhone').value||'').trim(), country=$('#consCountry')?$('#consCountry').value:'', port=$('#consPort')?$('#consPort').value:'';
+    if(!name||!phone||!country||!port){toast('Add name, phone, country & port','bad');return;}
+    var init=name.split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
+    var isDef=$('#consDefault')&&!$('#consDefault').classList.contains('off');
+    if(isDef)CONSIGNEES.forEach(function(c){c.def=false;});
+    CONSIGNEES.push({init:init,name:name,port:port,country:country,flag:CFLAG[country]||'🏳️',phone:phone,def:!!isDef});
+    renderConsignees();
+    var sc=$('#appscrim'); if(sc)sc.classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');});
+    ['consName','consEmail','consPhone','consCity','consPostal','consCompany','consReg','consDesig'].forEach(function(id){var e=$('#'+id);if(e)e.value='';});
+    if($('#consCountry'))$('#consCountry').value=''; if($('#consPort'))$('#consPort').value=''; if($('#consDefault'))$('#consDefault').classList.add('off');
+    toast('Consignee added ✓','ok');
+  }
+
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
+    if(id==='consignees'){ renderConsignees(); }
     if(id==='messages'){ renderMessages(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
@@ -2191,6 +2248,7 @@ html.dark .testbanner{color:#FFC043}
     var pt=e.target.closest('.pilltabs .t'); if(pt){ var pw=pt.closest('.pilltabs'); if(pw){pw.querySelectorAll('.t').forEach(function(x){x.classList.remove('on');}); pt.classList.add('on'); filterPillList(pw,pt);} return; }
     var cp=e.target.closest('[data-copy]'); if(cp){ var txt=cp.getAttribute('data-copy'); try{if(navigator.clipboard)navigator.clipboard.writeText(txt);}catch(err){} toast('Copied · '+txt,'ok'); return; }
     var rl=e.target.closest('[data-role]'); if(rl){ applyRole(rl.getAttribute('data-role')); toast('Viewing as '+(rl.getAttribute('data-role')==='dealer'?'Dealer account':'Buyer account'),'ok'); return; }
+    var cs=e.target.closest('[data-conssave]'); if(cs){ saveConsignee(); return; }
     var ch=e.target.closest('[data-chat]'); if(ch){ openChat(ch.getAttribute('data-chat')); return; }
     var qr=e.target.closest('[data-qr]'); if(qr){ sendMsg(qr.getAttribute('data-qr')); return; }
     var sd2=e.target.closest('[data-send]'); if(sd2){ sendMsg($('#chatInput')?$('#chatInput').value:''); return; }
