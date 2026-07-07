@@ -236,6 +236,16 @@ html.dealer .dealer-only{display:block}
 .au_maxbid .mxopt{font-weight:600;font-size:10px;color:rgba(255,255,255,.65);background:rgba(255,255,255,.14);padding:2px 8px;border-radius:999px;letter-spacing:.02em}
 .au_maxbid .mxnote{font-size:11px;color:rgba(255,255,255,.72);margin-top:7px;line-height:1.4}
 .pspin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:5px}
+/* negotiation offer thread */
+.othread{display:flex;flex-direction:column;gap:8px}
+.obubble{max-width:80%;padding:9px 13px;border-radius:14px}
+.obubble.them{align-self:flex-start;background:var(--surface-2);border-bottom-left-radius:4px}
+.obubble.me{align-self:flex-end;background:var(--brand-tint);border-bottom-right-radius:4px;text-align:right}
+.obubble .oamt{font:800 14.5px var(--display)}
+.obubble.me .oamt{color:var(--brand)}
+.obubble .omsg{font-size:12px;color:var(--muted);margin-top:1px}
+.negobar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border-2);border-radius:999px;padding:5px 5px 5px 14px;margin-top:16px}
+.negobar input{flex:1;border:none;outline:none;background:transparent;color:var(--ink);font-size:14px;min-width:0}
 #paySheet .pilltabs .t{flex:1;text-align:center}
 .mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mscroll::-webkit-scrollbar{display:none}
@@ -1442,11 +1452,13 @@ html.dark .testbanner{color:#FFC043}
   <!-- ===== NEGOTIATIONS ===== -->
   <section class="screen" id="negotiations" aria-label="Negotiations">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Negotiations</h1></div>
-    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px"><div style="display:flex;flex-direction:column;gap:12px">
-      <div class="lrow" style="align-items:flex-start" data-toast="Open negotiation — later"><span class="li">💬</span><div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:8px"><div class="lt">Land Cruiser 300</div><span class="badge b-warning">Ongoing</span></div><div class="ls">You $71,000 · Seller $73,500</div><div style="font-size:12px;color:var(--muted);margin-top:6px;background:var(--surface-2);border-radius:8px;padding:8px 10px">Seller: "$73,500 is my final offer."</div></div></div>
-      <div class="lrow" data-toast="Open negotiation — later"><span class="li">💬</span><div style="flex:1;min-width:0"><div class="lt">Nissan Patrol Y62</div><div class="ls">Agreed at $61,000</div></div><span class="badge b-success">Accepted</span></div>
-      <div class="lrow" data-toast="Open negotiation — later"><span class="li">💬</span><div style="flex:1;min-width:0"><div class="lt">Toyota Prado TX</div><div class="ls">Gap too wide · closed</div></div><span class="badge b-error">Declined</span></div>
-    </div></div></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px"><div id="negoList" style="display:flex;flex-direction:column;gap:12px"></div></div></div>
+  </section>
+
+  <!-- ===== NEGOTIATION DETAIL ===== -->
+  <section class="screen" id="nego-detail" aria-label="Negotiation detail">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="negoTitle">Negotiation</h1></div>
+    <div class="mscroll" id="negoBody"></div>
   </section>
 
   <!-- ===== CONSIGNEES ===== -->
@@ -2242,6 +2254,47 @@ html.dark .testbanner{color:#FFC043}
     toast('Consignee added ✓','ok');
   }
 
+  /* ===== Negotiations (list + offer thread) ===== */
+  var NEGOS=[
+    {id:'NG-01',t:'Toyota Land Cruiser 300',stock:'SP-JP-48210',status:'ongoing',you:71000,seller:73500,thread:[{w:'seller',amt:76900,t:'Listed price'},{w:'you',amt:69000,t:'My offer'},{w:'seller',amt:74500,t:'I can do 74,500'},{w:'you',amt:71000,t:'Meet at 71,000?'},{w:'seller',amt:73500,t:'73,500 is my final offer.'}]},
+    {id:'NG-02',t:'Nissan Patrol Y62',stock:'SP-JP-47188',status:'accepted',you:61000,seller:61000,thread:[{w:'seller',amt:63200,t:'Listed price'},{w:'you',amt:60000,t:'My offer'},{w:'seller',amt:61000,t:'Deal at 61,000.'},{w:'you',amt:61000,t:'Accepted ✓'}]},
+    {id:'NG-03',t:'Toyota Prado TX',stock:'SP-JP-46901',status:'declined',you:30000,seller:34600,thread:[{w:'seller',amt:34600,t:'Listed price'},{w:'you',amt:30000,t:'My offer'},{w:'seller',amt:34600,t:'Gap too wide, sorry.'}]}
+  ];
+  var curNego=null;
+  function renderNegos(){
+    var el=$('#negoList'); if(!el)return;
+    var map={ongoing:['b-warning','Ongoing'],accepted:['b-success','Accepted'],declined:['b-error','Declined']};
+    el.innerHTML=NEGOS.map(function(n){var m=map[n.status];var last=n.thread[n.thread.length-1];
+      return '<div class="lrow" style="align-items:flex-start" data-nego="'+n.id+'"><span class="li">💬</span><div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:8px"><div class="lt">'+n.t+'</div><span class="badge '+m[0]+'">'+m[1]+'</span></div><div class="ls">You '+usd(n.you)+' · Seller '+usd(n.seller)+'</div><div style="font-size:12px;color:var(--muted);margin-top:6px;background:var(--surface-2);border-radius:8px;padding:8px 10px">'+(last.w==='seller'?'Seller':'You')+': "'+last.t+'"</div></div></div>';
+    }).join('');
+  }
+  function renderNego(n){
+    var gap=n.seller-n.you;
+    var thread=n.thread.map(function(m){return '<div class="obubble '+(m.w==='you'?'me':'them')+'"><div class="oamt">'+usd(m.amt)+'</div><div class="omsg">'+m.t+'</div></div>';}).join('');
+    var sb=n.status==='ongoing'?'<span class="badge b-warning">Ongoing</span>':(n.status==='accepted'?'<span class="badge b-success">Accepted</span>':'<span class="badge b-error">Declined</span>');
+    var bar=n.status==='ongoing'?('<div class="negobar"><span style="color:var(--faint);font-weight:700">$</span><input id="negoInput" inputmode="numeric" placeholder="Your counter offer"/><button class="btn ghost sm" data-negoact="counter" style="height:34px">Counter</button></div>'
+      +'<div style="display:flex;gap:10px;margin-top:12px"><button class="btn primary" style="flex:1" data-negoact="accept">Accept '+usd(n.seller)+'</button><button class="btn ghost" style="flex:1" data-negoact="decline">Decline</button></div>')
+      :('<div class="lcard" style="padding:14px 16px;text-align:center;color:var(--muted);font-size:13px;margin-top:14px">'+(n.status==='accepted'?'✓ Deal agreed at '+usd(n.you)+' — added to your cart':'This negotiation was closed.')+'</div>'+(n.status==='accepted'?'<button class="btn primary block" style="margin-top:12px" data-nav="cart">View cart</button>':'<button class="btn ghost block" style="margin-top:12px" data-nav="vehicles">Browse similar</button>'));
+    $('#negoBody').innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div style="display:flex;align-items:center;gap:12px"><span class="av sq" style="width:46px;height:46px;background:var(--brand-tint);color:var(--brand);font-size:20px">💬</span><div style="flex:1;min-width:0"><div style="font:800 15px var(--display)">'+n.t+'</div><div style="font-size:12px;color:var(--faint)">Stock '+n.stock+'</div></div>'+sb+'</div>'
+      +'<div class="lcard" style="padding:14px 12px;margin-top:14px;display:flex;text-align:center"><div style="flex:1"><div style="font-size:11px;color:var(--faint)">Your offer</div><div style="font:800 16px var(--display);color:var(--brand)">'+usd(n.you)+'</div></div><div style="width:1px;background:var(--border)"></div><div style="flex:1"><div style="font-size:11px;color:var(--faint)">Seller asks</div><div style="font:800 16px var(--display)">'+usd(n.seller)+'</div></div><div style="width:1px;background:var(--border)"></div><div style="flex:1"><div style="font-size:11px;color:var(--faint)">Gap</div><div style="font:800 16px var(--display);color:'+(gap<=0?'var(--success)':'var(--warning)')+'">'+usd(Math.abs(gap))+'</div></div></div>'
+      +'<div class="msec"><h2>Offer history</h2></div><div class="othread">'+thread+'</div>'+bar+'</div>';
+  }
+  function openNego(id){var n=NEGOS.filter(function(x){return x.id===id;})[0]; if(!n)return; curNego=id; $('#negoTitle').textContent=n.t; renderNego(n); nav('nego-detail');}
+  function negoAct(a){
+    var n=NEGOS.filter(function(x){return x.id===curNego;})[0]; if(!n||n.status!=='ongoing')return;
+    if(a==='decline'){ n.status='declined'; n.thread.push({w:'you',amt:n.you,t:'Declined — walking away'}); renderNego(n); toast('Negotiation declined'); return; }
+    if(a==='accept'){ n.you=n.seller; n.status='accepted'; n.thread.push({w:'you',amt:n.seller,t:'Accepted your price ✓'}); renderNego(n); toast('Deal agreed ✓ — added to cart','ok'); return; }
+    // counter
+    var val=parseInt(($('#negoInput')&&$('#negoInput').value||'').replace(/[^0-9]/g,''),10);
+    if(!val){toast('Enter a counter amount','bad');return;}
+    n.you=val; n.thread.push({w:'you',amt:val,t:'My counter'}); renderNego(n);
+    setTimeout(function(){ if(curNego!==n.id||cur()!=='nego-detail'||n.status!=='ongoing')return;
+      if(val>=n.seller){ n.you=n.seller; n.status='accepted'; n.thread.push({w:'seller',amt:n.seller,t:'Deal! Accepted.'}); renderNego(n); toast('Seller accepted ✓','ok'); }
+      else { var mid=Math.round((val+n.seller)/2/1000)*1000; if(mid>=n.seller){mid=n.seller;} if(mid<=val){ n.you=mid; n.seller=mid; n.status='accepted'; n.thread.push({w:'seller',amt:mid,t:'Okay — deal.'}); renderNego(n); toast('Seller accepted ✓','ok'); } else { n.seller=mid; n.thread.push({w:'seller',amt:mid,t:'I can do '+usd(mid)}); renderNego(n); toast('Seller countered '+usd(mid),'info'); } }
+    },1400);
+  }
+
   /* ===== Reusable secure-payment sheet ===== */
   var payCtx={amount:0};
   function showPayPane(m){['card','bank','wallet'].forEach(function(n){var el=$('#pay'+n.charAt(0).toUpperCase()+n.slice(1));if(el)el.hidden=(n!==m);});}
@@ -2266,6 +2319,7 @@ html.dark .testbanner{color:#FFC043}
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='consignees'){ renderConsignees(); }
+    if(id==='negotiations'){ renderNegos(); }
     if(id==='messages'){ renderMessages(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
@@ -2302,6 +2356,8 @@ html.dark .testbanner{color:#FFC043}
     var cp=e.target.closest('[data-copy]'); if(cp){ var txt=cp.getAttribute('data-copy'); try{if(navigator.clipboard)navigator.clipboard.writeText(txt);}catch(err){} toast('Copied · '+txt,'ok'); return; }
     var rl=e.target.closest('[data-role]'); if(rl){ applyRole(rl.getAttribute('data-role')); toast('Viewing as '+(rl.getAttribute('data-role')==='dealer'?'Dealer account':'Buyer account'),'ok'); return; }
     var cs=e.target.closest('[data-conssave]'); if(cs){ saveConsignee(); return; }
+    var ng=e.target.closest('[data-nego]'); if(ng){ openNego(ng.getAttribute('data-nego')); return; }
+    var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
     var py=e.target.closest('[data-pay]'); if(py){ openPay(parseInt(py.getAttribute('data-pay'),10)||0, py.getAttribute('data-paylabel')); return; }
     var pmth=e.target.closest('[data-paymethod]'); if(pmth){ var pw2=pmth.parentNode; pw2.querySelectorAll('[data-paymethod]').forEach(function(x){x.classList.remove('on');}); pmth.classList.add('on'); showPayPane(pmth.getAttribute('data-paymethod')); return; }
     var pg=e.target.closest('[data-paygo]'); if(pg){ payGo(); return; }
@@ -2541,7 +2597,7 @@ html.dark .testbanner{color:#FFC043}
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
-    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
     ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
@@ -2558,6 +2614,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='auction-lot'){openLot('AUC-24065');return;}
     if(id==='heavy-detail'){openHeavy('HE-9001');return;}
     if(id==='chat'){openChat('kenji');return;}
+    if(id==='nego-detail'){openNego('NG-01');return;}
     if(id==='won-detail'){openWon('AUC-88231');return;}
     if(id==='quote-detail'){openQuote('QT-2048');return;}
     $$('.screen').forEach(function(s){s.classList.remove('active','back');});
