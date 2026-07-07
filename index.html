@@ -246,6 +246,9 @@ html.dealer .dealer-only{display:block}
 .obubble .omsg{font-size:12px;color:var(--muted);margin-top:1px}
 .negobar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border-2);border-radius:999px;padding:5px 5px 5px 14px;margin-top:16px}
 .negobar input{flex:1;border:none;outline:none;background:transparent;color:var(--ink);font-size:14px;min-width:0}
+.aucurtog{float:right;display:inline-flex;background:rgba(255,255,255,.14);border-radius:999px;padding:2px}
+.aucurtog button{border:none;background:none;color:rgba(255,255,255,.75);font:800 12px var(--display);width:26px;height:22px;border-radius:999px;cursor:pointer}
+.aucurtog button.on{background:#fff;color:#0b1220}
 #paySheet .pilltabs .t{flex:1;text-align:center}
 .mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mscroll::-webkit-scrollbar{display:none}
@@ -2031,6 +2034,8 @@ html.dark .testbanner{color:#FFC043}
 
   /* ===== Auctions batch: live bidding + saved ===== */
   function yen(n){return '¥'+Number(n).toLocaleString('en-US');}
+  var auCur='jpy';
+  function aud(y){return auCur==='usd'?usd(Math.round(y/150)):yen(y);}
   var AUC={
     'AUC-40218':{id:'AUC-40218',t:'Toyota Aqua G 2018',lot:'USS Nagoya · Lot 40218',grade:'4.5',y:2018,km:'52,300 km',bid:820000,inc:10000,cd:78,bidders:4,img:'https://loremflickr.com/640/420/toyota,aqua,hatchback?lock=23',body:'sedan',ext:'B',intr:'B',chassis:'NHP10-24xxxxx',disp:'1,500 cc · Hybrid',trans:'CVT',color:'Pearl White',drive:'2WD (FF)',shaken:'Aug 2026',equip:['AAC','PS','PW','ABS','SRS','Navi','Keyless'],notes:'Clean one-owner hybrid, non-smoker. Light curb rash front-left alloy.',dmg:['A1 scratch — rear bumper','U1 dent — bonnet'],leaders:[['SP','S. Park',820000,'20s ago'],['MO','M. Otieno',810000,'55s ago']]},
     'AUC-24065':{id:'AUC-24065',t:'Toyota Aqua 2019',lot:'USS Tokyo · Lot 24065',grade:'4.5',y:2019,km:'48,000 km',bid:1050000,inc:10000,cd:134,bidders:6,img:'https://loremflickr.com/640/420/toyota,aqua,car?lock=21',body:'sedan',ext:'B',intr:'B',chassis:'NHP10-63xxxxx',disp:'1,500 cc · Hybrid',trans:'CVT',color:'Silver Metallic',drive:'2WD (FF)',shaken:'May 2026',equip:['AAC','PS','PW','ABS','SRS','Navi','Back camera','ETC'],notes:'Well-maintained Aqua, records present. Minor interior wear.',dmg:['A1 scratch — LH sill','No structural damage']},
@@ -2045,7 +2050,7 @@ html.dark .testbanner{color:#FFC043}
     +'<div class="heart '+(f?'on':'off')+'" data-hfav="'+a.id+'" role="button" aria-pressed="'+f+'" aria-label="Save" style="top:auto;bottom:10px;right:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7C19 16.5 12 21 12 21Z"/></svg></div>'
     +'</div><div class="bd"><div class="ref">'+a.lot+'</div><div class="nm">'+a.t+'</div>'
     +'<div class="spx"><span>'+a.y+'</span><span>'+a.km+'</span><span>Grade '+a.grade+'</span></div>'
-    +'<div class="au_lotpr"><div><div style="font-size:11px;color:var(--faint)">Current bid</div><div class="jp-price" style="font-size:17px">'+yen(a.bid)+'</div></div><span class="badge b-error au_cd2" data-acd="'+a.id+'">⏱ '+hfmt(a.cd)+'</span></div>'
+    +'<div class="au_lotpr"><div><div style="font-size:11px;color:var(--faint)">Current bid</div><div class="jp-price" style="font-size:17px">'+aud(a.bid)+'</div></div><span class="badge b-error au_cd2" data-acd="'+a.id+'">⏱ '+hfmt(a.cd)+'</span></div>'
     +'<button class="btn primary block sm" style="margin-top:12px" data-hopen="'+a.id+'">Place bid</button></div></div>';}
   function renderAuctions(){var el=$('#aucList'); if(el)el.innerHTML=AUC_ORDER.map(function(id){return aucard(AUC[id]);}).join('');}
   function specrow(k,v){return '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px"><span style="color:var(--muted)">'+k+'</span><b>'+v+'</b></div>';}
@@ -2053,20 +2058,20 @@ html.dark .testbanner{color:#FFC043}
   function openLot(id){var a=AUC[id]; if(!a)return; curLot=id; clearTimeout(rivalTimer); $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
   function renderLot(a){
     var min=a.bid+a.inc, leading=!!a.youLeading;
-    var leaders=(a.leaders||[]).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+yen(l[2])+'</span></div>';}).join('');
+    var leaders=(a.leaders||[]).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+aud(l[2])+'</span></div>';}).join('');
     $('#lotBody').innerHTML='<div style="height:190px;background-image:url('+pickImg(a)+');background-size:cover;background-position:center;position:relative"><span class="badge b-error au_livechip" style="position:absolute;top:12px;left:12px"><span class="dot" style="background:#fff"></span>LIVE</span><span class="au_grade" style="position:absolute;top:12px;right:12px">'+a.grade+'<small>GRADE</small></span></div>'
       +'<div class="pad" style="padding:14px 16px 26px">'
       +'<div class="au_hero"><div class="au_heroglow"></div>'
       +'<div class="au_herotop"><span class="au_live"><span class="au_livedot"></span>LIVE</span>'
       +'<span class="au_timer"><svg width="38" height="38" viewBox="0 0 36 36"><circle class="au_tt" cx="18" cy="18" r="15.5"/><circle class="au_tp" cx="18" cy="18" r="15.5"/></svg><span data-acd="'+a.id+'">'+hfmt(a.cd)+'</span></span></div>'
-      +'<div class="au_cblabel">Current bid · '+a.lot+'</div><div class="au_cbid" data-lotcur>'+yen(a.bid)+'</div>'
+      +'<div class="au_cblabel">Current bid · '+a.lot+'<span class="aucurtog"><button class="'+(auCur==='jpy'?'on':'')+'" data-aucur="jpy">¥</button><button class="'+(auCur==='usd'?'on':'')+'" data-aucur="usd">$</button></span></div><div class="au_cbid" data-lotcur>'+aud(a.bid)+'</div>'
       +'<div class="au_state '+(leading?'leading':'neutral')+'" data-lotstate>'+(leading?(a.ceiling?"✓ Leading · auto-bid up to "+yen(a.ceiling):"✓ You're the highest bidder"):'Not bidding yet')+'</div>'
       +'<div class="au_bidform"><div class="au_inwrap"><span class="au_cur">¥</span><input id="lotBidInput" type="text" inputmode="numeric" value="'+min.toLocaleString('en-US')+'"/></div>'
       +'<button class="btn primary au_confirm" data-placebid="'+a.id+'">Confirm bid</button></div>'
       +'<div class="au_maxbid"><div class="mxl">🤖 Max auto-bid <span class="mxopt">proxy · optional</span></div>'
       +'<div class="au_inwrap"><span class="au_cur">¥</span><input id="lotMaxBid" type="text" inputmode="numeric" placeholder="Leave empty for open-ended" value="'+(a.ceiling?a.ceiling.toLocaleString('en-US'):'')+'"/></div>'
       +'<div class="mxnote">SP bids on your behalf up to this ceiling — never above it.</div></div>'
-      +'<div class="au_hint">Minimum next bid '+yen(min)+' · +'+yen(a.inc)+' increments</div></div>'
+      +'<div class="au_hint">Minimum next bid '+aud(min)+' · +'+aud(a.inc)+' increments · bids in ¥</div></div>'
       +'<div class="au_lb lcard" style="margin-top:14px"><div class="bd"><div class="au_lbhead"><span class="subl" style="margin:0">Leaderboard</span><span class="au_lbcount">'+a.bidders+' bidders</span></div><div>'+leaders+'</div></div></div>'
       +'<div class="msec"><h2>Lot details</h2></div>'
       +'<div class="lcard" style="padding:4px 16px 0">'+specrow('Auction house',a.lot.split(' · ')[0])+specrow('Lot number',(a.lot.split('Lot ')[1]||'—'))+specrow('Year',a.y)+specrow('Mileage',a.km)+specrow('Auction grade',a.grade+' / 5')+'</div>'
@@ -2525,6 +2530,7 @@ html.dark .testbanner{color:#FFC043}
     var s=e.target.closest('[data-hstock]'); if(s){hstock=s.getAttribute('data-hstock');$$('[data-hstock]').forEach(function(x){x.setAttribute('aria-selected',x===s);});renderHome();return;}
     var vt=e.target.closest('[data-vtab]'); if(vt){htab=vt.getAttribute('data-vtab');$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x===vt);});var vt1=$('#homeVtitle');if(vt1)vt1.textContent=vt.textContent;renderHome();return;}
     var hv=e.target.closest('[data-hfav]'); if(hv){e.stopPropagation();var id=hv.getAttribute('data-hfav');hfav[id]=!hfav[id];hv.classList.toggle('on',hfav[id]);hv.classList.toggle('off',!hfav[id]);hv.setAttribute('aria-pressed',!!hfav[id]);toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');return;}
+    var ac=e.target.closest('[data-aucur]'); if(ac){ auCur=ac.getAttribute('data-aucur'); if(curLot&&AUC[curLot])renderLot(AUC[curLot]); renderAuctions(); return; }
     var pb=e.target.closest('[data-placebid]'); if(pb){placeBid(pb.getAttribute('data-placebid'));return;}
     var ho=e.target.closest('[data-hopen]'); if(ho){var hid=ho.getAttribute('data-hopen'); if(AUC[hid]){openLot(hid);}else if(HEID[hid]){openHeavy(hid);}else{openDetail(hid);} return;}
     var op=e.target.closest('[data-sheet2]'); if(op){$('#appscrim').classList.add('open');$('#filterSheet').classList.add('open');return;}
