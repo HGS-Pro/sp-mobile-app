@@ -74,6 +74,9 @@ body{background:#0f1115}
   /* immersive dark screens flow under a transparent status bar */
   .dscreen.imm{--sb:0px}
   .dscreen.imm .statusbar{background:transparent;color:#fff}
+  /* keep bottom bars & sheets clear of the home indicator inside the frame */
+  .dscreen .dcta,.dscreen .mtabbar,.dscreen .chatfoot{padding-bottom:24px}
+  .dscreen .appsheet{padding-bottom:26px}
 }
 /* scale the device down to fit shorter desktop viewports */
 @media(min-width:460px) and (max-height:1010px){.device{transform:scale(.86);transform-origin:center}}
@@ -197,7 +200,10 @@ body{background:#0f1115}
   --grad-cta:linear-gradient(135deg,#6D28D9 0%,#4F46E5 100%);
   --grad-node:linear-gradient(135deg,#4F46E5,#7C3AED);
 }
-html.dark{--grad-title:linear-gradient(100deg,#67E8F9,#A5B4FC,#D8B4FE)}
+html{color-scheme:light}
+html.dark{color-scheme:dark;--grad-title:linear-gradient(100deg,#67E8F9,#A5B4FC,#D8B4FE)}
+/* native dropdown popups + option lists follow the theme */
+html.dark select,html.dark option,html.dark .input select{background-color:var(--surface);color:var(--ink)}
 /* gradient primary actions (on-brand blue depth) */
 .btn.primary{background:var(--grad-brand)}
 .btn.primary:active{filter:brightness(.96)}
