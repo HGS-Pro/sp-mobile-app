@@ -268,6 +268,10 @@ html.dealer .dealer-only{display:block}
 .vpin-b{bottom:40%;left:6%}
 .vlive{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:5px;font:800 10px var(--text);letter-spacing:.06em;color:#fff;background:var(--error);padding:3px 9px;border-radius:999px}
 .vlive .vlivedot{width:6px;height:6px;border-radius:50%;background:#fff;animation:cpulse 1.6s infinite}
+/* saved-search alert bell toggle */
+.ssbell{width:38px;height:38px;border-radius:11px;border:1px solid var(--border);background:var(--surface-2);color:var(--faint);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s}
+.ssbell.on{background:var(--brand-tint);border-color:transparent;color:var(--brand)}
+.ssbell:active{transform:scale(.92)}
 @keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(5,184,107,.55)}70%{box-shadow:0 0 0 7px rgba(5,184,107,0)}100%{box-shadow:0 0 0 0 rgba(5,184,107,0)}}
 /* polished close (X) button for sheets/modals */
 .xclose{width:34px;height:34px;border-radius:50%;border:none;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .16s,color .16s,transform .1s}
@@ -1002,6 +1006,7 @@ html.dark .testbanner{color:#FFC043}
       <a class="on" data-nav="dashboard"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>Dashboard</a>
       <a data-nav="vehicles"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6h-2v-2H7v2H5v-6Z"/></svg></span>Browse Vehicles</a>
       <a data-nav="how-to-buy"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3M12 17h.01"/></svg></span>How to Buy</a>
+      <a data-nav="saved-searches"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/><path d="M18 3a3 3 0 0 0-6 0"/></svg></span>Saved Searches</a>
       <a data-nav="quotes"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h10l4 4v14H5z"/><path d="M9 11h6M9 15h4"/></svg></span>Quotes</a>
       <a data-nav="negotiations"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></span>Negotiations</a>
       <a data-nav="orders"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z"/><path d="M8 12h8M8 16h5"/></svg></span>My Orders</a>
@@ -1486,6 +1491,15 @@ html.dark .testbanner{color:#FFC043}
     </div></div>
   </section>
 
+  <!-- ===== SAVED SEARCHES ===== -->
+  <section class="screen" id="saved-searches" aria-label="Saved searches">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Saved Searches</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div class="lcard" style="padding:12px 14px;display:flex;gap:11px;align-items:center;background:var(--brand-tint);border-color:transparent;margin-bottom:14px"><span style="font-size:18px">🔔</span><div style="font-size:12px;color:var(--brand);line-height:1.45">Get notified the moment new stock matches your saved searches.</div></div>
+      <div id="ssList" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div></div>
+  </section>
+
   <!-- ===== BUYER REVIEWS ===== -->
   <section class="screen" id="reviews" aria-label="Buyer reviews">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Buyer Reviews</h1></div>
@@ -1652,7 +1666,8 @@ html.dark .testbanner{color:#FFC043}
       <button class="lschip sheet-toggle" aria-pressed="false"><span class="lsic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></span>Freight Insurance</button>
     </div>
 
-    <div style="display:flex;gap:10px;margin-top:18px;position:sticky;bottom:0;background:var(--surface);padding-top:10px">
+    <button class="btn outline block" style="margin-top:16px" data-savesearch><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-3px;margin-right:5px"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Save this search &amp; get alerts</button>
+    <div style="display:flex;gap:10px;margin-top:10px;position:sticky;bottom:0;background:var(--surface);padding-top:10px">
       <button class="btn ghost" style="flex:1" data-sheetclose>Cancel</button>
       <button class="btn primary" style="flex:2" data-sheetclose data-toast="Advanced filters applied ✓|ok">Show 24 results</button>
     </div>
@@ -2389,6 +2404,32 @@ html.dark .testbanner{color:#FFC043}
   function openConfirm(title,msg,cb){confirmCb=cb;if($('#confTitle'))$('#confTitle').textContent=title;if($('#confMsg'))$('#confMsg').textContent=msg;$('#appscrim').classList.add('open');$('#confirmSheet').classList.add('open');}
   function confirmGo(){var cb=confirmCb;confirmCb=null;var sc=$('#appscrim');if(sc)sc.classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});if(cb)cb();}
 
+  /* ===== Saved searches + alerts ===== */
+  var SAVEDSEARCH=[
+    {q:'Toyota SUV · Diesel',filt:'SUV · Diesel · under $40k · CIF Mombasa',matches:12,alert:true},
+    {q:'Hiace vans',filt:'Van · Petrol · 2020+ · SP stock',matches:3,alert:true},
+    {q:'Auction Grade 4.5+',filt:'Auction · Grade 4.5+ · SUV',matches:0,alert:false}
+  ];
+  function renderSavedSearches(){
+    var el=$('#ssList'); if(!el)return;
+    if(!SAVEDSEARCH.length){el.innerHTML='<div class="empty" style="text-align:center;padding:46px 20px;color:var(--faint)"><div style="font-size:40px">🔍</div><div style="font:800 16px var(--display);color:var(--ink);margin-top:10px">No saved searches</div><div style="font-size:13px;margin-top:4px;line-height:1.5">Save a search to get alerts when new<br>matching stock arrives.</div><button class="btn primary" style="margin-top:16px" data-nav="vehicles">Search vehicles</button></div>';return;}
+    el.innerHTML=SAVEDSEARCH.map(function(s,i){
+      return '<div class="lcard" style="padding:14px 16px"><div style="display:flex;align-items:flex-start;gap:11px"><span class="av sq" style="background:var(--brand-tint);color:var(--brand)">🔍</span><div style="flex:1;min-width:0"><div style="font:700 14px var(--display)">'+s.q+'</div><div style="font-size:12px;color:var(--faint);margin-top:2px">'+s.filt+'</div></div>'+(s.matches>0?'<span class="badge b-error">'+s.matches+' new</span>':'<span class="badge" style="background:var(--surface-3);color:var(--faint)">0 new</span>')+'</div>'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-top:12px"><button class="btn ghost sm" style="flex:1" data-nav="vehicles">View '+(s.matches>0?s.matches+' matches':'results')+'</button>'
+        +'<button class="ssbell'+(s.alert?' on':'')+'" data-ssalert="'+i+'" aria-label="'+(s.alert?'Alerts on':'Alerts off')+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="'+(s.alert?'currentColor':'none')+'" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>'
+        +'<button class="ic" data-ssdel="'+i+'" aria-label="Delete" style="color:var(--error);width:38px;height:38px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></div>';
+    }).join('');
+  }
+  function toggleAlert(i){ if(!SAVEDSEARCH[i])return; SAVEDSEARCH[i].alert=!SAVEDSEARCH[i].alert; renderSavedSearches(); toast(SAVEDSEARCH[i].alert?'🔔 Alerts on — we\'ll notify you on new matches':'Alerts off',SAVEDSEARCH[i].alert?'ok':''); }
+  function delSavedSearch(i){ openConfirm('Delete saved search?','Remove "'+(SAVEDSEARCH[i]?SAVEDSEARCH[i].q:'')+'" and its alerts?',function(){ SAVEDSEARCH.splice(i,1); renderSavedSearches(); toast('Saved search removed'); }); }
+  function saveCurrentSearch(){
+    var chips=$$('#filterSheet .sheet-toggle[aria-pressed="true"]').map(function(c){return c.textContent.trim();});
+    var filt=chips.length?chips.slice(0,4).join(' · '):'All stock · current filters';
+    SAVEDSEARCH.unshift({q:'New saved search',filt:filt,matches:0,alert:true});
+    var sc=$('#appscrim'); if(sc)sc.classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');});
+    toast('🔔 Search saved — we\'ll alert you on new matches','ok');
+  }
+
   /* ===== Buyer reviews ===== */
   var REVIEWS=[
     {n:'James Mwangi',c:'Kenya 🇰🇪',r:5,v:'Toyota Land Cruiser 300',d:'2 weeks ago',ver:true,t:'Flawless from inquiry to delivery. The auction sheet matched exactly and the car reached Mombasa on schedule — SP handled every document.'},
@@ -2543,6 +2584,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='statement'){ renderStatement(); }
     if(id==='messages'){ renderMessages(); }
     if(id==='reviews'){ renderReviews(); }
+    if(id==='saved-searches'){ renderSavedSearches(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
     if(id==='bids'){ renderBids(); }
@@ -2589,6 +2631,9 @@ html.dark .testbanner{color:#FFC043}
     var capn=e.target.closest('[data-couponapply]'); if(capn){ var ap=capn.getAttribute('data-applied')==='1'; if(ap){capn.setAttribute('data-applied','0');capn.textContent='Apply';capn.classList.remove('ghost');capn.classList.add('primary');toast('Coupon removed');}else{capn.setAttribute('data-applied','1');capn.textContent='Applied ✓';capn.classList.remove('primary');capn.classList.add('ghost');toast(capn.getAttribute('data-couponapply')+' — applies at checkout ✓','ok');} return; }
     var rd=e.target.closest('[data-redeem]'); if(rd){ var p=rd.getAttribute('data-redeem').split('|'); var sc2=$('#appscrim'); if(sc2)sc2.classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); toast('Redeemed '+p[1]+' pts → '+p[0]+' ✓','ok'); return; }
     var vmp=e.target.closest('[data-vesselmap]'); if(vmp){ openVesselMap(vmp.getAttribute('data-vesselmap')); return; }
+    var svs=e.target.closest('[data-savesearch]'); if(svs){ saveCurrentSearch(); return; }
+    var ssa=e.target.closest('[data-ssalert]'); if(ssa){ toggleAlert(parseInt(ssa.getAttribute('data-ssalert'),10)); return; }
+    var ssd=e.target.closest('[data-ssdel]'); if(ssd){ delSavedSearch(parseInt(ssd.getAttribute('data-ssdel'),10)); return; }
     var ng=e.target.closest('[data-nego]'); if(ng){ openNego(ng.getAttribute('data-nego')); return; }
     var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
     var py=e.target.closest('[data-pay]'); if(py){ openPay(parseInt(py.getAttribute('data-pay'),10)||0, py.getAttribute('data-paylabel')); return; }
@@ -2842,7 +2887,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
