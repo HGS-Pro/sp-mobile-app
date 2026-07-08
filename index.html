@@ -260,6 +260,14 @@ html.dealer .dealer-only{display:block}
 .chatbtn:hover{background:var(--brand);color:#fff;box-shadow:0 6px 16px -4px var(--brand-soft)}
 .chatbtn:active{transform:scale(.93)}
 .chatbtn .cpulse{position:absolute;top:-3px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--success);border:2.5px solid var(--surface);box-shadow:0 0 0 0 rgba(5,184,107,.55);animation:cpulse 2.2s infinite}
+/* live vessel map */
+.vmapwrap{position:relative;border-radius:var(--r-2xl);overflow:hidden;box-shadow:var(--shadow)}
+.vmap{display:block;width:100%;height:220px}
+.vpin{position:absolute;font:700 10px var(--text);color:#fff;background:rgba(0,0,0,.42);padding:3px 9px;border-radius:999px}
+.vpin-a{top:16%;right:7%}
+.vpin-b{bottom:40%;left:6%}
+.vlive{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:5px;font:800 10px var(--text);letter-spacing:.06em;color:#fff;background:var(--error);padding:3px 9px;border-radius:999px}
+.vlive .vlivedot{width:6px;height:6px;border-radius:50%;background:#fff;animation:cpulse 1.6s infinite}
 @keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(5,184,107,.55)}70%{box-shadow:0 0 0 7px rgba(5,184,107,0)}100%{box-shadow:0 0 0 0 rgba(5,184,107,0)}}
 /* polished close (X) button for sheets/modals */
 .xclose{width:34px;height:34px;border-radius:50%;border:none;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .16s,color .16s,transform .1s}
@@ -1116,6 +1124,12 @@ html.dark .testbanner{color:#FFC043}
   <section class="screen" id="shipment" aria-label="Shipment tracking">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Shipment</h1></div>
     <div class="mscroll" id="shipBody"></div>
+  </section>
+
+  <!-- ===== LIVE VESSEL MAP ===== -->
+  <section class="screen" id="vesselmap" aria-label="Live vessel map">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="vmapTitle">Live map</h1></div>
+    <div class="mscroll" id="vesselmapBody"></div>
   </section>
 
   <!-- ===== MY PURCHASES ===== -->
@@ -2060,8 +2074,32 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="ometa" style="border:none;margin-top:16px"><div class="m"><span>Bill of Lading</span><b style="font-size:12.5px">'+sh.bl+'</b></div><div class="m"><span>Container</span><b style="font-size:12.5px">'+sh.cont+'</b></div><div class="m"><span>ETA</span><b style="font-size:12.5px">'+sh.eta.replace('ETA ','')+'</b></div></div>'
       +'<div class="msec" style="margin:20px 0 12px"><h2>Voyage timeline</h2><span class="badge b-info">'+sh.pct+'% complete</span></div>'
       +'<div>'+legs+'</div>'
-      +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn primary" style="flex:1" data-invoice="INV-24-0198">View invoice</button><button class="btn ghost" style="flex:1" data-toast="Live vessel map ↗">Live map</button></div></div>';
+      +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn primary" style="flex:1" data-invoice="INV-24-0198">View invoice</button><button class="btn ghost" style="flex:1" data-vesselmap="'+id+'">Live map</button></div></div>';
   }
+  function openVesselMap(id){var sh=SHIP[id]; if(!sh)return; $('#vmapTitle').textContent=sh.vessel; renderVesselMap(sh); nav('vesselmap'); setTimeout(function(){placeShip(sh.pct);},70);}
+  function renderVesselMap(sh){
+    $('#vesselmapBody').innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div class="vmapwrap"><svg viewBox="0 0 340 210" preserveAspectRatio="xMidYMid slice" class="vmap" aria-label="Vessel route map">'
+      +'<defs><linearGradient id="ocean" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#123E86"/><stop offset="1" stop-color="#0A1C3A"/></linearGradient></defs>'
+      +'<rect width="340" height="210" fill="url(#ocean)"/>'
+      +'<g fill="#1d478f" opacity="0.85"><path d="M232,-10 q70,-6 120,30 l0,70 q-46,22 -92,-4 q-40,-44 -28,-96Z"/><path d="M-14,54 q46,-22 80,10 q24,44 -12,88 q-46,22 -80,-12Z"/><path d="M118,168 q46,10 92,34 l0,30 l-150,0Z"/></g>'
+      +'<g stroke="#2b559e" stroke-width="1" opacity=".35"><path d="M0,52 H340M0,105 H340M0,158 H340M85,0 V210M170,0 V210M255,0 V210"/></g>'
+      +'<path id="vroute" d="M295,52 Q205,182 55,120" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="2" stroke-dasharray="5 6"/>'
+      +'<path id="vtraveled" d="M295,52 Q205,182 55,120" fill="none" stroke="#5AA8FF" stroke-width="3" stroke-linecap="round"/>'
+      +'<g><circle cx="295" cy="52" r="10" fill="none" stroke="#05B86B" stroke-opacity=".45" stroke-width="2"/><circle cx="295" cy="52" r="5" fill="#05B86B"/></g>'
+      +'<g><circle cx="55" cy="120" r="10" fill="none" stroke="#276EF1" stroke-opacity=".45" stroke-width="2"/><circle cx="55" cy="120" r="5" fill="#276EF1"/></g>'
+      +'<g id="vship"><circle r="13" fill="#fff"/><circle r="17" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/><text x="0" y="5" text-anchor="middle" font-size="15">🚢</text></g>'
+      +'</svg>'
+      +'<span class="vpin vpin-a">📍 '+sh.from.split(',')[0]+'</span><span class="vpin vpin-b">📍 '+sh.to.split(',')[0]+'</span>'
+      +'<span class="vlive"><span class="vlivedot"></span>LIVE</span></div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:14px"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font:800 15px var(--display)">'+sh.vessel+'</b><span class="badge b-info">'+sh.pct+'% complete</span></div>'
+      +'<div class="ometa" style="border:none;margin-top:12px;padding:0"><div class="m"><span>Voyage</span><b style="font-size:12.5px">'+sh.voyage+'</b></div><div class="m"><span>ETA</span><b style="font-size:12.5px">'+sh.eta.replace('ETA ','')+'</b></div><div class="m"><span>Speed</span><b style="font-size:12.5px">17.4 kn</b></div></div>'
+      +'<div class="shipbar" style="margin-top:12px"><i style="width:'+sh.pct+'%"></i></div><div class="shipends"><span>'+sh.from+'</span><span>'+sh.to+'</span></div></div>'
+      +'<div class="lcard" style="padding:14px 16px;margin-top:12px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:20px">🌊</span><div><div style="font:700 13px var(--display)">Currently in the Indian Ocean</div><div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">On schedule · position updated 4 min ago. Track updates automatically until arrival.</div></div></div>'
+      +'<button class="btn ghost block" style="margin-top:14px" data-nav="shipment">Back to shipment</button>'
+      +'</div>';
+  }
+  function placeShip(pct){var pathEl=$('#vroute'),trav=$('#vtraveled'),ship=$('#vship'); if(!pathEl||!pathEl.getTotalLength)return; var L=pathEl.getTotalLength(); if(trav){trav.style.strokeDasharray=L;trav.style.strokeDashoffset=L*(1-(pct||0)/100);} if(ship){var p=pathEl.getPointAtLength(L*(pct||0)/100); ship.setAttribute('transform','translate('+p.x.toFixed(1)+','+p.y.toFixed(1)+')');}}
 
   /* ===== Auctions batch: live bidding + saved ===== */
   function yen(n){return '¥'+Number(n).toLocaleString('en-US');}
@@ -2516,6 +2554,7 @@ html.dark .testbanner{color:#FFC043}
     var wg=e.target.closest('[data-walletgo]'); if(wg){ walletGo(); return; }
     var capn=e.target.closest('[data-couponapply]'); if(capn){ var ap=capn.getAttribute('data-applied')==='1'; if(ap){capn.setAttribute('data-applied','0');capn.textContent='Apply';capn.classList.remove('ghost');capn.classList.add('primary');toast('Coupon removed');}else{capn.setAttribute('data-applied','1');capn.textContent='Applied ✓';capn.classList.remove('primary');capn.classList.add('ghost');toast(capn.getAttribute('data-couponapply')+' — applies at checkout ✓','ok');} return; }
     var rd=e.target.closest('[data-redeem]'); if(rd){ var p=rd.getAttribute('data-redeem').split('|'); var sc2=$('#appscrim'); if(sc2)sc2.classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); toast('Redeemed '+p[1]+' pts → '+p[0]+' ✓','ok'); return; }
+    var vmp=e.target.closest('[data-vesselmap]'); if(vmp){ openVesselMap(vmp.getAttribute('data-vesselmap')); return; }
     var ng=e.target.closest('[data-nego]'); if(ng){ openNego(ng.getAttribute('data-nego')); return; }
     var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
     var py=e.target.closest('[data-pay]'); if(py){ openPay(parseInt(py.getAttribute('data-pay'),10)||0, py.getAttribute('data-paylabel')); return; }
@@ -2758,7 +2797,7 @@ html.dark .testbanner{color:#FFC043}
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
-    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
     ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
@@ -2776,6 +2815,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='heavy-detail'){openHeavy('HE-9001');return;}
     if(id==='chat'){openChat('kenji');return;}
     if(id==='nego-detail'){openNego('NG-01');return;}
+    if(id==='vesselmap'){openVesselMap('SP-24-0198');return;}
     if(id==='won-detail'){openWon('AUC-88231');return;}
     if(id==='quote-detail'){openQuote('QT-2048');return;}
     $$('.screen').forEach(function(s){s.classList.remove('active','back');});
