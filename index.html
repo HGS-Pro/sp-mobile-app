@@ -822,6 +822,10 @@ html.dark .testbanner{color:#FFC043}
       </div>
       <div class="msec"><h2>Featured</h2><a data-nav="vehicles">See all</a></div>
       <div class="mrail" id="homeFeat" aria-label="Featured vehicles"></div>
+      <div id="recentSec" style="display:none">
+        <div class="msec"><h2>Recently viewed</h2><a data-recentclear>Clear</a></div>
+        <div class="mrail" id="homeRecent" aria-label="Recently viewed"></div>
+      </div>
       <div class="msec" style="margin-bottom:6px"><h2 id="homeVtitle">New Arrivals</h2></div>
       <div class="mtabs" role="tablist" aria-label="Vehicle lists">
         <button class="mtab" role="tab" aria-selected="true" data-vtab="new">New Arrivals</button>
@@ -2627,11 +2631,21 @@ html.dark .testbanner{color:#FFC043}
     var g=$('#homeGrid'); if(g){var list=hfilter();g.innerHTML=list.length?list.map(hcard).join(''):'<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:26px 10px">No vehicles match.<br><button class="btn text" data-hclear>Clear filters</button></div>';}
     var h=$('#homeHeavy'); if(h)h.innerHTML=HE.slice(0,4).map(function(x){return '<div class="hcard2" data-hopen="'+x.id+'" style="min-width:158px"><div class="hi">'+x.e+'</div><div style="padding:11px;text-align:left"><div style="font:700 13px var(--display)">'+x.cat+'</div><div style="font:400 11px var(--text);color:var(--faint);margin-top:2px">'+x.brand+' · '+x.y+'</div><div style="font:800 13px var(--display);color:var(--brand);margin-top:6px">'+hmoney(x.price)+'</div></div></div>';}).join('');
     var au=$('#homeAuc'); if(au)au.innerHTML=HA.map(haucard).join('');
+    renderRecent();
+  }
+  var RECENT=[];
+  function trackRecent(id){ if(!HV.some(function(v){return v.id===id;}))return; RECENT=RECENT.filter(function(x){return x!==id;}); RECENT.unshift(id); RECENT=RECENT.slice(0,8); }
+  function renderRecent(){
+    var sec=$('#recentSec'), rail=$('#homeRecent'); if(!sec||!rail)return;
+    if(!RECENT.length){sec.style.display='none';return;}
+    sec.style.display='';
+    rail.innerHTML=RECENT.map(function(id){return HV.filter(function(v){return v.id===id;})[0];}).filter(Boolean).map(hcard).join('');
   }
   document.addEventListener('click',function(e){
     var c=e.target.closest('[data-hcat]'); if(c){hcat=c.getAttribute('data-hcat');$$('[data-hcat]').forEach(function(x){x.setAttribute('aria-pressed',x===c);});renderHome();return;}
     var cl=e.target.closest('[data-hclear]'); if(cl){hcat='all';htab='new';$$('[data-hcat]').forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-hcat')==='all');});$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x.getAttribute('data-vtab')==='new');});var vt0=$('#homeVtitle');if(vt0)vt0.textContent='New Arrivals';renderHome();return;}
     var s=e.target.closest('[data-hstock]'); if(s){hstock=s.getAttribute('data-hstock');$$('[data-hstock]').forEach(function(x){x.setAttribute('aria-selected',x===s);});renderHome();return;}
+    var rc=e.target.closest('[data-recentclear]'); if(rc){RECENT=[];renderRecent();toast('Recently viewed cleared');return;}
     var vt=e.target.closest('[data-vtab]'); if(vt){htab=vt.getAttribute('data-vtab');$$('[data-vtab]').forEach(function(x){x.setAttribute('aria-selected',x===vt);});var vt1=$('#homeVtitle');if(vt1)vt1.textContent=vt.textContent;renderHome();return;}
     var hv=e.target.closest('[data-hfav]'); if(hv){e.stopPropagation();var id=hv.getAttribute('data-hfav');hfav[id]=!hfav[id];hv.classList.toggle('on',hfav[id]);hv.classList.toggle('off',!hfav[id]);hv.setAttribute('aria-pressed',!!hfav[id]);toast(hfav[id]?'Saved to favorites':'Removed',hfav[id]?'ok':'');return;}
     var ac=e.target.closest('[data-aucur]'); if(ac){ auCur=ac.getAttribute('data-aucur'); if(curLot&&AUC[curLot])renderLot(AUC[curLot]); renderAuctions(); return; }
@@ -2698,7 +2712,7 @@ html.dark .testbanner{color:#FFC043}
   function openDetail(id){
     var v=HV.filter(function(x){return x.id===id;})[0];
     if(!v){toast(id&&id.indexOf('AUC')===0?'Auction detail — later batch':'Coming soon');return;}
-    detailV=v;
+    detailV=v; trackRecent(id);
     var gal=galleryFor(v), fav=!!hfav[v.id];
     var stockGal=v.stock==='sp'?'<span class="badge b-info dstock">SP Stock</span>':'<span class="badge b-warning dstock">Foreign</span>';
     var stockLine=v.stock==='sp'?'<span class="badge b-info"><span class="dot" style="background:var(--brand)"></span>SP Stock · inspected</span>':'<span class="badge b-warning"><span class="dot" style="background:var(--warning)"></span>Foreign Stock</span>';
