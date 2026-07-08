@@ -1486,6 +1486,12 @@ html.dark .testbanner{color:#FFC043}
     </div></div>
   </section>
 
+  <!-- ===== BUYER REVIEWS ===== -->
+  <section class="screen" id="reviews" aria-label="Buyer reviews">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Buyer Reviews</h1></div>
+    <div class="mscroll" id="reviewsBody"></div>
+  </section>
+
   <!-- ===== QUOTES ===== -->
   <section class="screen" id="quotes" aria-label="Quotes">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Quotes</h1></div>
@@ -2383,6 +2389,29 @@ html.dark .testbanner{color:#FFC043}
   function openConfirm(title,msg,cb){confirmCb=cb;if($('#confTitle'))$('#confTitle').textContent=title;if($('#confMsg'))$('#confMsg').textContent=msg;$('#appscrim').classList.add('open');$('#confirmSheet').classList.add('open');}
   function confirmGo(){var cb=confirmCb;confirmCb=null;var sc=$('#appscrim');if(sc)sc.classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});if(cb)cb();}
 
+  /* ===== Buyer reviews ===== */
+  var REVIEWS=[
+    {n:'James Mwangi',c:'Kenya 🇰🇪',r:5,v:'Toyota Land Cruiser 300',d:'2 weeks ago',ver:true,t:'Flawless from inquiry to delivery. The auction sheet matched exactly and the car reached Mombasa on schedule — SP handled every document.'},
+    {n:'Amina Yusuf',c:'Tanzania 🇹🇿',r:5,v:'Toyota Hiace GL',d:'1 month ago',ver:true,t:'My second import through SP. Total-CIF pricing was fully transparent — no surprise fees, and my rep answered every question on chat within minutes.'},
+    {n:'David Okoye',c:'Nigeria 🇳🇬',r:4,v:'Toyota Hilux Revo',d:'1 month ago',ver:true,t:'Great value and a solid inspection. Shipping took a little longer than the estimate, but live tracking kept me updated the whole way.'},
+    {n:'Grace Banda',c:'Zambia 🇿🇲',r:5,v:'Nissan Note e-Power',d:'2 months ago',ver:true,t:'The local clearing service was worth it — SP delivered the car cleared, registered and ready. I would absolutely buy again.'},
+    {n:'Kwame Mensah',c:'Ghana 🇬🇭',r:4,v:'Mazda CX-5 XD',d:'3 months ago',ver:false,t:'Good diesel SUV at a fair auction price. Interior had a touch more wear than I expected, but the grade sheet was honest about it upfront.'}
+  ];
+  function stars(n){var s='';for(var i=1;i<=5;i++){s+='<span style="color:'+(i<=n?'#FFB400':'var(--border-2)')+'">★</span>';}return s;}
+  function renderReviews(){
+    var el=$('#reviewsBody'); if(!el)return;
+    var dist=[['5',78],['4',15],['3',5],['2',1],['1',1]];
+    var bars=dist.map(function(d){return '<div style="display:flex;align-items:center;gap:8px;margin-top:5px"><span style="font-size:11px;color:var(--faint);width:24px">'+d[0]+'★</span><div class="pfill" style="height:6px;flex:1"><i style="width:'+d[1]+'%"></i></div><span style="font-size:11px;color:var(--faint);width:32px;text-align:right">'+d[1]+'%</span></div>';}).join('');
+    var cards=REVIEWS.map(function(rv){var init=rv.n.split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2);
+      return '<div class="lcard" style="padding:14px 16px"><div style="display:flex;align-items:center;gap:11px"><span class="av">'+init+'</span><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><b style="font:700 13.5px var(--display)">'+rv.n+'</b>'+(rv.ver?'<span class="badge b-success" style="padding:1px 7px">✓ Verified buyer</span>':'')+'</div><div style="font-size:11.5px;color:var(--faint)">'+rv.c+' · '+rv.d+'</div></div><div style="font-size:13px;letter-spacing:1px">'+stars(rv.r)+'</div></div><div style="font-size:11.5px;color:var(--brand);margin-top:9px;font-weight:600">🚗 '+rv.v+'</div><div style="font-size:13px;color:var(--ink);line-height:1.55;margin-top:6px">'+rv.t+'</div></div>';
+    }).join('');
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div class="lcard" style="padding:16px;display:flex;gap:18px;align-items:center"><div style="text-align:center;flex-shrink:0"><div style="font:800 34px var(--display);line-height:1">4.6</div><div style="font-size:14px;letter-spacing:1px;margin-top:4px">'+stars(5)+'</div><div style="font-size:11px;color:var(--faint);margin-top:3px">1,284 reviews</div></div><div style="flex:1">'+bars+'</div></div>'
+      +'<div class="msec"><h2>What buyers say</h2><span class="badge b-success">96% recommend</span></div>'
+      +'<div style="display:flex;flex-direction:column;gap:12px">'+cards+'</div>'
+      +'<button class="btn ghost block" style="margin-top:14px" data-nav="feedback">Write a review</button></div>';
+  }
+
   /* ===== Wallet (dynamic balance + top-up / withdraw / statement) ===== */
   var WALLET={balance:3200,held:1500,tx:[
     {ic:'＋',c:'success',t:'Deposit top-up',d:'Today · Card ****4242',amt:2000},
@@ -2513,6 +2542,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='wallet'){ renderWallet(); }
     if(id==='statement'){ renderStatement(); }
     if(id==='messages'){ renderMessages(); }
+    if(id==='reviews'){ renderReviews(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
     if(id==='bids'){ renderBids(); }
@@ -2759,7 +2789,7 @@ html.dark .testbanner{color:#FFC043}
         +'<button class="btn ghost block sm" style="margin-top:12px" data-toast="Requesting a free landed-cost quote…">Get a free quote</button>'
       +'</div>'
       +'<div class="msec"><h2 style="font-size:15px">Contact our staff</h2><a data-toast="All staff">All 5</a></div>'+STAFF.map(dstaffRow).join('')
-      +'<div class="msec"><h2 style="font-size:15px">Buyer reviews</h2><a data-toast="All reviews">4.6 ★</a></div>'
+      +'<div class="msec"><h2 style="font-size:15px">Buyer reviews</h2><a data-nav="reviews">4.6 ★</a></div>'
       +'<div class="panel" style="padding:14px 16px;margin-bottom:12px"><div style="display:flex;align-items:center;gap:14px"><div style="font:800 30px var(--display)">4.6</div><div><div style="color:var(--gold);letter-spacing:2px;font-size:15px">★★★★★</div><div style="font-size:12px;color:var(--faint)">312 verified buyers</div></div></div></div>'
       +'<div class="staff" style="padding:10px 0"><span class="sav">JM</span><div style="flex:1"><div style="color:var(--gold);font-size:12px">★★★★★</div><div style="font-size:12.5px;color:var(--muted);margin-top:3px">"Exactly as described — smooth export to Mombasa."</div><div style="font-size:11px;color:var(--faint);margin-top:3px">James M. · Kenya 🇰🇪</div></div></div>'
       +'<div class="staff" style="padding:10px 0"><span class="sav">AO</span><div style="flex:1"><div style="color:var(--gold);font-size:12px">★★★★☆</div><div style="font-size:12.5px;color:var(--muted);margin-top:3px">"Great condition, clear paperwork. Shipping took 5 weeks."</div><div style="font-size:11px;color:var(--faint);margin-top:3px">Ama O. · Ghana 🇬🇭</div></div></div>'
@@ -2811,7 +2841,7 @@ html.dark .testbanner{color:#FFC043}
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
-    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
     ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
