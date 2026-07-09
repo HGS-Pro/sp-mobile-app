@@ -272,6 +272,21 @@ html.dealer .dealer-only{display:block}
 .ssbell{width:38px;height:38px;border-radius:11px;border:1px solid var(--border);background:var(--surface-2);color:var(--faint);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s}
 .ssbell.on{background:var(--brand-tint);border-color:transparent;color:var(--brand)}
 .ssbell:active{transform:scale(.92)}
+/* auction glossary */
+.gcode{min-width:40px;height:28px;padding:0 9px;border-radius:8px;background:var(--brand-tint);color:var(--brand);font:800 13px var(--display);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.gcode.sm{min-width:36px;height:22px;font-size:11px;padding:0 7px}
+.glist{display:flex;flex-direction:column;gap:0}
+.grow{display:flex;gap:12px;align-items:center;padding:9px 2px;border-bottom:1px solid var(--border-soft)}
+.grow:last-child{border-bottom:0}
+.grow .gl{font:700 13.5px var(--display)}
+.grow .gn{font-size:11.5px;color:var(--faint);margin-top:1px}
+.eqgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px 12px}
+.faqi{border:1px solid var(--border);border-radius:var(--r-lg);padding:12px 14px;margin-bottom:8px;background:var(--surface)}
+.faqi summary{font:600 13px var(--text);cursor:pointer;list-style:none}
+.faqi summary::-webkit-details-marker{display:none}
+.faqi p{font-size:12.5px;color:var(--muted);margin:8px 0 0;line-height:1.55}
+.glosslink{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border:1px solid var(--brand);border-radius:var(--r-lg);background:var(--brand-tint);color:var(--brand);font:700 13px var(--display);cursor:pointer}
+.glosslink:active{transform:scale(.98)}
 @keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(5,184,107,.55)}70%{box-shadow:0 0 0 7px rgba(5,184,107,0)}100%{box-shadow:0 0 0 0 rgba(5,184,107,0)}}
 /* polished close (X) button for sheets/modals */
 .xclose{width:34px;height:34px;border-radius:50%;border:none;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .16s,color .16s,transform .1s}
@@ -1511,6 +1526,12 @@ html.dark .testbanner{color:#FFC043}
     <div class="mscroll" id="reviewsBody"></div>
   </section>
 
+  <!-- ===== AUCTION GLOSSARY & FAQ ===== -->
+  <section class="screen" id="auction-glossary" aria-label="Auction glossary">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Auction Glossary</h1></div>
+    <div class="mscroll" id="glossaryBody"></div>
+  </section>
+
   <!-- ===== LOCAL SERVICES HUB ===== -->
   <section class="screen" id="local-services" aria-label="Local services">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Local Services</h1></div>
@@ -2045,6 +2066,7 @@ html.dark .testbanner{color:#FFC043}
       +'<div style="padding:4px 16px">'+f('Year / Registration',o.y)+f('Mileage (verified)',o.km)+f('Chassis / Model code',o.chassis)+f('Displacement / Fuel',o.disp)+f('Transmission',o.trans)+f('Exterior colour',o.color)+f('Drivetrain',o.drive)+f('Shaken (JCI) valid to',o.shaken)+'</div>'
       +'<div style="padding:6px 16px 2px"><div class="fsec" style="margin:6px 0 8px">Equipment codes</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+eq+'</div></div>'
       +'<div style="padding:12px 16px 16px"><div class="fsec" style="margin:2px 0 8px">Inspector notes &amp; damage map</div><div style="font-size:12.5px;color:var(--ink);line-height:1.55">'+o.notes+'</div>'+dmg+'</div>'
+      +'<div style="padding:0 16px 14px"><button class="glosslink" data-nav="auction-glossary">What do these grades &amp; codes mean?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg></button></div>'
       +'</div>';
   }
   function openWon(id){
@@ -2490,6 +2512,38 @@ html.dark .testbanner{color:#FFC043}
     toast('🔔 Search saved — we\'ll alert you on new matches','ok');
   }
 
+  /* ===== Auction glossary & FAQ (reading an auction sheet) ===== */
+  var GRADES=[['S','New / near-new','delivery mileage, as-new'],['6','Excellent','like new, very low km'],['5','Very good','minimal wear'],['4.5','Good','light wear, well kept'],['4','Average','normal use &amp; wear'],['3.5','Fair','visible wear or minor repairs'],['3','Below average','notable wear'],['R / RA','Repaired / accident','has structural repair history'],['1','Modified','heavily modified or special'],['0 / ***','Unverified','condition not graded']];
+  var INTERIOR=[['A','Excellent — like new'],['B','Good — minor wear'],['C','Average — normal wear'],['D','Poor — heavy wear or stains'],['E','Very poor']];
+  var DMG=[['A','Scratch','light → deep (A1–A4)'],['U','Dent','with/without scratch (U1–U3)'],['W','Wave / repair','panel repaired or repainted'],['S','Rust',''],['C','Corrosion',''],['B','Crack','e.g. bumper crack'],['X','Needs replacing',''],['XX','Part replaced',''],['P','Paint mark / stone chip','']];
+  var EQUIP=[['AAC','Auto air-con'],['PS','Power steering'],['PW','Power windows'],['ABS','Anti-lock brakes'],['SRS','Airbags'],['AW','Alloy wheels'],['SR','Sunroof'],['TV','TV'],['Navi','Navigation'],['Leather','Leather seats'],['Back-C','Back camera'],['Keyless','Keyless entry']];
+  var AFAQ=[
+    ['How is the vehicle moved from the auction yard to the export port?','After you win, SP transfers the car from the auction hall to our export yard, then books it onto the next available RoRo or container sailing to your port.'],
+    ['How long to receive export documents after it ships?','The B/L, commercial invoice, export certificate and de-registration are issued and posted to your dashboard within a few days of departure.'],
+    ['Can I attend a Japanese auction physically?','No — auctions are trade-only. SP is your licensed exporter and bids on your behalf in real time, or by proxy up to your ceiling.'],
+    ['Does SP have agents in my country?','Yes — vetted clearing &amp; shipping agents at the major African ports handle customs, delivery and registration. See Local Services.'],
+    ['Are photos available alongside the auction sheet?','Yes — most lots include photos next to the translated auction sheet and the inspector\'s notes.'],
+    ['Can I keep unused funds in my wallet?','Yes — deposits and refunds stay in your SP wallet and apply automatically to your next bid or order.']
+  ];
+  function renderGlossary(){
+    var el=$('#glossaryBody'); if(!el)return;
+    function gc(c){return '<span class="gcode">'+c+'</span>';}
+    function grow(code,label,note){return '<div class="grow">'+gc(code)+'<div style="min-width:0"><div class="gl">'+label+'</div>'+(note?'<div class="gn">'+note+'</div>':'')+'</div></div>';}
+    var grades=GRADES.map(function(g){return grow(g[0],g[1],g[2]);}).join('');
+    var interior=INTERIOR.map(function(g){return grow(g[0],g[1],'');}).join('');
+    var dmg=DMG.map(function(g){return grow(g[0],g[1],g[2]);}).join('');
+    var equip=EQUIP.map(function(g){return '<div style="display:flex;gap:8px;align-items:center"><span class="gcode sm">'+g[0]+'</span><span style="font-size:12.5px;color:var(--body)">'+g[1]+'</span></div>';}).join('');
+    var faq=AFAQ.map(function(f){return '<details class="faqi"><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>';}).join('');
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div class="shiphero" style="background:linear-gradient(150deg,#1b2740,#0b1220)"><div class="wm">📋</div><div class="vs">Reading an auction sheet</div><div class="vsub" style="margin-top:6px">Every SP lot is independently inspected and graded. Here\'s what the numbers, letters and codes mean.</div></div>'
+      +'<div class="msec"><h2>Overall grade</h2></div><div class="glist">'+grades+'</div>'
+      +'<div class="msec"><h2>Interior grade</h2></div><div class="glist">'+interior+'</div>'
+      +'<div class="msec"><h2>Damage map codes</h2></div><div class="glist">'+dmg+'</div>'
+      +'<div class="msec"><h2>Equipment codes</h2></div><div class="lcard" style="padding:14px 16px"><div class="eqgrid">'+equip+'</div></div>'
+      +'<div class="msec"><h2>Auction FAQ</h2></div>'+faq
+      +'</div>';
+  }
+
   /* ===== Logistics & local services ===== */
   var SCHEDULE=[
     {port:'Mombasa, KE',flag:'🇰🇪',vessel:'MV Grand Mercury',line:'MOL',etd:'Jul 14',eta:'Aug 6',transit:'23 days',type:'RoRo',freq:'Weekly'},
@@ -2697,6 +2751,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='clearing-agents'){ renderClearing(); }
     if(id==='shipping-agents'){ renderShipAgents(); }
     if(id==='auction-houses'){ renderHouses(); }
+    if(id==='auction-glossary'){ renderGlossary(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
     if(id==='bids'){ renderBids(); }
@@ -2999,7 +3054,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['ship-schedule','Shipping Schedule'],['local-services','Local Services'],['clearing-agents','Clearing Agents'],['shipping-agents','Shipping Agents'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['auction-glossary','Auction Glossary'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
