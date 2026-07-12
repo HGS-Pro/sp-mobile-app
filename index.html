@@ -287,6 +287,44 @@ html.dealer .dealer-only{display:block}
 .faqi p{font-size:12.5px;color:var(--muted);margin:8px 0 0;line-height:1.55}
 .glosslink{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border:1px solid var(--brand);border-radius:var(--r-lg);background:var(--brand-tint);color:var(--brand);font:700 13px var(--display);cursor:pointer}
 .glosslink:active{transform:scale(.98)}
+/* content guide pages */
+.cptl{position:relative}
+.cprow{display:flex;gap:13px;padding-bottom:16px;position:relative}
+.cprow:not(:last-child)::before{content:'';position:absolute;left:15px;top:34px;bottom:2px;width:2px;background:var(--border)}
+.cpnum{width:32px;height:32px;border-radius:50%;background:var(--grad-cta,var(--brand));color:#fff;font:800 14px var(--display);display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+.cpbody{padding-top:4px;min-width:0}
+.cpt{font:700 14px var(--display);color:var(--text);line-height:1.3}
+.cpd{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5}
+.cpwarn{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;line-height:1.35}
+.cpwarn.warn{background:rgba(245,166,35,.14);color:#b9700a}
+.cpwarn.ok{background:rgba(39,174,96,.14);color:#1e874b}
+html.dark .cpwarn.warn{color:#f5a623}
+html.dark .cpwarn.ok{color:#4ec77e}
+.statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.statc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px 6px;text-align:center}
+.statc b{display:block;font:800 18px var(--display);color:var(--brand)}
+.statc span{font-size:10.5px;color:var(--faint);line-height:1.3;display:block;margin-top:3px}
+.kycrow{display:flex;gap:9px;align-items:flex-start;padding:5px 0;font-size:12.5px;color:var(--body);line-height:1.4}
+.kycrow svg{color:var(--brand);flex-shrink:0;margin-top:2px}
+.cpnote{background:var(--brand-tint);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px 14px;font-size:12.5px;color:var(--body);line-height:1.55}
+.agrow{display:flex;gap:12px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--border-soft)}
+.agrow:last-child{border-bottom:0}
+.agdot{font-size:18px;flex-shrink:0}
+.agn{font:700 14px var(--display);color:var(--text)}
+.agd{font-size:11.5px;color:var(--faint);margin-top:1px;line-height:1.4}
+.prgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px 14px}
+.prtop{display:flex;justify-content:space-between;align-items:center}
+.prreg{font:800 14px var(--display);color:var(--text)}
+.pryd{font-size:10px;font-weight:700;color:var(--brand);background:var(--brand-tint);padding:2px 7px;border-radius:20px}
+.prloc{font-size:10.5px;color:var(--faint);margin:5px 0 8px;line-height:1.4}
+.prrange{font:800 14px var(--display);color:var(--brand)}
+.prrange small{font-weight:600;font-size:10px;color:var(--faint)}
+.gsrail{display:flex;gap:8px;align-items:center;margin-top:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.gsrail::-webkit-scrollbar{display:none}
+.gslbl{font-size:11px;font-weight:800;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+.gschip{flex-shrink:0;white-space:nowrap;border:1px solid var(--border);background:var(--surface);color:var(--text);font:700 12px var(--display);padding:8px 12px;border-radius:22px;cursor:pointer}
+.gschip:active{transform:scale(.96)}
 @keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(5,184,107,.55)}70%{box-shadow:0 0 0 7px rgba(5,184,107,0)}100%{box-shadow:0 0 0 0 rgba(5,184,107,0)}}
 /* polished close (X) button for sheets/modals */
 .xclose{width:34px;height:34px;border-radius:50%;border:none;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .16s,color .16s,transform .1s}
@@ -1418,6 +1456,7 @@ html.dark .testbanner{color:#FFC043}
         <button class="lcard" style="flex:1;border:none;padding:12px 14px;display:flex;align-items:center;gap:9px;cursor:pointer" data-nav="auction-process"><span style="font-size:18px">📋</span><div style="text-align:left;min-width:0"><div style="font:700 12.5px var(--display)">How it works</div><div style="font-size:11px;color:var(--faint)">7-step process</div></div></button>
         <button class="lcard" style="flex:1;border:none;padding:12px 14px;display:flex;align-items:center;gap:9px;cursor:pointer" data-nav="auction-houses"><span style="font-size:18px">🏛️</span><div style="text-align:left;min-width:0"><div style="font:700 12.5px var(--display)">Auction houses</div><div style="font-size:11px;color:var(--faint)">USS · TAA · CAA</div></div></button>
       </div>
+      <div class="gsrail"><span class="gslbl">Guides</span><button class="gschip" data-nav="auction-guide">🏁 Auction guide</button><button class="gschip" data-nav="auction-system">🔐 Auction system</button><button class="gschip" data-nav="auction-glossary">📋 Grades &amp; codes</button><button class="gschip" data-nav="inspection-guide">🔎 Inspection</button><button class="gschip" data-nav="inland-transport">🚚 Inland transport</button></div>
       <div class="crail" style="margin-top:14px"><button class="cchip" aria-pressed="true">All lots</button><button class="cchip">Ending soon</button><button class="cchip">Grade 4.5+</button><button class="cchip">SUV</button><button class="cchip">Sedan</button></div>
       <div class="pilltabs" data-tabs style="margin:8px 0 14px"><span class="t on">Live now</span><span class="t">Upcoming</span><span class="t">Won</span></div>
       <div id="aucList" style="display:flex;flex-direction:column;gap:14px"></div>
@@ -1524,6 +1563,30 @@ html.dark .testbanner{color:#FFC043}
   <section class="screen" id="reviews" aria-label="Buyer reviews">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Buyer Reviews</h1></div>
     <div class="mscroll" id="reviewsBody"></div>
+  </section>
+
+  <!-- ===== AUCTION GUIDE ===== -->
+  <section class="screen" id="auction-guide" aria-label="Auction guide">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Auction Guide</h1></div>
+    <div class="mscroll" id="guideBody"></div>
+  </section>
+
+  <!-- ===== AUCTION SYSTEM ===== -->
+  <section class="screen" id="auction-system" aria-label="Auction system">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Auction System</h1></div>
+    <div class="mscroll" id="systemBody"></div>
+  </section>
+
+  <!-- ===== INSPECTION GUIDE ===== -->
+  <section class="screen" id="inspection-guide" aria-label="Inspection guide">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Inspection Guide</h1></div>
+    <div class="mscroll" id="inspBody"></div>
+  </section>
+
+  <!-- ===== INLAND TRANSPORT ===== -->
+  <section class="screen" id="inland-transport" aria-label="Inland transport">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Inland Transport</h1></div>
+    <div class="mscroll" id="inlandBody"></div>
   </section>
 
   <!-- ===== AUCTION GLOSSARY & FAQ ===== -->
@@ -2544,6 +2607,80 @@ html.dark .testbanner{color:#FFC043}
       +'</div>';
   }
 
+  /* ===== Content guides: auction guide / system / inspection / inland transport ===== */
+  function cpHero(emoji,title,sub,grad){return '<div class="shiphero" style="background:'+grad+'"><div class="wm">'+emoji+'</div><div class="vs">'+title+'</div><div class="vsub" style="margin-top:6px">'+sub+'</div></div>';}
+  function cpTimeline(steps){return '<div class="cptl">'+steps.map(function(s,i){return '<div class="cprow"><div class="cpnum">'+(i+1)+'</div><div class="cpbody"><div class="cpt">'+s.t+'</div>'+(s.d?'<div class="cpd">'+s.d+'</div>':'')+(s.w?'<div class="cpwarn '+(s.wk||'warn')+'">'+s.w+'</div>':'')+'</div></div>';}).join('')+'</div>';}
+  var GUIDE_STATS=[['30,000+','Cars auctioned weekly'],['130+','Auction halls'],['<60s','A lot sells in']];
+  var GUIDE_STEPS=[
+    {t:'Choose a trusted Japanese exporter',d:'Your exporter bids, pays the hall, handles export paperwork and books the ship. Pick a licensed one.',w:'⚠️ Most critical step · check JUMVEA / JAAI membership',wk:'warn'},
+    {t:'Understand your TOTAL budget',d:'Hammer price is only part of it — auction fees, inland transport, inspection, freight and insurance all add up to the landed cost.',w:'⚠️ Biggest rookie mistake · see the Total-CIF breakdown',wk:'warn'},
+    {t:'Verify import eligibility for your country',d:'Age limits, steering side and emissions rules vary by destination. Confirm before you bid, not after.',w:'⚠️ Verify before bidding · age limits vary by country',wk:'warn'},
+    {t:'Browse, select & read the auction sheet',d:'Every lot is independently graded. Read the sheet — grade, interior grade and damage map — before committing.',w:'✓ Use the AI translator · grade 3.5 minimum recommended',wk:'ok'},
+    {t:'Set your maximum bid & let the agent bid live',d:'You set a ceiling; the proxy system bids for you in real time and never exceeds it.',w:'⏱ Lots sell in under 60 seconds · your ceiling is protected',wk:'ok'},
+    {t:'Pay within the deadline — 3–5 business days',d:'Once you win, payment is due fast, by bank wire in JPY. There are no extensions.',w:'⚠️ 3–5 days · no extensions · JPY bank wire',wk:'warn'},
+    {t:'Car is de-registered, cleared & shipped',d:'SP de-registers the car, clears export and loads it onto the vessel. Documents follow while it is at sea.',w:'🌍 4–10 weeks total journey · docs sent en route',wk:'ok'}
+  ];
+  function renderAuctionGuide(){var el=$('#guideBody');if(!el)return;
+    var stats=GUIDE_STATS.map(function(s){return '<div class="statc"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>';}).join('');
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +cpHero('🏁','Buying at a Japanese auction','Hundreds of licensed dealers bid live at halls like USS Tokyo. Here is the first-time buyer journey, start to finish.','linear-gradient(150deg,#1d3a5f,#0b1220)')
+      +'<div class="statgrid" style="margin-bottom:18px">'+stats+'</div>'
+      +'<div class="msec"><h2>Your first-time buyer journey</h2></div>'+cpTimeline(GUIDE_STEPS)
+      +'<button class="glosslink" data-nav="auction-glossary" style="margin-top:6px">Reading an auction sheet — grades &amp; codes<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg></button>'
+      +'</div>';}
+  var SYS_STEPS=[
+    {t:'Register & pay the access deposit',d:'A refundable registration deposit unlocks live auction access. Most of it is redeemable against your first purchase.',w:'✓ Cash-redeemable against a vehicle',wk:'ok'},
+    {t:'Pass KYC verification',d:'Mandatory identity and due-diligence checks before you can bid.',w:'⚠️ Bidding is locked until KYC clears',wk:'warn'},
+    {t:'Win & pay 50% within 3 banking days',d:'A 50% deposit secures the won vehicle immediately after the hammer.',w:'⚠️ 50% within 3 banking days',wk:'warn'},
+    {t:'Complete 100% payment',d:'Settle the balance plus fees; SP then clears and ships.',w:'✓ Then export & shipping begin',wk:'ok'}
+  ];
+  var KYC_IND=['Government photo ID (passport / national ID)','Proof of address (utility bill / bank statement)','Selfie holding the ID','Source-of-funds declaration','Active phone & email verification','Sanctions / PEP screening'];
+  var KYC_CORP=['Certificate of incorporation / registration','Articles of association & trade licence','Beneficial-owner ID for shareholders ≥ 25%','Director / authorised-signatory IDs','Recent corporate bank statement','Tax registration / VAT certificate','Board resolution authorising purchases'];
+  function renderAuctionSystem(){var el=$('#systemBody');if(!el)return;
+    function kyc(title,list){return '<div class="lcard" style="padding:14px 16px;margin-bottom:10px"><div class="fsec" style="margin-bottom:10px">'+title+'</div>'+list.map(function(x){return '<div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>'+x+'</span></div>';}).join('')+'</div>';}
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +cpHero('🔐','How the auction system works','From access deposit to full payment — the complete flow, plus the KYC you need to bid.','linear-gradient(150deg,#3a2d5f,#0b1220)')
+      +'<div class="msec"><h2>Access & payment flow</h2></div>'+cpTimeline(SYS_STEPS)
+      +'<div class="msec"><h2>KYC — individual clients</h2></div>'+kyc('You will need',KYC_IND)
+      +'<div class="msec"><h2>KYC — corporate clients</h2></div>'+kyc('Additionally',KYC_CORP)
+      +'<div class="cpnote" style="margin-top:6px">💼 <b>SP commission is 10%</b> of the vehicle price (plus a 2% transaction-mode fee), settled in your payment total — no hidden hall fees.</div>'
+      +'</div>';}
+  var INSP_STEPS=[
+    {t:'Vehicle sourced from Japan',d:'Auction or dealer purchase; de-registration begins.'},
+    {t:'Inspection scheduled',d:'The exporter books the agency authorised for your destination country.'},
+    {t:'Physical inspection in Japan',d:'Inspectors attend at the yard or port — typically 1–10 days.'},
+    {t:'Certificate issued',d:'A multi-page report with photos, VIN, odometer and compliance result.'},
+    {t:'Vehicle loaded & shipped',d:'The certificate accompanies the Bill of Lading to the destination port.'},
+    {t:'Destination authority verifies',d:'Customs checks the certificate on arrival — no cert, no release.'}
+  ];
+  var AGENCIES=[['🔵','JEVIC','Roadworthiness — Africa, Caribbean, Pacific'],['🟢','JAAI','Japan Auto Appraisal Institute — emissions & roadworthiness'],['🔷','EAA','Export inspection for several African markets'],['🟩','QISJ','Quality inspection services, Japan'],['🔹','Bureau Veritas','Global — Europe, Middle East, Africa'],['🟡','Intertek','Global testing & certification'],['🔸','SGS','World-leading inspection & verification'],['🩵','OMIC','Oldest agency — since 1921']];
+  function renderInspection(){var el=$('#inspBody');if(!el)return;
+    var ag=AGENCIES.map(function(a){return '<div class="agrow"><span class="agdot">'+a[0]+'</span><div style="min-width:0"><div class="agn">'+a[1]+'</div><div class="agd">'+a[2]+'</div></div></div>';}).join('');
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +cpHero('🔎','Pre-shipment inspection','Most destinations require an approved inspection certificate before a car can be released. Here is how it works and who does it.','linear-gradient(150deg,#123a34,#0b1220)')
+      +'<div class="cpnote" style="margin-bottom:16px">🛃 <b>No certificate = no release.</b> The destination authority verifies the certificate on arrival, so inspection is booked before the vehicle ships.</div>'
+      +'<div class="msec"><h2>The inspection flow</h2></div>'+cpTimeline(INSP_STEPS)
+      +'<div class="msec"><h2>Approved inspection agencies</h2></div><div class="lcard" style="padding:4px 14px">'+ag+'</div>'
+      +'</div>';}
+  var INLAND_STEPS=[
+    {t:'Vehicle won at auction',d:'At any of 130+ Japanese auction venues nationwide.'},
+    {t:'SP settles auction fees',d:'Paid within the hall’s payment deadline on your behalf.'},
+    {t:'Transported to the nearest stock yard',d:'Moved from the auction hall to the closest SP yard.'},
+    {t:'Held & prepared at a bonded export yard',d:'Stored, inspected and prepared for export.'},
+    {t:'Inspection, de-registration & compliance',d:'Export inspection and paperwork completed on-site.'},
+    {t:'Delivered to port & loaded',d:'Taken to the terminal and loaded onto the export vessel.'}
+  ];
+  var INLAND_PRICE=[['Kanto','Yokohama · Kawasaki · Chiba','¥4,100 – ¥62,600','5 yards'],['Nagoya','Nagoya Port · Kinjo / Inaei','¥4,100 – ¥81,300','3 yards'],['Kansai','Sakai-Senboku · Rokko Island · Kobe','¥3,700 – ¥57,600','4 yards'],['Kyushu','Moji · Kitakyushu','¥8,200 – ¥92,000','2 yards']];
+  function renderInland(){var el=$('#inlandBody');if(!el)return;
+    var pr=INLAND_PRICE.map(function(p){return '<div class="prcard"><div class="prtop"><span class="prreg">'+p[0]+'</span><span class="pryd">'+p[3]+'</span></div><div class="prloc">'+p[1]+'</div><div class="prrange">'+p[2]+'<small> +10% tax</small></div></div>';}).join('');
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +cpHero('🚚','Inland transport in Japan','From auction hammer to vessel loading — every step managed by SP across 14 stock yards nationwide.','linear-gradient(150deg,#5f3a1d,#0b1220)')
+      +'<div class="cpnote" style="margin-bottom:16px">💴 <b>+10% Japan consumption tax</b> applies to all inland transport prices.</div>'
+      +'<div class="msec"><h2>How inland transport works</h2></div>'+cpTimeline(INLAND_STEPS)
+      +'<div class="msec"><h2>Transport cost by region</h2></div><div class="prgrid">'+pr+'</div>'
+      +'<div class="cpnote" style="margin-top:14px">🏭 <b>14 stock yards nationwide</b> — Kanto (5) · Nagoya (3) · Kansai (4) · Kyushu (2), each with on-site export inspection.</div>'
+      +'</div>';}
+
   /* ===== Logistics & local services ===== */
   var SCHEDULE=[
     {port:'Mombasa, KE',flag:'🇰🇪',vessel:'MV Grand Mercury',line:'MOL',etd:'Jul 14',eta:'Aug 6',transit:'23 days',type:'RoRo',freq:'Weekly'},
@@ -2752,6 +2889,10 @@ html.dark .testbanner{color:#FFC043}
     if(id==='shipping-agents'){ renderShipAgents(); }
     if(id==='auction-houses'){ renderHouses(); }
     if(id==='auction-glossary'){ renderGlossary(); }
+    if(id==='auction-guide'){ renderAuctionGuide(); }
+    if(id==='auction-system'){ renderAuctionSystem(); }
+    if(id==='inspection-guide'){ renderInspection(); }
+    if(id==='inland-transport'){ renderInland(); }
     if(id==='quotes'){ renderQuotes(); }
     if(id==='auction-calc'){ var cb=$('#calcBid'),cp=$('#calcPort'); if(cb&&!cb._b){cb._b=1;cb.addEventListener('input',calcAuction);} if(cp&&!cp._b){cp._b=1;cp.addEventListener('change',calcAuction);} calcAuction(); }
     if(id==='bids'){ renderBids(); }
@@ -3054,7 +3195,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['ship-schedule','Shipping Schedule'],['local-services','Local Services'],['clearing-agents','Clearing Agents'],['shipping-agents','Shipping Agents'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['auction-glossary','Auction Glossary'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['auction-guide','Auction Guide'],['auction-system','Auction System'],['auction-glossary','Auction Glossary'],['inspection-guide','Inspection Guide'],['inland-transport','Inland Transport'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
