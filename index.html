@@ -396,6 +396,11 @@ html.dark .alert.a-warning .aic{color:#f5a623}
 .mcrow .mct{font:700 12.5px var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mcrow .mcp{font:800 13px var(--display);color:var(--brand)}
 .mcrow .mcx{margin-left:auto;background:none;border:0;color:var(--faint);cursor:pointer;font-size:15px;padding:4px}
+/* live form validation (valid state complements existing .input.err) */
+.input.ok{border-color:var(--success);box-shadow:0 0 0 3px rgba(39,174,96,.1)}
+.input.ok::after{content:"✓";color:var(--success);font-weight:800;font-size:13px;padding-left:6px;flex-shrink:0}
+.input.err::after{content:"✕";color:var(--error);font-weight:800;font-size:12px;padding-left:6px;flex-shrink:0}
+.field .hint.ok{color:var(--success)}
 @keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(5,184,107,.55)}70%{box-shadow:0 0 0 7px rgba(5,184,107,0)}100%{box-shadow:0 0 0 0 rgba(5,184,107,0)}}
 /* polished close (X) button for sheets/modals */
 .xclose{width:34px;height:34px;border-radius:50%;border:none;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .16s,color .16s,transform .1s}
@@ -1044,8 +1049,8 @@ html.dark .testbanner{color:#FFC043}
       <div class="dg_hero">
         <div class="dg_htop"><span class="dg_tier">💎 Gold Member</span><span class="dg_crest">Rank 3 / 5</span></div>
         <div class="dg_hmid">
-          <div class="dg_ring" style="--ring:72%"><div class="rc"><b>72%</b><small>TO NEXT</small></div></div>
-          <div class="dg_pts"><div class="big">$14,200<small>saved to date</small></div><div class="goal">4 more cars to Platinum · 1,240 pts</div></div>
+          <div class="dg_ring" style="--ring:72%"><div class="rc"><b data-countup="72" data-suf="%">72%</b><small>TO NEXT</small></div></div>
+          <div class="dg_pts"><div class="big"><span data-countup="14200" data-pre="$">$14,200</span><small>saved to date</small></div><div class="goal">4 more cars to Platinum · 1,240 pts</div></div>
         </div>
         <div class="dg_perks"><span class="dg_perk">$200 tier coupon</span><span class="dg_perk">Priority inspection</span><span class="dg_perk">Dedicated rep</span></div>
       </div>
@@ -1054,7 +1059,7 @@ html.dark .testbanner{color:#FFC043}
         <div class="dg_stat primary" style="flex:1.35;min-width:0">
           <div class="k"><span class="ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>Total Spent</div>
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0">
-            <div class="v"><span class="cur" style="font-size:.6em;color:var(--faint);font-weight:600">$</span>214,300</div>
+            <div class="v"><span class="cur" style="font-size:.6em;color:var(--faint);font-weight:600">$</span><span data-countup="214300">214,300</span></div>
             <svg class="spark" viewBox="0 0 60 30" preserveAspectRatio="none"><path class="fill" d="M0,24 L8,20 16,22 24,14 32,16 40,8 52,10 60,4 60,30 0,30Z"/><path class="line" d="M0,24 8,20 16,22 24,14 32,16 40,8 52,10 60,4"/></svg>
           </div>
           <div class="trend up">▲ 12% vs last month</div>
@@ -1062,7 +1067,7 @@ html.dark .testbanner{color:#FFC043}
         <div class="dg_stat" style="flex:1;min-width:0">
           <div class="k"><span class="ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.5 5.5 6 .5-4.5 4 1.4 5.9L12 20l-5.4 3.9 1.4-5.9-4.5-4 6-.5z"/></svg></span>Points</div>
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0">
-            <div class="v">1,240</div>
+            <div class="v"><span data-countup="1240">1,240</span></div>
             <svg class="spark" viewBox="0 0 60 30" preserveAspectRatio="none"><path class="fill" d="M0,20 L12,22 24,16 36,18 48,10 60,12 60,30 0,30Z"/><path class="line" d="M0,20 12,22 24,16 36,18 48,10 60,12"/></svg>
           </div>
           <div class="trend flat">= $1,240 value</div>
@@ -2101,7 +2106,14 @@ html.dark .testbanner{color:#FFC043}
   terms.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggleTerms();}});
 
   /* validation */
-  function markField(inp,ok){var f=inp.closest('.field');var box=inp.closest('.input');box.classList.toggle('err',!ok);var err=f.querySelector('.hint.err');if(err)err.classList.toggle('vh',ok);}
+  function markField(inp,ok){var f=inp.closest('.field');if(!f)return;var box=inp.closest('.input');if(!box)return;
+    if(ok===null){box.classList.remove('err','ok');var e0=f.querySelector('.hint.err');if(e0)e0.classList.add('vh');return;}
+    box.classList.toggle('err',!ok);box.classList.toggle('ok',ok);var err=f.querySelector('.hint.err');if(err)err.classList.toggle('vh',ok);}
+  function fieldGood(inp){var val=(inp.value||'').trim();if(!val)return null;var good=true;
+    if(inp.hasAttribute('data-email'))good=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
+    if(good&&inp.hasAttribute('data-min'))good=val.length>=+inp.getAttribute('data-min');
+    if(good&&inp.hasAttribute('data-match')){var m=$('#'+inp.getAttribute('data-match'));good=m?val===m.value:good;}
+    return good;}
   function validateStep(step){
     var scr=$('.screen.active'); var ok=true;
     if(step==='otp'){var scr0=$('.screen.active');var ins=$$('.otp-row input',scr0);var v=ins.length>0&&ins.every(function(i){return i.value.trim();});if(!v){toast('Enter the full code','bad');}return v;}
@@ -2117,6 +2129,13 @@ html.dark .testbanner{color:#FFC043}
     if(!ok && step!=='3')toast('Please complete the required fields','bad');
     return ok;
   }
+
+  /* live inline validation — valid/invalid feedback as you type */
+  $$('[data-req]').forEach(function(inp){ if(!inp.closest('.input'))return;
+    function run(){ markField(inp,fieldGood(inp)); }
+    inp.addEventListener('blur',run);
+    inp.addEventListener('input',function(){ var box=inp.closest('.input'); if(box&&(box.classList.contains('err')||box.classList.contains('ok')))run(); });
+  });
 
   /* OTP auto-advance */
   $$('.otp-row').forEach(function(row){var ins=$$('input',row);ins.forEach(function(inp,i){inp.addEventListener('input',function(){inp.value=inp.value.replace(/\D/g,'');if(inp.value&&ins[i+1])ins[i+1].focus();});inp.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!inp.value&&ins[i-1])ins[i-1].focus();});});});
@@ -2231,6 +2250,7 @@ html.dark .testbanner{color:#FFC043}
     $('#wonBody').innerHTML='<div style="height:200px;background-image:url('+pickImg(w)+');background-size:cover;background-position:center;position:relative"><span class="badge b-info" style="position:absolute;top:14px;left:14px">🏆 Won</span></div>'
       +'<div class="pad" style="padding:16px 16px 108px">'
       +'<div class="ref">'+w.auc+' · '+w.lot+'</div><h1 style="font:800 21px var(--display);letter-spacing:-.02em;margin-top:3px">'+w.t+'</h1><div style="margin-top:8px">'+sb+'</div>'
+      +(w.status==='awaiting'?'<div style="margin-top:12px">'+alertHtml('warning','Payment due within 72 hours','Complete payment to secure this vehicle — unpaid lots are released back to auction.')+'</div>':'')
       +'<div class="lcard" style="padding:14px 16px;margin-top:14px"><b style="font:800 14px var(--display)">Purchase &amp; costs</b>'
       +'<div class="prow2" style="margin-top:10px"><span class="k">Hammer price</span><span class="v">'+yen(w.hammer)+'</span></div>'
       +'<div class="prow2"><span class="k">≈ in USD</span><span class="v">'+usd(w.price)+'</span></div>'
@@ -2332,6 +2352,7 @@ html.dark .testbanner{color:#FFC043}
     el.innerHTML='<div class="pad" style="padding:14px 16px 28px">'
       +'<div class="shiphero"><div class="wm">🚢</div><div class="vs">'+sh.vessel+'</div><div class="vsub">'+sh.voyage+' · Order #'+id+'</div>'
       +'<div class="shipbar"><i style="width:'+sh.pct+'%"></i></div><div class="shipends"><span>'+sh.from+'</span><span>'+sh.to+'</span></div></div>'
+      +'<div style="margin-top:18px">'+pipeHtml([['Won','done'],['Paid','done'],['In yard','done'],['Shipped',sh.pct>=100?'done':'active'],['Arrived',sh.pct>=100?'active':'']])+'</div>'
       +'<div class="ometa" style="border:none;margin-top:16px"><div class="m"><span>Bill of Lading</span><b style="font-size:12.5px">'+sh.bl+'</b></div><div class="m"><span>Container</span><b style="font-size:12.5px">'+sh.cont+'</b></div><div class="m"><span>ETA</span><b style="font-size:12.5px">'+sh.eta.replace('ETA ','')+'</b></div></div>'
       +'<div class="msec" style="margin:20px 0 12px"><h2>Voyage timeline</h2><span class="badge b-info">'+sh.pct+'% complete</span></div>'
       +'<div>'+legs+'</div>'
@@ -3041,6 +3062,7 @@ html.dark .testbanner{color:#FFC043}
   function onEnter(id){
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='ui-kit'){ renderUiKit(); }
+    if(id==='dashboard'){ $$('#dashboard [data-countup]').forEach(function(c){ countUp(c,+c.getAttribute('data-countup'),c.getAttribute('data-pre')||'',c.getAttribute('data-suf')||''); }); }
     updateMiniCart();
     if(id==='how-to-buy'){ renderHowToBuy(); }
     if(id==='consignees'){ renderConsignees(); }
