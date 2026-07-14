@@ -2152,6 +2152,8 @@ html.dark .testbanner{color:#FFC043}
   }
   function nav(id){ $$('.appsheet').forEach(function(s){s.classList.remove('open');}); var _sc=$('#appscrim'); if(_sc)_sc.classList.remove('open'); if(id===cur())return; var from=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from)s.classList.remove('active','back');}); from.classList.remove('active'); if(!from.classList.contains('fade'))from.classList.add('back'); stack.push(id); var to=$('#'+id); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(id); }
   function back(){
+    if(cur()==='order-step' && stepHist.length){ // step-by-step back within the order flow before leaving the tracker
+      curStepN=stepHist.pop(); var so=ORDERS[curOrderId]; if(so){curStepState=defaultStateFor(so,curStepN);} renderStepDetail(); return; }
     if(stack.length<2){ // no history (e.g. jumped in via navigator or deep link) — fall back to home so back is never dead
       if(cur()==='home')return;
       $$('.screen').forEach(function(s){s.classList.remove('active','back');});
@@ -2285,9 +2287,13 @@ html.dark .testbanner{color:#FFC043}
   }
   /* ===== Order step detail pages (12 steps, each with state examples) ===== */
   var STEP_STATES={1:['Draft','Confirmed'],2:['Due','Deposit paid','Paid in full'],3:['Under review','Verified','Rejected'],4:['Booked','In transit','Arrived'],5:['Preparing','Ready'],6:['Arrived','Services chosen'],7:['Due','Paid'],8:['In progress','Cleared'],9:['Scheduled','Out for delivery','Delivered'],10:['Pending','Registered'],11:['Awaiting confirmation','Confirmed'],12:['Pending','Submitted']};
-  var curStepN=1,curStepState=0,fbRating=0;
+  var curStepN=1,curStepState=0,fbRating=0,stepHist=[];
   function defaultStateFor(o,n){ if(o.step>n)return STEP_STATES[n].length-1; if(o.step<n)return 0; if(n===4)return 1; return 0; }
-  function openStep(id,n){ var o=ORDERS[id]; if(!o)return; curOrderId=id; curStepN=n; curStepState=defaultStateFor(o,n); fbRating=0; renderStepDetail(); nav('order-step'); }
+  function openStep(id,n){ var o=ORDERS[id]; if(!o)return; curOrderId=id;
+    var onStep=(cur()==='order-step');
+    if(onStep){ stepHist.push(curStepN); } else { stepHist=[]; }
+    curStepN=n; curStepState=defaultStateFor(o,n); fbRating=0; renderStepDetail();
+    if(!onStep) nav('order-step'); }
   function setStepState(i){ curStepState=i; renderStepDetail(); }
   function srow(k,v){return '<div class="prow2"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
   function successBlock(t,m){return '<div class="lcard" style="padding:24px 16px;text-align:center"><div class="succ-check"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-9"/></svg></div><div style="font:800 16px var(--display);color:var(--ink);margin-top:12px">'+t+'</div><div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5">'+m+'</div></div>';}
@@ -2536,7 +2542,7 @@ html.dark .testbanner{color:#FFC043}
   function openLot(id){var a=AUC[id]; if(!a)return; curLot=id; clearTimeout(rivalTimer); $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
   function renderLot(a){
     var min=a.bid+a.inc, leading=!!a.youLeading;
-    var leaders=(a.leaders||[]).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+aud(l[2])+'</span></div>';}).join('');
+    var leaders=(a.leaders||[]).slice(0,6).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+aud(l[2])+'</span></div>';}).join('');
     $('#lotBody').innerHTML='<div style="height:190px;background-image:url('+pickImg(a)+');background-size:cover;background-position:center;position:relative"><span class="badge b-error au_livechip" style="position:absolute;top:12px;left:12px"><span class="dot" style="background:#fff"></span>LIVE</span><span class="au_grade" style="position:absolute;top:12px;right:12px">'+a.grade+'<small>GRADE</small></span></div>'
       +'<div class="pad" style="padding:14px 16px 26px">'
       +'<div class="au_hero"><div class="au_heroglow"></div>'
@@ -2564,7 +2570,7 @@ html.dark .testbanner{color:#FFC043}
     if(!val||val<min){toast('Bid must be at least '+yen(min),'bad');return;}
     if(mx&&mx<val){toast('Max auto-bid must be higher than your bid','bad');return;}
     a.bid=val;a.bidders++;a.youLeading=true;a.ceiling=mx;
-    a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);
+    a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);a.leaders=a.leaders.slice(0,8);
     renderLot(a);
     toast(mx?'Bid placed · auto-bid active up to '+yen(mx):"You're the highest bidder ✓",'ok');
     if(mx)scheduleRival(id);
@@ -2578,13 +2584,13 @@ html.dark .testbanner{color:#FFC043}
       var yours=Math.min(rival+a.inc,a.ceiling); a.bid=yours; a.bidders++;
       a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});
       a.leaders.unshift(['YO','You (R. Ahmed)',yours,'auto-bid ✓',true]);
-      a.leaders.splice(1,0,[ri,rn,rival,'outbid attempt']);
+      a.leaders.splice(1,0,[ri,rn,rival,'outbid attempt']);a.leaders=a.leaders.slice(0,8);
       renderLot(a); toast('Auto-bid: SP raised you to '+yen(yours),'ok');
       if(a.bid<a.ceiling)scheduleRival(id);
     } else {
       var rb=(a.ceiling?a.ceiling+a.inc:a.bid+a.inc); a.bid=rb; a.youLeading=false; a.ceiling=0;
       a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});
-      a.leaders.unshift([ri,rn,rb,'just now']);
+      a.leaders.unshift([ri,rn,rb,'just now']);a.leaders=a.leaders.slice(0,8);
       renderLot(a); toast('Outbid — your auto-bid ceiling was reached','bad');
     }
   }
@@ -3217,7 +3223,23 @@ html.dark .testbanner{color:#FFC043}
     el.innerHTML=main+branch+end;
   }
 
+  // Safety net: opener-filled screens must never render blank if reached without their opener (e.g. a future stray data-nav).
+  function healScreen(id){
+    var map={'order-track':['otBody',function(){openOrder(curOrderId||'SP-24-0198');}],
+      'won-detail':['wonBody',function(){openWon('AUC-88231');}],
+      'quote-detail':['quoteBody',function(){openQuote('QT-2048');}],
+      'nego-detail':['negoBody',function(){openNego('NG-01');}],
+      'auction-lot':['lotBody',function(){openLot('AUC-24065');}],
+      'heavy-detail':['heBody',function(){openHeavy('HE-9001');}],
+      'vesselmap':['vesselmapBody',function(){openVesselMap('SP-24-0198');}],
+      'chat':['chatWin',function(){openChat('kenji');}]};
+    var e=map[id]; if(!e)return false; var b=$('#'+e[0]);
+    if(b && b.innerHTML.replace(/\s/g,'').length<10){ e[1](); return true; }
+    return false;
+  }
   function onEnter(id){
+    if(healScreen(id))return;
+    if(id!=='checkout'){ clearInterval(payIv); } // stop the checkout countdown once you leave, so it doesn't tick invisibly
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='ui-kit'){ renderUiKit(); }
     if(id==='dashboard'){ $$('#dashboard [data-countup]').forEach(function(c){ countUp(c,+c.getAttribute('data-countup'),c.getAttribute('data-pre')||'',c.getAttribute('data-suf')||''); }); }
