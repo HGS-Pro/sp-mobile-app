@@ -2164,7 +2164,7 @@ html.dark .testbanner{color:#FFC043}
   setTimeout(function(){ nav('welcome'); }, 1400);
 
   /* account type selection */
-  $$('.optcard').forEach(function(c){c.addEventListener('click',function(){$$('.optcard').forEach(function(x){x.setAttribute('aria-checked','false');});c.setAttribute('aria-checked','true');});});
+  $$('.optcard').forEach(function(c){c.addEventListener('click',function(){$$('.optcard').forEach(function(x){x.setAttribute('aria-checked','false');});c.setAttribute('aria-checked','true');var rt=c.getAttribute('data-type');if(rt&&typeof applyRole==='function')applyRole(rt);});});
 
   /* password toggle */
   $$('.pwtoggle').forEach(function(b){b.addEventListener('click',function(){var i=$('#'+b.getAttribute('data-pw'));var show=i.type==='password';i.type=show?'text':'password';b.setAttribute('aria-label',show?'Hide password':'Show password');b.style.color=show?'var(--brand)':'';});});
