@@ -1242,7 +1242,7 @@ html.dark .testbanner{color:#FFC043}
       <div id="cartList" style="display:flex;flex-direction:column;gap:12px"></div>
       <div id="cartSummary"></div>
     </div></div>
-    <div class="dcta"><div style="flex:1"><div style="font:500 10px var(--text);color:var(--faint)">Est. total (CIF)</div><div id="cartTotal" style="font:800 18px var(--display)">$0</div></div><button class="btn primary" style="flex:1" id="cartCheckout">Proceed to Checkout</button></div>
+    <div class="dcta" style="flex-direction:column;align-items:stretch;gap:11px"><div style="display:flex;align-items:center;justify-content:space-between"><div><div style="font:500 10px var(--text);color:var(--faint)">Est. total (CIF)</div><div id="cartTotal" style="font:800 18px var(--display)">$0</div></div><span class="badge b-info">💬 Price negotiable</span></div><div style="display:flex;gap:10px"><button class="btn ghost" style="flex:1" id="cartNegotiate"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:5px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Negotiate</button><button class="btn primary" style="flex:1.25" id="cartCheckout">Proceed to Payment</button></div></div>
   </section>
 
   <!-- ===== CHECKOUT ===== -->
@@ -1919,7 +1919,8 @@ html.dark .testbanner{color:#FFC043}
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="font:800 17px var(--display)">Inquiry cart <span id="miniCartN" style="color:var(--faint);font-weight:700">0</span></h3><button class="xclose" data-sheetclose aria-label="Close"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div id="miniCartList"></div>
     <div class="prow2" style="margin-top:12px"><span class="k" style="font-weight:700;color:var(--ink)">Est. total (CIF)</span><span class="v" id="miniCartTotal" style="font-size:15px">—</span></div>
-    <div style="display:flex;gap:10px;margin-top:14px"><button class="btn ghost" style="flex:1" id="miniCartFull">Full cart</button><button class="btn primary" style="flex:1.4" id="miniCartGo">Go to checkout</button></div>
+    <div style="display:flex;gap:10px;margin-top:14px"><button class="btn ghost" style="flex:1" id="miniCartNego">💬 Negotiate</button><button class="btn primary" style="flex:1.3" id="miniCartGo">Proceed to payment</button></div>
+    <button class="btn text block" style="margin-top:8px" id="miniCartFull">View full cart</button>
   </section>
   <section class="appsheet" id="filterSheet" role="dialog" aria-modal="true" aria-label="Advanced search">
     <div class="grab"></div>
@@ -3136,7 +3137,20 @@ html.dark .testbanner{color:#FFC043}
     {id:'NG-02',t:'Nissan Patrol Y62',stock:'SP-JP-47188',status:'accepted',you:61000,seller:61000,thread:[{w:'seller',amt:63200,t:'Listed price'},{w:'you',amt:60000,t:'My offer'},{w:'seller',amt:61000,t:'Deal at 61,000.'},{w:'you',amt:61000,t:'Accepted ✓'}]},
     {id:'NG-03',t:'Toyota Prado TX',stock:'SP-JP-46901',status:'declined',you:30000,seller:34600,thread:[{w:'seller',amt:34600,t:'Listed price'},{w:'you',amt:30000,t:'My offer'},{w:'seller',amt:34600,t:'Gap too wide, sorry.'}]}
   ];
-  var curNego=null;
+  var curNego=null, negoSeq=100;
+  // Business model: from the inquiry cart a buyer can negotiate the price OR proceed to payment.
+  function negotiateCart(){
+    if(!cart.length){toast('Your cart is empty','bad');return;}
+    var total=cartTotal(); var first=cartVeh(cart[0]);
+    var title=cart.length>1?('Inquiry · '+cart.length+' vehicles'):(first?first.t:'Inquiry');
+    var stock=cart.length>1?(cart.length+' vehicles'):(first?first.id:'—');
+    var offer=Math.round(total*0.93/100)*100; // open ~7% below the CIF total
+    var nid='NG-C'+(negoSeq++);
+    NEGOS.unshift({id:nid,t:title,stock:stock,status:'ongoing',you:offer,seller:total,fromCart:true,
+      thread:[{w:'seller',amt:total,t:'Inquiry total (CIF)'},{w:'you',amt:offer,t:'My opening offer'}]});
+    openNego(nid);
+    toast('Negotiation opened — counter or accept','ok');
+  }
   function renderNegos(){
     var el=$('#negoList'); if(!el)return;
     var map={ongoing:['b-warning','Ongoing'],accepted:['b-success','Accepted'],declined:['b-error','Declined']};
@@ -3150,7 +3164,7 @@ html.dark .testbanner{color:#FFC043}
     var sb=n.status==='ongoing'?'<span class="badge b-warning">Ongoing</span>':(n.status==='accepted'?'<span class="badge b-success">Accepted</span>':'<span class="badge b-error">Declined</span>');
     var bar=n.status==='ongoing'?('<div class="negobar"><span style="color:var(--faint);font-weight:700">$</span><input id="negoInput" inputmode="numeric" placeholder="Your counter offer"/><button class="btn ghost sm" data-negoact="counter" style="height:34px">Counter</button></div>'
       +'<div style="display:flex;gap:10px;margin-top:12px"><button class="btn primary" style="flex:1" data-negoact="accept">Accept '+usd(n.seller)+'</button><button class="btn ghost" style="flex:1" data-negoact="decline">Decline</button></div>')
-      :('<div class="lcard" style="padding:14px 16px;text-align:center;color:var(--muted);font-size:13px;margin-top:14px">'+(n.status==='accepted'?'✓ Deal agreed at '+usd(n.you)+' — added to your cart':'This negotiation was closed.')+'</div>'+(n.status==='accepted'?'<button class="btn primary block" style="margin-top:12px" data-nav="cart">View cart</button>':'<button class="btn ghost block" style="margin-top:12px" data-nav="vehicles">Browse similar</button>'));
+      :('<div class="lcard" style="padding:14px 16px;text-align:center;color:var(--muted);font-size:13px;margin-top:14px">'+(n.status==='accepted'?'✓ Deal agreed at '+usd(n.you)+(n.fromCart?' — ready for payment':' — added to your cart'):'This negotiation was closed.')+'</div>'+(n.status==='accepted'?'<button class="btn primary block" style="margin-top:12px" data-nav="'+(n.fromCart?'checkout':'cart')+'">'+(n.fromCart?'Proceed to payment':'View cart')+'</button>':'<button class="btn ghost block" style="margin-top:12px" data-nav="vehicles">Browse similar</button>'));
     $('#negoBody').innerHTML='<div class="pad" style="padding:14px 16px 26px">'
       +'<div style="display:flex;align-items:center;gap:12px"><span class="av sq" style="width:46px;height:46px;background:var(--brand-tint);color:var(--brand);font-size:20px">💬</span><div style="flex:1;min-width:0"><div style="font:800 15px var(--display)">'+n.t+'</div><div style="font-size:12px;color:var(--faint)">Stock '+n.stock+'</div></div>'+sb+'</div>'
       +'<div class="lcard" style="padding:14px 12px;margin-top:14px;display:flex;text-align:center"><div style="flex:1"><div style="font-size:11px;color:var(--faint)">Your offer</div><div style="font:800 16px var(--display);color:var(--brand)">'+usd(n.you)+'</div></div><div style="width:1px;background:var(--border)"></div><div style="flex:1"><div style="font-size:11px;color:var(--faint)">Seller asks</div><div style="font:800 16px var(--display)">'+usd(n.seller)+'</div></div><div style="width:1px;background:var(--border)"></div><div style="flex:1"><div style="font-size:11px;color:var(--faint)">Gap</div><div style="font:800 16px var(--display);color:'+(gap<=0?'var(--success)':'var(--warning)')+'">'+usd(Math.abs(gap))+'</div></div></div>'
@@ -3538,10 +3552,11 @@ html.dark .testbanner{color:#FFC043}
   function updateCartBadges(){var n=cart.length;$$('[data-cartcount]').forEach(function(e){e.textContent=n;e.style.display=n?'':'none';});updateMiniCart();}
   function addToCart(id){if(cart.indexOf(id)<0){cart.push(id);updateCartBadges();}}
   function renderCart(){
-    var list=$('#cartList'),s=$('#cartSummary'),total=cartTotal(),btn=$('#cartCheckout');
+    var list=$('#cartList'),s=$('#cartSummary'),total=cartTotal(),btn=$('#cartCheckout'),neg=$('#cartNegotiate');
     if($('#cartTotal'))$('#cartTotal').textContent=hmoney(total);
-    if(!cart.length){list.innerHTML='<div class="empty2" style="padding:44px 20px"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></span><h3>Your inquiry cart is empty</h3><p style="font-size:13px;margin-top:6px">Add vehicles to request quotes together.</p><button class="btn primary" style="margin-top:14px" data-nav="vehicles">Browse vehicles</button></div>';s.innerHTML='';if(btn){btn.disabled=true;btn.style.opacity=.5;}return;}
-    if(btn){btn.disabled=false;btn.style.opacity=1;}
+    function setEnabled(on){[btn,neg].forEach(function(b){if(b){b.disabled=!on;b.style.opacity=on?1:.5;}});}
+    if(!cart.length){list.innerHTML='<div class="empty2" style="padding:44px 20px"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></span><h3>Your inquiry cart is empty</h3><p style="font-size:13px;margin-top:6px">Add vehicles to request quotes together.</p><button class="btn primary" style="margin-top:14px" data-nav="vehicles">Browse vehicles</button></div>';s.innerHTML='';setEnabled(false);return;}
+    setEnabled(true);
     list.innerHTML=cart.map(function(id){var v=cartVeh(id);if(!v)return '';return '<div class="cartrow"><div class="cim" style="background-image:url('+pickImg(v)+')"></div><div style="flex:1;min-width:0"><div style="font:600 10px var(--text);color:var(--faint)">STOCK · '+v.id+'</div><div style="font:700 13px var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+v.t+'</div><div style="font:800 14px var(--display);color:var(--brand);margin-top:2px">'+hmoney(v.price)+'</div></div><button class="rm" data-cartrm="'+id+'" aria-label="Remove '+v.t+'">✕</button></div>';}).join('');
     s.innerHTML='<div class="csummary" style="margin-top:14px"><div class="prow2"><span class="k">Items</span><span class="v">'+cart.length+'</span></div><div class="prow2"><span class="k">Est. total (CIF)</span><span class="v">'+hmoney(total)+'</span></div><div style="font-size:11px;color:var(--faint);margin-top:8px">Final landed cost confirmed after inquiry &amp; consignee details.</div></div>';
   }
@@ -3557,8 +3572,10 @@ html.dark .testbanner{color:#FFC043}
     var mcf=e.target.closest('#miniCartFab'); if(mcf){openMiniCart();return;}
     var mcg=e.target.closest('#miniCartGo'); if(mcg){$('#appscrim').classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});if(cart.length)nav('checkout');return;}
     var mcl=e.target.closest('#miniCartFull'); if(mcl){$('#appscrim').classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});nav('cart');return;}
+    var mcn=e.target.closest('#miniCartNego'); if(mcn){$('#appscrim').classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});negotiateCart();return;}
     var alx=e.target.closest('[data-alertx]'); if(alx){var al=alx.closest('.alert');if(al){al.style.transition='opacity .14s,transform .14s';al.style.opacity='0';al.style.transform='translateX(8px)';setTimeout(function(){al.remove();},150);}return;}
     var cc=e.target.closest('#cartCheckout'); if(cc){if(cart.length)nav('checkout');return;}
+    var cneg=e.target.closest('#cartNegotiate'); if(cneg){negotiateCart();return;}
     var clr=e.target.closest('#cartClear'); if(clr){cart=[];updateCartBadges();renderCart();toast('Cart cleared');return;}
     var dp=e.target.closest('#depoChk'); if(dp){var on=dp.getAttribute('aria-checked')!=='true';dp.setAttribute('aria-checked',on);dp.classList.toggle('off',!on);dp.innerHTML=on?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5 9-9"/></svg>':'';renderCheckout();return;}
     var pay=e.target.closest('#payBtn'); if(pay){var ok=['#ccNum','#ccExp','#ccCvc','#ccName'].every(function(sel){return ($(sel).value||'').trim();});if(!ok){toast('Enter your card details','bad');$('#ccNum').focus();return;}pay.innerHTML='<span class="spin"></span>Processing…';toast('Processing payment…');setTimeout(function(){pay.innerHTML='Pay securely';nav('orderplaced');},1400);return;}
