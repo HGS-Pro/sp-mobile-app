@@ -2654,8 +2654,8 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="au_bidform"><div class="au_inwrap"><span class="au_cur">¥</span><input id="lotBidInput" type="text" inputmode="numeric" value="'+min.toLocaleString('en-US')+'"/></div>'
       +'<button class="btn primary au_confirm" data-placebid="'+a.id+'">Confirm bid</button></div>'
       +'<div class="au_maxbid"><div class="mxl">🤖 Max auto-bid <span class="mxopt">proxy · optional</span></div>'
-      +'<div class="au_inwrap"><span class="au_cur">¥</span><input id="lotMaxBid" type="text" inputmode="numeric" placeholder="Leave empty for open-ended" value="'+(a.ceiling?a.ceiling.toLocaleString('en-US'):'')+'"/></div>'
-      +'<div class="mxnote">SP bids on your behalf up to this ceiling — never above it.</div></div>'
+      +'<div class="au_inwrap"><span class="au_cur">¥</span><input id="lotMaxBid" type="text" inputmode="numeric" placeholder="Leave empty to bid manually" value="'+(a.ceiling?a.ceiling.toLocaleString('en-US'):'')+'"/></div>'
+      +'<div class="mxnote">Set a max and SP bids for you — placing only the minimum to lead, never above your ceiling.</div></div>'
       +'<div class="au_hint">Minimum next bid '+aud(min)+' · +'+aud(a.inc)+' increments · bids in ¥</div></div>'
       +'<div class="au_lb lcard" style="margin-top:14px"><div class="bd"><div class="au_lbhead"><span class="subl" style="margin:0">Leaderboard</span><span class="au_lbcount">'+a.bidders+' bidders</span></div><div>'+leaders+'</div></div></div>'
       +'<div class="msec"><h2>Lot details</h2></div>'
@@ -2667,35 +2667,46 @@ html.dark .testbanner{color:#FFC043}
   function placeBid(id){var a=AUC[id];if(!a)return;
     var val=parseInt(($('#lotBidInput')&&$('#lotBidInput').value||'').replace(/[^0-9]/g,''),10);
     var mx=parseInt(($('#lotMaxBid')&&$('#lotMaxBid').value||'').replace(/[^0-9]/g,''),10)||0;
-    var min=a.bid+a.inc;
+    var min=a.bid+a.inc; // minimum next valid bid (one increment above the current)
+    if(mx){
+      // ── Max auto-bid (proxy) ── place only the minimum winning bid; hold the max in reserve.
+      if(mx<min){toast('Max auto-bid must be at least '+yen(min),'bad');return;}
+      var reqM=Math.round(Math.round(mx/150)*0.5); // deposit gates on your MAX exposure
+      if(advDeposit<reqM){toast('Advance deposit needed — 50% of your max bid','bad');openAdvDep(reqM);return;}
+      a.bid=min; a.youLeading=true; a.ceiling=mx; a.bidders++;
+      a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',min,'auto-bid ✓',true]);a.leaders=a.leaders.slice(0,8);
+      renderLot(a);
+      toast('Auto-bid active · SP bids for you up to '+yen(mx)+' (leading at '+yen(min)+')','ok');
+      scheduleRival(id); return;
+    }
+    // ── Manual one-off bid ── no proxy; you bid exactly this amount.
     if(!val||val<min){toast('Bid must be at least '+yen(min),'bad');return;}
-    if(mx&&mx<val){toast('Max auto-bid must be higher than your bid','bad');return;}
-    // advance-deposit gate: 50% of the target (max, or bid) in USD
-    var reqDep=Math.round(Math.round((mx||val)/150)*0.5);
-    if(advDeposit<reqDep){ toast('Advance deposit needed — 50% of your bid','bad'); openAdvDep(reqDep); return; }
-    a.bid=val;a.bidders++;a.youLeading=true;a.ceiling=mx;
+    var reqV=Math.round(Math.round(val/150)*0.5);
+    if(advDeposit<reqV){toast('Advance deposit needed — 50% of your bid','bad');openAdvDep(reqV);return;}
+    a.bid=val; a.youLeading=true; a.ceiling=0; a.bidders++;
     a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);a.leaders=a.leaders.slice(0,8);
     renderLot(a);
-    toast(mx?'Bid placed · auto-bid active up to '+yen(mx):"You're the highest bidder ✓",'ok');
-    if(mx)scheduleRival(id);
+    toast("You're the highest bidder ✓ · "+yen(val),'ok');
   }
   function scheduleRival(id){clearTimeout(rivalTimer);rivalTimer=setTimeout(function(){rivalBid(id);},2600);}
   function rivalBid(id){
     var a=AUC[id]; if(!a||!a.youLeading||curLot!==id||cur()!=='auction-lot')return;
     var names=['H. Kimura','Y. Tanaka','A. Ali','D. Kim','S. Park']; var rn=names[a.bidders%names.length]; var ri=rn.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase();
-    var rival=a.bid+a.inc;
-    if(a.ceiling&&rival<a.ceiling){
-      var yours=Math.min(rival+a.inc,a.ceiling); a.bid=yours; a.bidders++;
+    var rival=a.bid+a.inc; // a rival bids the minimum to take the lead
+    if(a.ceiling && a.ceiling>=rival+a.inc){
+      // your max still clears the rival by a full increment → proxy raises you by ONE increment above the rival (reserve untouched)
+      var yours=rival+a.inc; a.bid=yours; a.bidders++;
       a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});
       a.leaders.unshift(['YO','You (R. Ahmed)',yours,'auto-bid ✓',true]);
       a.leaders.splice(1,0,[ri,rn,rival,'outbid attempt']);a.leaders=a.leaders.slice(0,8);
       renderLot(a); toast('Auto-bid: SP raised you to '+yen(yours),'ok');
-      if(a.bid<a.ceiling)scheduleRival(id);
+      if(a.ceiling>=a.bid+a.inc)scheduleRival(id); // keep protecting while a further raise is still within your max
     } else {
-      var rb=(a.ceiling?a.ceiling+a.inc:a.bid+a.inc); a.bid=rb; a.youLeading=false; a.ceiling=0;
+      // your max can't clear the rival by a full increment → outbid; the rival's actual bid stands
+      var hitMax=a.ceiling; a.bid=rival; a.youLeading=false; a.ceiling=0;
       a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});
-      a.leaders.unshift([ri,rn,rb,'just now']);a.leaders=a.leaders.slice(0,8);
-      renderLot(a); toast('Outbid — your auto-bid ceiling was reached','bad');
+      a.leaders.unshift([ri,rn,rival,'just now']);a.leaders=a.leaders.slice(0,8);
+      renderLot(a); toast(hitMax?'Outbid — reached your max of '+yen(hitMax):'Outbid at '+yen(rival),'bad');
     }
   }
   setInterval(function(){Object.keys(AUC).forEach(function(id){var a=AUC[id];if(a.cd>0){a.cd--;$$('[data-acd="'+id+'"]').forEach(function(el){el.textContent=(el.classList.contains('au_cd2')?'⏱ ':'')+hfmt(a.cd);});}else{$$('[data-acd="'+id+'"]').forEach(function(el){el.textContent='Ended';});}});},1000);
