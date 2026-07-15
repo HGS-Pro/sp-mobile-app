@@ -460,14 +460,8 @@ html.dark .alert.a-warning .aic{color:#f5a623}
 .avstack{display:flex}
 .avstack .av{margin-left:-8px;border:2px solid var(--surface)}
 .avstack .av:first-child{margin-left:0}
-#uiKitBody{overflow-x:hidden}
-#ui-kit .pad{overflow-x:hidden}
-.uikit-jump{display:flex;gap:6px;overflow-x:auto;max-width:100%;margin:0 0 12px;padding:11px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.uikit-jump::-webkit-scrollbar{display:none}
-#ui-kit .uikit-jump button{flex-shrink:0;white-space:nowrap;border:1px solid var(--border);background:var(--surface);color:var(--muted);font:700 11.5px var(--display);padding:6px 11px;border-radius:20px;cursor:pointer;transition:all .14s}
-#ui-kit .uikit-jump button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
-#ui-kit .uikit-jump button:active{transform:scale(.96)}
-#ui-kit .msec{scroll-margin-top:58px}
+#ui-kit,#uiKitBody{overflow-x:hidden;max-width:100%}
+#ui-kit .pad{max-width:100%;box-sizing:border-box}
 /* ===== order step detail ===== */
 .ostep .ochev{margin-left:auto;display:flex;align-items:center}
 .stephdr{display:flex;align-items:center;gap:13px;margin-bottom:16px}
@@ -3006,10 +3000,6 @@ html.dark .testbanner{color:#FFC043}
         +'<div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px"><div class="cbar" style="position:static"><button class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Vehicle Detail</h1></div></div>'
         +'<div style="border:1px solid var(--border);border-radius:12px;overflow:hidden"><nav class="mtabbar" style="position:static;border-top:none"><button class="t" aria-current="page"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button><button class="t"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Search</button><button class="t"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 7 3 14v7h7l7-7"/><path d="m14 3 7 7"/></svg>Auctions</button><button class="t"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button></nav></div>'
       +'</div>';
-    // sticky quick-jump section rail
-    (function(){var pad=$('#uiKitBody .pad');if(!pad)return;var secs=$$('#uiKitBody .msec');if(!secs.length)return;
-      var chips='';secs.forEach(function(s,i){var h=s.querySelector('h2');if(!h)return;s.id='uik-'+i;chips+='<button data-uikjump="uik-'+i+'">'+h.textContent+'</button>';});
-      var rail=document.createElement('div');rail.className='uikit-jump';rail.innerHTML=chips;pad.insertBefore(rail,pad.firstChild);})();
     // animate count-ups
     setTimeout(function(){$$('#uiKitBody .countup').forEach(function(c){countUp(c,+c.getAttribute('data-to'),c.getAttribute('data-pre')||'','');});},60);
   }
@@ -3676,7 +3666,6 @@ html.dark .testbanner{color:#FFC043}
     var mcl=e.target.closest('#miniCartFull'); if(mcl){$('#appscrim').classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});nav('cart');return;}
     var mcn=e.target.closest('#miniCartNego'); if(mcn){$('#appscrim').classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});negotiateCart();return;}
     var alx=e.target.closest('[data-alertx]'); if(alx){var al=alx.closest('.alert');if(al){al.style.transition='opacity .14s,transform .14s';al.style.opacity='0';al.style.transform='translateX(8px)';setTimeout(function(){al.remove();},150);}return;}
-    var uj=e.target.closest('[data-uikjump]'); if(uj){var tt=document.getElementById(uj.getAttribute('data-uikjump'));if(tt)tt.scrollIntoView({behavior:'smooth',block:'start'});$$('.uikit-jump button').forEach(function(x){x.classList.toggle('on',x===uj);});return;}
     var cc=e.target.closest('#cartCheckout'); if(cc){if(cart.length)nav('checkout');return;}
     var cneg=e.target.closest('#cartNegotiate'); if(cneg){negotiateCart();return;}
     var clr=e.target.closest('#cartClear'); if(clr){cart=[];updateCartBadges();renderCart();toast('Cart cleared');return;}
