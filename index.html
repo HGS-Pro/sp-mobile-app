@@ -2114,17 +2114,10 @@ html.dark .testbanner{color:#FFC043}
 
   <!-- Secure payment sheet -->
   <!-- Auction registration ($1,000 deposit) -->
-  <section class="appsheet" id="auctionRegSheet" role="dialog" aria-modal="true" aria-label="Auction registration">
-    <div class="grab"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3 style="font:800 17px var(--display)">Register for auctions</h3><button class="xclose" data-sheetclose aria-label="Close"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">A one-time deposit unlocks live bidding on 130+ Japanese auction houses.</p>
-    <div class="lcard" style="padding:16px;text-align:center;margin-bottom:12px"><div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Registration deposit</div><div style="font:800 30px var(--display);color:var(--brand);margin-top:2px">US$1,000</div><div style="font-size:11.5px;color:var(--muted);margin-top:3px">Cash-redeemable against any vehicle · refundable</div></div>
-    <div class="lcard" style="padding:12px 14px;margin-bottom:12px"><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Unlocks live bidding &amp; Max auto-bid proxy</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>11-field Japanese auction sheets</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>30,000+ lots per week</span></div></div>
-    <div class="fsec" style="margin:2px 0 8px">Payment method</div>
-    <div class="paym sel" data-paympick><span class="pe">💳</span><div style="flex:1;min-width:0"><div class="pt">Electronic Payment (Stripe)</div><div class="ps">Card — instant unlock</div></div><span class="pr"></span></div>
-    <div class="paym" data-paympick><span class="pe">🏦</span><div style="flex:1;min-width:0"><div class="pt">Wire Transfer (SP Japan bank)</div><div class="ps">TT copy — 24–48h verification</div></div><span class="pr"></span></div>
-    <button class="btn primary block lg" style="margin-top:14px" data-aucregister>Pay US$1,000 &amp; unlock auctions</button>
-    <p style="text-align:center;font-size:11px;color:var(--faint);margin-top:10px">🔒 Requires KYC · payments to the SP Japan bank account only</p>
+  <!-- ===== AUCTION REGISTRATION (dedicated screen) ===== -->
+  <section class="screen" id="auction-register" aria-label="Auction registration">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Auction Registration</h1></div>
+    <div class="mscroll" id="aucRegBody"></div>
   </section>
 
   <!-- Advance deposit for bidding (50% of target bid) -->
@@ -2608,7 +2601,7 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="statgrid" style="margin:16px 0"><div class="statc"><b>30,000+</b><span>Lots / week</span></div><div class="statc"><b>130+</b><span>Auction halls</span></div><div class="statc"><b>50%</b><span>Bid deposit</span></div></div>'
       +'<div class="lcard" style="padding:12px 16px;text-align:left;margin-bottom:14px"><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Live bidding + Max auto-bid proxy</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>11-field Japanese auction sheets</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Cost calculator, calendar &amp; guides</span></div></div>'
       +'<div class="cpnote" style="margin-bottom:14px">🔒 Requires KYC verification. After registering, each bid needs a refundable <b>advance deposit of 50%</b> of your target bid.</div>'
-      +'<button class="btn primary block lg" data-opensheet="auctionRegSheet">Register — US$1,000</button></div>';
+      +'<button class="btn primary block lg" data-nav="auction-register">Register — US$1,000</button></div>';
   }
   function updateAucWallet(){var bal=1000+advDeposit;
     var el=$('.au_wbal'); if(el)el.innerHTML='<span class="cur">$</span><span>'+bal.toLocaleString('en-US')+'</span><span class="au_wcents">.00</span>';
@@ -2619,7 +2612,34 @@ html.dark .testbanner{color:#FFC043}
     if(auctionReg){ gate.style.display='none'; content.style.display=''; renderAuctions(); updateAucWallet(); }
     else { content.style.display='none'; gate.style.display=''; renderAucGate(); }
   }
-  function registerAuction(){ auctionReg=true; saveAuc(); closeAllSheets(); updateAucView(); toast('Auctions unlocked ✓ — happy bidding','ok'); }
+  function renderAucRegister(){
+    var el=$('#aucRegBody'); if(!el)return;
+    if(auctionReg){
+      el.innerHTML='<div class="pad" style="padding:22px 16px 26px">'
+        +'<div class="lcard" style="padding:26px 16px;text-align:center"><div class="succ-check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-9"/></svg></div><div style="font:800 17px var(--display);color:var(--ink);margin-top:14px">Auction access active</div><div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5">Your US$1,000 registration deposit is on file — cash-redeemable against any vehicle.</div></div>'
+        +'<div class="lcard" style="padding:14px 16px;margin-top:14px"><div class="prow2"><span class="k">Registration deposit</span><span class="v">$1,000</span></div><div class="prow2"><span class="k">Advance bid deposit</span><span class="v">$'+advDeposit.toLocaleString('en-US')+'</span></div><div class="prow2"><span class="k">KYC</span><span class="v" style="color:var(--success)">Verified ✓</span></div><div class="prow2"><span class="k">Status</span><span class="v" style="color:var(--success)">Active</span></div></div>'
+        +'<button class="btn primary block lg" style="margin-top:16px" data-nav="auctions">Enter auctions</button>'
+        +'<button class="btn ghost block" style="margin-top:10px" data-advopen>Manage advance deposit</button>'
+        +'</div>';
+      return;
+    }
+    el.innerHTML='<div class="pad" style="padding:14px 16px 26px">'
+      +'<div class="shiphero" style="background:linear-gradient(150deg,#1d3a5f,#0b1220)"><div class="wm">🔨</div><div class="vs">Unlock Japanese auctions</div><div class="vsub" style="margin-top:6px">One-time registration deposit · live bidding on 130+ auction houses</div></div>'
+      +'<div class="lcard" style="padding:18px 16px;text-align:center;margin-top:14px"><div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Registration deposit</div><div style="font:800 32px var(--display);color:var(--brand);margin-top:2px">US$1,000</div><div style="font-size:11.5px;color:var(--muted);margin-top:3px">Cash-redeemable against any vehicle · refundable</div></div>'
+      +'<div class="msec"><h2>What it unlocks</h2></div><div class="lcard" style="padding:8px 16px">'
+        +'<div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Live bidding &amp; Max auto-bid proxy</span></div>'
+        +'<div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>11-field Japanese auction sheets</span></div>'
+        +'<div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Cost calculator, calendar &amp; 30,000+ lots/week</span></div></div>'
+      +'<div class="msec"><h2>Verification</h2><span class="badge b-success">KYC verified ✓</span></div>'
+      +'<div class="cpnote">🔒 Your identity is verified. Each bid also needs a refundable <b>advance deposit of 50%</b> of your target bid.</div>'
+      +'<div class="msec"><h2>Payment method</h2></div>'
+      +'<div class="paym sel" data-paympick><span class="pe">💳</span><div style="flex:1;min-width:0"><div class="pt">Electronic Payment (Stripe)</div><div class="ps">Card — instant unlock</div></div><span class="pr"></span></div>'
+      +'<div class="paym" data-paympick><span class="pe">🏦</span><div style="flex:1;min-width:0"><div class="pt">Wire Transfer (SP Japan bank)</div><div class="ps">TT copy — 24–48h verification</div></div><span class="pr"></span></div>'
+      +'<button class="btn primary block lg" style="margin-top:16px" data-aucregister>Pay US$1,000 &amp; unlock auctions</button>'
+      +'<p style="text-align:center;font-size:11px;color:var(--faint);margin-top:10px">Payments to the SP Japan bank account only · deposit refundable on request</p>'
+      +'</div>';
+  }
+  function registerAuction(){ auctionReg=true; saveAuc(); updateAucView(); if(cur()==='auction-register')renderAucRegister(); toast('Auctions unlocked ✓ — happy bidding','ok'); }
   function advCalc(){var v=parseInt(($('#advCalcBid')&&$('#advCalcBid').value||'').replace(/[^0-9]/g,''),10)||0, dep=Math.round(v*0.5);
     if($('#advCalcTarget'))$('#advCalcTarget').textContent='$'+v.toLocaleString('en-US');
     if($('#advCalcDep'))$('#advCalcDep').textContent='$'+dep.toLocaleString('en-US');
@@ -3475,6 +3495,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='shipment'){ renderShipment('SP-24-0198'); }
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
     if(id==='auctions'){ updateAucView(); }
+    if(id==='auction-register'){ renderAucRegister(); }
     if(id==='auction-process'){ renderAuctionProcess(); }
     if(id==='saved'){ renderSaved(); }
     if(id==='heavy'){ renderHeavy(); }
@@ -3517,7 +3538,8 @@ html.dark .testbanner{color:#FFC043}
     var ssd=e.target.closest('[data-ssdel]'); if(ssd){ delSavedSearch(parseInt(ssd.getAttribute('data-ssdel'),10)); return; }
     var ng=e.target.closest('[data-nego]'); if(ng){ openNego(ng.getAttribute('data-nego')); return; }
     var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
-    var areg=e.target.closest('[data-aucregister]'); if(areg){ registerAuction(); return; }
+    var areg=e.target.closest('[data-aucregister]'); if(areg){ areg.disabled=true; areg.innerHTML='<span class="spin"></span> Processing payment…'; setTimeout(registerAuction,1200); return; }
+    var advo=e.target.closest('[data-advopen]'); if(advo){ openAdvDep(0); return; }
     var advb=e.target.closest('[data-advdeposit]'); if(advb){ payAdvDeposit(); return; }
     var nqr=e.target.closest('[data-negoqr]'); if(nqr){ sendNegoText(nqr.getAttribute('data-negoqr')); return; }
     var nsend=e.target.closest('[data-negosend]'); if(nsend){ var mi=$('#negoMsgInput'); sendNegoText(mi?mi.value:''); return; }
@@ -3779,7 +3801,7 @@ html.dark .testbanner{color:#FFC043}
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard'],['ui-kit','UI Components']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['ship-schedule','Shipping Schedule'],['local-services','Local Services'],['clearing-agents','Clearing Agents'],['shipping-agents','Shipping Agents'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
-    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['auction-guide','Auction Guide'],['auction-system','Auction System'],['auction-glossary','Auction Glossary'],['inspection-guide','Inspection Guide'],['inland-transport','Inland Transport'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
+    ['Auctions & Saved',[['auctions','Live Auctions'],['auction-register','Auction Registration'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['auction-guide','Auction Guide'],['auction-system','Auction System'],['auction-glossary','Auction Glossary'],['inspection-guide','Inspection Guide'],['inland-transport','Inland Transport'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
     ['Log In',[['login','Log in'],['lg-2fa','2FA code'],['fp-email','Forgot password'],['fp-otp','Reset code'],['fp-reset','New password'],['pw-changed','Password changed'],['fe-phone','Forgot email'],['fe-otp','Verify phone'],['fe-found','Email found']]]
