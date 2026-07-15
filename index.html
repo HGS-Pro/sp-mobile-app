@@ -324,6 +324,11 @@ html.dark .cpwarn.ok{color:#4ec77e}
 .kycrow{display:flex;gap:9px;align-items:flex-start;padding:5px 0;font-size:12.5px;color:var(--body);line-height:1.4}
 .kycrow svg{color:var(--brand);flex-shrink:0;margin-top:2px}
 .cpnote{background:var(--brand-tint);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px 14px;font-size:12.5px;color:var(--body);line-height:1.55}
+.aucgate{text-align:center;padding:26px 6px 16px}
+.aucgate-lock{width:66px;height:66px;border-radius:50%;background:var(--brand-tint);color:var(--brand);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.aucgate h2{font:800 19px var(--display);color:var(--ink);margin:0;letter-spacing:-.02em}
+.aucgate p{font-size:13px;color:var(--muted);line-height:1.55;margin:8px auto 0;max-width:40ch}
+.aucgate .statc b{font-size:16px}
 .agrow{display:flex;gap:12px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--border-soft)}
 .agrow:last-child{border-bottom:0}
 .agdot{font-size:18px;flex-shrink:0}
@@ -1613,6 +1618,8 @@ html.dark .testbanner{color:#FFC043}
   <section class="screen" id="auctions" aria-label="Live auctions">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>Live Auctions</h1></div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 26px">
+      <div id="aucGate"></div>
+      <div id="aucContent">
       <div class="au_wallet">
         <div class="au_wglow"></div>
         <div class="au_wtop"><span class="au_wlabel">Auction wallet</span><span class="au_wverified">✓ Verified</span></div>
@@ -1629,6 +1636,7 @@ html.dark .testbanner{color:#FFC043}
       <div class="crail" style="margin-top:14px"><button class="cchip" aria-pressed="true">All lots</button><button class="cchip">Ending soon</button><button class="cchip">Grade 4.5+</button><button class="cchip">SUV</button><button class="cchip">Sedan</button></div>
       <div class="pilltabs" data-tabs style="margin:8px 0 14px"><span class="t on">Live now</span><span class="t">Upcoming</span><span class="t">Won</span></div>
       <div id="aucList" style="display:flex;flex-direction:column;gap:14px"></div>
+      </div>
     </div></div>
     <nav class="mtabbar" aria-label="Primary">
       <button class="t" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 10v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V10l-9-7Z"/></svg>Home</button>
@@ -2105,6 +2113,33 @@ html.dark .testbanner{color:#FFC043}
   </section>
 
   <!-- Secure payment sheet -->
+  <!-- Auction registration ($1,000 deposit) -->
+  <section class="appsheet" id="auctionRegSheet" role="dialog" aria-modal="true" aria-label="Auction registration">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3 style="font:800 17px var(--display)">Register for auctions</h3><button class="xclose" data-sheetclose aria-label="Close"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">A one-time deposit unlocks live bidding on 130+ Japanese auction houses.</p>
+    <div class="lcard" style="padding:16px;text-align:center;margin-bottom:12px"><div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Registration deposit</div><div style="font:800 30px var(--display);color:var(--brand);margin-top:2px">US$1,000</div><div style="font-size:11.5px;color:var(--muted);margin-top:3px">Cash-redeemable against any vehicle · refundable</div></div>
+    <div class="lcard" style="padding:12px 14px;margin-bottom:12px"><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Unlocks live bidding &amp; Max auto-bid proxy</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>11-field Japanese auction sheets</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>30,000+ lots per week</span></div></div>
+    <div class="fsec" style="margin:2px 0 8px">Payment method</div>
+    <div class="paym sel" data-paympick><span class="pe">💳</span><div style="flex:1;min-width:0"><div class="pt">Electronic Payment (Stripe)</div><div class="ps">Card — instant unlock</div></div><span class="pr"></span></div>
+    <div class="paym" data-paympick><span class="pe">🏦</span><div style="flex:1;min-width:0"><div class="pt">Wire Transfer (SP Japan bank)</div><div class="ps">TT copy — 24–48h verification</div></div><span class="pr"></span></div>
+    <button class="btn primary block lg" style="margin-top:14px" data-aucregister>Pay US$1,000 &amp; unlock auctions</button>
+    <p style="text-align:center;font-size:11px;color:var(--faint);margin-top:10px">🔒 Requires KYC · payments to the SP Japan bank account only</p>
+  </section>
+
+  <!-- Advance deposit for bidding (50% of target bid) -->
+  <section class="appsheet" id="advDepSheet" role="dialog" aria-modal="true" aria-label="Advance deposit">
+    <div class="grab"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3 style="font:800 17px var(--display)">Advance deposit</h3><span class="badge b-info" id="advDepState">Not paid</span></div>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">Required to place bids — <b>50% of your target bid</b>, refundable anytime before the bid succeeds.</p>
+    <div class="lcard" style="padding:12px 14px;margin-bottom:12px"><div class="prow2"><span class="k">Current advance deposit</span><span class="v" id="advDepBal">$0</span></div><div class="prow2"><span class="k">Required for this bid</span><span class="v" id="advDepReq" style="color:var(--brand)">$0</span></div></div>
+    <div class="fsec" style="margin:2px 0 8px">Quick deposit calculator</div>
+    <div class="vinput" style="margin-bottom:8px"><span style="color:var(--faint);font-weight:800">$</span><input id="advCalcBid" inputmode="numeric" placeholder="Target bid price (USD)" style="border:0;background:none;outline:0;flex:1;min-width:0;font-size:15px;color:var(--ink)"/></div>
+    <div class="lcard" style="padding:12px 14px;margin-bottom:12px"><div class="prow2"><span class="k">Target bid</span><span class="v" id="advCalcTarget">$0</span></div><div class="prow2" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px"><span class="k" style="font-weight:700;color:var(--ink)">Deposit (50%)</span><span class="v" id="advCalcDep" style="font-size:16px;color:var(--brand)">$0</span></div></div>
+    <button class="btn primary block lg" data-advdeposit>Pay deposit</button>
+    <p style="text-align:center;font-size:11px;color:var(--faint);margin-top:10px">Deposit is refundable before the bid succeeds.</p>
+  </section>
+
   <section class="appsheet" id="paySheet" role="dialog" aria-modal="true" aria-label="Secure payment">
     <div class="grab"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="font:800 17px var(--display)">Secure payment</h3><div style="display:flex;align-items:center;gap:8px"><span class="badge b-info">🔒 Escrow</span><button class="xclose" data-sheetclose aria-label="Close"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>
@@ -2230,6 +2265,8 @@ html.dark .testbanner{color:#FFC043}
     inp.addEventListener('blur',run);
     inp.addEventListener('input',function(){ var box=inp.closest('.input'); if(box&&(box.classList.contains('err')||box.classList.contains('ok')))run(); });
   });
+  /* advance-deposit calculator — live 50% */
+  document.addEventListener('input',function(e){ if(e.target&&e.target.id==='advCalcBid')advCalc(); });
 
   /* OTP auto-advance */
   $$('.otp-row').forEach(function(row){var ins=$$('input',row);ins.forEach(function(inp,i){inp.addEventListener('input',function(){inp.value=inp.value.replace(/\D/g,'');if(inp.value&&ins[i+1])ins[i+1].focus();});inp.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!inp.value&&ins[i-1])ins[i-1].focus();});});});
@@ -2559,9 +2596,51 @@ html.dark .testbanner{color:#FFC043}
     +'<div class="au_lotpr"><div><div style="font-size:11px;color:var(--faint)">Current bid</div><div class="jp-price" style="font-size:17px">'+aud(a.bid)+'</div></div><span class="badge b-error au_cd2" data-acd="'+a.id+'">⏱ '+hfmt(a.cd)+'</span></div>'
     +'<button class="btn primary block sm" style="margin-top:12px" data-hopen="'+a.id+'">Place bid</button></div></div>';}
   function renderAuctions(){var el=$('#aucList'); if(el)el.innerHTML=AUC_ORDER.map(function(id){return aucard(AUC[id]);}).join('');}
+  /* ===== Auction access: US$1,000 registration + 50% advance deposit to bid ===== */
+  var auctionReg=false, advDeposit=0, advReqCurrent=0;
+  try{auctionReg=localStorage.getItem('sp_auc_reg')==='1';advDeposit=parseInt(localStorage.getItem('sp_adv_dep')||'0',10)||0;}catch(e){}
+  function saveAuc(){try{localStorage.setItem('sp_auc_reg',auctionReg?'1':'0');localStorage.setItem('sp_adv_dep',String(advDeposit));}catch(e){}}
+  function closeAllSheets(){var sc=$('#appscrim');if(sc)sc.classList.remove('open');$$('.appsheet').forEach(function(s){s.classList.remove('open');});}
+  function renderAucGate(){var el=$('#aucGate');if(!el)return;
+    el.innerHTML='<div class="aucgate"><div class="aucgate-lock"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>'
+      +'<h2>Japanese auctions are locked</h2>'
+      +'<p>Register with a one-time <b>US$1,000 auction deposit</b> to unlock live bidding on 130+ Japanese auction houses. Your deposit is <b>cash-redeemable</b> against any vehicle you buy.</p>'
+      +'<div class="statgrid" style="margin:16px 0"><div class="statc"><b>30,000+</b><span>Lots / week</span></div><div class="statc"><b>130+</b><span>Auction halls</span></div><div class="statc"><b>50%</b><span>Bid deposit</span></div></div>'
+      +'<div class="lcard" style="padding:12px 16px;text-align:left;margin-bottom:14px"><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Live bidding + Max auto-bid proxy</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>11-field Japanese auction sheets</span></div><div class="kycrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg><span>Cost calculator, calendar &amp; guides</span></div></div>'
+      +'<div class="cpnote" style="margin-bottom:14px">🔒 Requires KYC verification. After registering, each bid needs a refundable <b>advance deposit of 50%</b> of your target bid.</div>'
+      +'<button class="btn primary block lg" data-opensheet="auctionRegSheet">Register — US$1,000</button></div>';
+  }
+  function updateAucWallet(){var bal=1000+advDeposit;
+    var el=$('.au_wbal'); if(el)el.innerHTML='<span class="cur">$</span><span>'+bal.toLocaleString('en-US')+'</span><span class="au_wcents">.00</span>';
+    var sp=$('.au_wsplit'); if(sp)sp.innerHTML='<span><i class="held"></i>$1,000 registration</span><span><i class="usable"></i>$'+advDeposit.toLocaleString('en-US')+' bid deposit</span>';
+    var mf=$('.au_wmeterfill'); if(mf)mf.style.width=Math.min(100,Math.round(1000/(1000+advDeposit||1)*100))+'%';
+  }
+  function updateAucView(){var gate=$('#aucGate'),content=$('#aucContent'); if(!gate||!content)return;
+    if(auctionReg){ gate.style.display='none'; content.style.display=''; renderAuctions(); updateAucWallet(); }
+    else { content.style.display='none'; gate.style.display=''; renderAucGate(); }
+  }
+  function registerAuction(){ auctionReg=true; saveAuc(); closeAllSheets(); updateAucView(); toast('Auctions unlocked ✓ — happy bidding','ok'); }
+  function advCalc(){var v=parseInt(($('#advCalcBid')&&$('#advCalcBid').value||'').replace(/[^0-9]/g,''),10)||0, dep=Math.round(v*0.5);
+    if($('#advCalcTarget'))$('#advCalcTarget').textContent='$'+v.toLocaleString('en-US');
+    if($('#advCalcDep'))$('#advCalcDep').textContent='$'+dep.toLocaleString('en-US');
+  }
+  function openAdvDep(reqUsd){ advReqCurrent=reqUsd||0;
+    if($('#advDepBal'))$('#advDepBal').textContent='$'+advDeposit.toLocaleString('en-US');
+    if($('#advDepReq'))$('#advDepReq').textContent='$'+(reqUsd||0).toLocaleString('en-US');
+    if($('#advDepState')){var ok=reqUsd&&advDeposit>=reqUsd;$('#advDepState').className='badge '+(ok?'b-success':'b-warning');$('#advDepState').textContent=ok?'Sufficient ✓':'Deposit needed';}
+    var ci=$('#advCalcBid'); if(ci){ci.value=reqUsd?String(reqUsd*2):'';advCalc();}
+    $('#appscrim').classList.add('open'); $('#advDepSheet').classList.add('open');
+  }
+  function payAdvDeposit(){var v=parseInt(($('#advCalcBid')&&$('#advCalcBid').value||'').replace(/[^0-9]/g,''),10)||0, dep=Math.round(v*0.5);
+    if(!dep){toast('Enter your target bid','bad');return;}
+    advDeposit=advDeposit+dep; saveAuc(); closeAllSheets(); updateAucWallet();
+    toast('Advance deposit paid ✓ · $'+dep.toLocaleString('en-US')+' added','ok');
+  }
   function specrow(k,v){return '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px"><span style="color:var(--muted)">'+k+'</span><b>'+v+'</b></div>';}
   var curLot=null, rivalTimer=null;
-  function openLot(id){var a=AUC[id]; if(!a)return; curLot=id; clearTimeout(rivalTimer); $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
+  function openLot(id){var a=AUC[id]; if(!a)return;
+    if(!auctionReg){ nav('auctions'); toast('Register (US$1,000) to access auctions','bad'); return; }
+    curLot=id; clearTimeout(rivalTimer); $('#lotTitle').textContent=a.t; renderLot(a); nav('auction-lot');}
   function renderLot(a){
     var min=a.bid+a.inc, leading=!!a.youLeading;
     var leaders=(a.leaders||[]).slice(0,6).map(function(l,i){return '<div class="au_lrow'+(l[4]?' you':'')+'"><span class="au_rank">'+(i+1)+'</span><span class="au_lav">'+l[0]+'</span><div style="flex:1;min-width:0"><b style="font:700 13px var(--display)">'+l[1]+'</b><div class="au_lsub">'+l[3]+'</div></div><span class="au_lamt">'+aud(l[2])+'</span></div>';}).join('');
@@ -2591,6 +2670,9 @@ html.dark .testbanner{color:#FFC043}
     var min=a.bid+a.inc;
     if(!val||val<min){toast('Bid must be at least '+yen(min),'bad');return;}
     if(mx&&mx<val){toast('Max auto-bid must be higher than your bid','bad');return;}
+    // advance-deposit gate: 50% of the target (max, or bid) in USD
+    var reqDep=Math.round(Math.round((mx||val)/150)*0.5);
+    if(advDeposit<reqDep){ toast('Advance deposit needed — 50% of your bid','bad'); openAdvDep(reqDep); return; }
     a.bid=val;a.bidders++;a.youLeading=true;a.ceiling=mx;
     a.leaders=(a.leaders||[]).filter(function(l){return !l[4];});a.leaders.unshift(['YO','You (R. Ahmed)',val,'just now',true]);a.leaders=a.leaders.slice(0,8);
     renderLot(a);
@@ -3381,7 +3463,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='invoices'){ renderInvoices(); }
     if(id==='shipment'){ renderShipment('SP-24-0198'); }
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
-    if(id==='auctions'){ renderAuctions(); }
+    if(id==='auctions'){ updateAucView(); }
     if(id==='auction-process'){ renderAuctionProcess(); }
     if(id==='saved'){ renderSaved(); }
     if(id==='heavy'){ renderHeavy(); }
@@ -3424,6 +3506,8 @@ html.dark .testbanner{color:#FFC043}
     var ssd=e.target.closest('[data-ssdel]'); if(ssd){ delSavedSearch(parseInt(ssd.getAttribute('data-ssdel'),10)); return; }
     var ng=e.target.closest('[data-nego]'); if(ng){ openNego(ng.getAttribute('data-nego')); return; }
     var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
+    var areg=e.target.closest('[data-aucregister]'); if(areg){ registerAuction(); return; }
+    var advb=e.target.closest('[data-advdeposit]'); if(advb){ payAdvDeposit(); return; }
     var nqr=e.target.closest('[data-negoqr]'); if(nqr){ sendNegoText(nqr.getAttribute('data-negoqr')); return; }
     var nsend=e.target.closest('[data-negosend]'); if(nsend){ var mi=$('#negoMsgInput'); sendNegoText(mi?mi.value:''); return; }
     var py=e.target.closest('[data-pay]'); if(py){ openPay(parseInt(py.getAttribute('data-pay'),10)||0, py.getAttribute('data-paylabel')); return; }
