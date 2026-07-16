@@ -330,11 +330,6 @@ html.dark .cpwarn.ok{color:#4ec77e}
 .aucgate p{font-size:13px;color:var(--muted);line-height:1.55;margin:8px auto 0;max-width:40ch}
 .aucgate .statc b{font-size:16px}
 /* dashboard feature diagrams */
-.hbar{display:flex;height:26px;border-radius:8px;overflow:hidden;gap:2px}
-.hbar span{display:flex;align-items:center;justify-content:center;font:800 10px var(--display);color:#fff;min-width:0}
-.hleg{display:flex;flex-wrap:wrap;gap:9px 14px;margin-top:12px;font-size:11.5px;color:var(--muted)}
-.hleg i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
-.hleg b{color:var(--ink);font-weight:700}
 .pbar{display:flex;flex-direction:column;gap:11px;margin-top:14px}
 .pbar-row{display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center}
 .pbar-row .pl{font-size:12px;color:var(--body);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1195,20 +1190,8 @@ html.dark .testbanner{color:#FFC043}
       </div>
       <!-- ===== insights: feature diagrams ===== -->
       <div class="msec"><h2>Insights</h2></div>
-      <!-- import pipeline (stacked bar) -->
-      <div class="lcard" style="padding:16px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font:800 14px var(--display)">Import pipeline</b><span class="badge b-info">23 active</span></div>
-        <div class="hbar">
-          <span style="background:var(--acc-violet);flex:3">3</span>
-          <span style="background:var(--acc-blue);flex:5">5</span>
-          <span style="background:var(--acc-cyan);flex:8">8</span>
-          <span style="background:var(--acc-amber);flex:4">4</span>
-          <span style="background:var(--success);flex:3">3</span>
-        </div>
-        <div class="hleg"><span><i style="background:var(--acc-violet)"></i>In auction <b>3</b></span><span><i style="background:var(--acc-blue)"></i>Paid <b>5</b></span><span><i style="background:var(--acc-cyan)"></i>In transit <b>8</b></span><span><i style="background:var(--acc-amber)"></i>At port <b>4</b></span><span><i style="background:var(--success)"></i>Delivered <b>3</b></span></div>
-      </div>
       <!-- spend by destination port (horizontal bars) -->
-      <div class="lcard" style="padding:16px;margin-top:14px">
+      <div class="lcard" style="padding:16px">
         <div style="display:flex;justify-content:space-between;align-items:center"><b style="font:800 14px var(--display)">Spend by destination port</b><span class="badge b-info">$206k</span></div>
         <div class="pbar">
           <div class="pbar-row"><span class="pl">🇰🇪 Mombasa</span><div class="pt"><div class="pf" style="width:100%"></div></div><span class="pv">$86k</span></div>
