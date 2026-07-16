@@ -1569,6 +1569,12 @@ html.dark .testbanner{color:#FFC043}
       </div>
       <div class="fsec">About</div>
       <button class="listrow" style="width:100%;text-align:left;background:none;border:none;padding:13px 0;cursor:pointer;border-bottom:1px solid var(--border-soft)" data-nav="ui-kit"><div style="flex:1"><div style="font:600 14px var(--text)">UI Components</div><div style="font-size:12px;color:var(--faint)">Design-system building blocks</div></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      <div class="fsec">Demo controls</div>
+      <div class="lcard" style="padding:4px 16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border-soft)"><div style="flex:1"><div style="font:600 14px var(--text)">Auction access</div><div style="font-size:12px;color:var(--faint)" id="aucAccessState">—</div></div><button class="btn ghost sm" data-aucreset>Reset</button></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0"><div style="flex:1"><div style="font:600 14px var(--text)">Unlock auctions now</div><div style="font-size:12px;color:var(--faint)">Skip the $1,000 registration</div></div><button class="btn ghost sm" data-aucunlock>Unlock</button></div>
+      </div>
+      <p style="font-size:11px;color:var(--faint);margin:8px 2px 0">Prototype toggles — replay the locked → register → unlocked auction flow.</p>
       <div class="fsec">Account</div>
       <button class="btn ghost block" data-nav="profile" style="margin-bottom:10px">Profile &amp; KYC</button>
       <button class="btn ghost block" data-back style="color:var(--error);border-color:transparent" data-toast="Signed out">Sign out</button>
@@ -2640,6 +2646,7 @@ html.dark .testbanner{color:#FFC043}
       +'</div>';
   }
   function registerAuction(){ auctionReg=true; saveAuc(); updateAucView(); if(cur()==='auction-register')renderAucRegister(); toast('Auctions unlocked ✓ — happy bidding','ok'); }
+  function updateAucAccessLabel(){ var el=$('#aucAccessState'); if(el)el.textContent=auctionReg?('Registered ✓ · $'+advDeposit.toLocaleString('en-US')+' bid deposit'):'Locked · not registered'; }
   function advCalc(){var v=parseInt(($('#advCalcBid')&&$('#advCalcBid').value||'').replace(/[^0-9]/g,''),10)||0, dep=Math.round(v*0.5);
     if($('#advCalcTarget'))$('#advCalcTarget').textContent='$'+v.toLocaleString('en-US');
     if($('#advCalcDep'))$('#advCalcDep').textContent='$'+dep.toLocaleString('en-US');
@@ -3496,6 +3503,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
     if(id==='auctions'){ updateAucView(); }
     if(id==='auction-register'){ renderAucRegister(); }
+    if(id==='settings'){ updateAucAccessLabel(); }
     if(id==='auction-process'){ renderAuctionProcess(); }
     if(id==='saved'){ renderSaved(); }
     if(id==='heavy'){ renderHeavy(); }
@@ -3540,6 +3548,8 @@ html.dark .testbanner{color:#FFC043}
     var na=e.target.closest('[data-negoact]'); if(na){ negoAct(na.getAttribute('data-negoact')); return; }
     var areg=e.target.closest('[data-aucregister]'); if(areg){ areg.disabled=true; areg.innerHTML='<span class="spin"></span> Processing payment…'; setTimeout(registerAuction,1200); return; }
     var advo=e.target.closest('[data-advopen]'); if(advo){ openAdvDep(0); return; }
+    var arst=e.target.closest('[data-aucreset]'); if(arst){ auctionReg=false; advDeposit=0; saveAuc(); updateAucAccessLabel(); updateAucView(); toast('Auction access reset — auctions locked','ok'); return; }
+    var aunl=e.target.closest('[data-aucunlock]'); if(aunl){ auctionReg=true; saveAuc(); updateAucAccessLabel(); updateAucView(); toast('Auctions unlocked ✓','ok'); return; }
     var advb=e.target.closest('[data-advdeposit]'); if(advb){ payAdvDeposit(); return; }
     var nqr=e.target.closest('[data-negoqr]'); if(nqr){ sendNegoText(nqr.getAttribute('data-negoqr')); return; }
     var nsend=e.target.closest('[data-negosend]'); if(nsend){ var mi=$('#negoMsgInput'); sendNegoText(mi?mi.value:''); return; }
