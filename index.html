@@ -2394,8 +2394,13 @@ html.dark .testbanner{color:#FFC043}
     track+=after.map(function(s){return stepHtml(s,o.step);}).join('');
     var os=orderStatus(o); var badge='<span class="badge '+os.cls+'">'+os.label+'</span>';
     var acts='';
-    if(o.step===2)acts+='<button class="btn primary" style="flex:1" data-pay="'+o.total+'" data-paylabel="Order #'+o.id+'">Pay now</button>';
-    if(o.step>=4&&o.step<=10)acts+='<button class="btn primary" style="flex:1" data-nav="shipment">Track shipment</button>';
+    if(o.st==='cancelled'){ acts+='<button class="btn ghost" style="flex:1" data-nav="vehicles">Browse similar</button>'; }
+    else if(o.st==='rejected'){ acts+='<button class="btn primary" style="flex:1" data-pay="'+o.total+'" data-paylabel="Order #'+o.id+'">Resubmit payment</button>'; }
+    else if(o.st==='draft'){ acts+='<button class="btn primary" style="flex:1" data-ostep="1">Confirm order</button>'; }
+    else {
+      if(o.step===2)acts+='<button class="btn primary" style="flex:1" data-pay="'+o.total+'" data-paylabel="Order #'+o.id+'">'+(o.st==='deposit'?'Pay balance':'Pay now')+'</button>';
+      if(o.step>=4&&o.step<=10)acts+='<button class="btn primary" style="flex:1" data-nav="shipment">Track shipment</button>';
+    }
     acts+='<button class="btn ghost" style="flex:1" data-invoice="'+o.inv+'">View invoice</button>';
     $('#otBody').innerHTML='<div class="pad" style="padding:14px 16px 28px">'
       +'<div class="osum"><div class="top"><div class="thumb">'+os.emoji+'</div><div style="flex:1;min-width:0"><div class="oid">#'+o.id+'</div><div class="osub">'+o.items+' · placed '+o.placed+'</div></div>'
@@ -2558,6 +2563,16 @@ html.dark .testbanner{color:#FFC043}
     'INV-23-0955':{no:'INV-23-0955',date:'Feb 2, 2026',order:'SP-23-0955',status:'paid',consignee:'John Otieno · Mombasa, KE',items:[['Nissan Note e-Power (2020)',8100]],freight:900,ins:220,inspect:180,paid:9400}
   };
   function invTotal(v){var s=0;v.items.forEach(function(i){s+=i[1];});return s+v.freight+v.ins+v.inspect;}
+  // Derive an invoice from the matching order when it isn't in the detailed INVOICES set (keeps every "View invoice" live).
+  function invForOrder(no){
+    if(INVOICES[no])return INVOICES[no];
+    var oid=no.replace(/^INV-/,'SP-'); var o=ORDERS[oid]; if(!o)return null;
+    var freight=Math.round(o.total*0.06), ins=Math.round(o.total*0.008), inspect=280;
+    var itemPrice=Math.max(0,o.total-freight-ins-inspect);
+    var paidFull=o.step>=4 && o.st!=='rejected' && o.st!=='cancelled';
+    var paid=paidFull?o.total:(o.st==='deposit'?Math.round(o.total*0.3):0);
+    return {no:no,date:o.placed,order:oid,status:paidFull?'paid':'unpaid',consignee:'John Otieno · '+o.port,items:[[o.items,itemPrice]],freight:freight,ins:ins,inspect:inspect,paid:paid};
+  }
   function renderInvoices(){
     var el=$('#invList'); if(!el)return;
     el.innerHTML=Object.keys(INVOICES).map(function(k){
@@ -2566,7 +2581,7 @@ html.dark .testbanner{color:#FFC043}
     }).join('');
   }
   function openInvoice(no){
-    var v=INVOICES[no]; if(!v)return;
+    var v=invForOrder(no); if(!v)return;
     $('#invTitle').textContent=v.no;
     var sub=0;v.items.forEach(function(i){sub+=i[1];});
     var tot=invTotal(v);var bal=tot-v.paid;
@@ -3522,7 +3537,9 @@ html.dark .testbanner{color:#FFC043}
       'auction-lot':['lotBody',function(){openLot('AUC-24065');}],
       'heavy-detail':['heBody',function(){openHeavy('HE-9001');}],
       'vesselmap':['vesselmapBody',function(){openVesselMap('SP-24-0198');}],
-      'chat':['chatWin',function(){openChat('kenji');}]};
+      'chat':['chatWin',function(){openChat('kenji');}],
+      'invoice':['invBody',function(){openInvoice('INV-24-0198');}],
+      'order-step':['stepBody',function(){renderStepDetail();}]};
     var e=map[id]; if(!e)return false; var b=$('#'+e[0]);
     if(b && b.innerHTML.replace(/\s/g,'').length<10){ e[1](); return true; }
     return false;
