@@ -1348,12 +1348,8 @@ html.dark .testbanner{color:#FFC043}
   <section class="screen" id="orders" aria-label="My orders">
     <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>My Orders</h1></div>
     <div class="mscroll"><div class="pad" style="padding:14px 16px 24px">
-      <div class="pilltabs" data-tabs style="margin-bottom:14px"><span class="t on">All</span><span class="t">In progress</span><span class="t">Completed</span></div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="lrow" data-order="SP-24-0312"><span class="li">📦</span><div style="flex:1;min-width:0"><div class="lt">Order #SP-24-0312</div><div class="ls">2 vehicles · placed today · $75,900</div></div><span class="badge b-warning">Payment due</span></div>
-        <div class="lrow" data-order="SP-24-0198"><span class="li">🚢</span><div style="flex:1;min-width:0"><div class="lt">Order #SP-24-0198</div><div class="ls">Toyota Hiace ×2 · step 4 of 12</div></div><span class="badge b-info">In transit</span></div>
-        <div class="lrow" data-order="SP-23-0955"><span class="li">✅</span><div style="flex:1;min-width:0"><div class="lt">Order #SP-23-0955</div><div class="ls">Nissan Note · delivered Mar 2</div></div><span class="badge b-success">Delivered</span></div>
-      </div>
+      <div class="pilltabs" style="margin-bottom:14px"><span class="t on" data-otab="all">All</span><span class="t" data-otab="progress">In progress</span><span class="t" data-otab="completed">Completed</span></div>
+      <div id="ordersList" style="display:flex;flex-direction:column;gap:12px"></div>
     </div></div>
   </section>
 
@@ -2340,10 +2336,41 @@ html.dark .testbanner{color:#FFC043}
     {n:12,t:'Feedback',d:'Leave a review'}
   ];
   var ORDERS={
-    'SP-24-0312':{id:'SP-24-0312',emoji:'📦',items:'Land Cruiser 300 + Patrol Y62',total:75900,placed:'today',step:2,local:false,port:'Mombasa, KE',eta:'Payment due',inv:'INV-24-0312'},
-    'SP-24-0198':{id:'SP-24-0198',emoji:'🚢',items:'Toyota Hiace GL ×2',total:41800,placed:'Mar 12',step:4,local:true,port:'Dar es Salaam, TZ',eta:'ETA ~3 wks',inv:'INV-24-0198'},
-    'SP-23-0955':{id:'SP-23-0955',emoji:'✅',items:'Nissan Note e-Power',total:9400,placed:'Feb 2',step:12,local:false,port:'Mombasa, KE',eta:'Delivered Mar 2',inv:'INV-23-0955'}
+    'SP-24-0401':{id:'SP-24-0401',items:'Toyota Corolla Axio (2019)',total:11200,placed:'today',step:1,local:false,port:'Mombasa, KE',inv:'INV-24-0401',st:'draft'},
+    'SP-24-0312':{id:'SP-24-0312',items:'Land Cruiser 300 + Patrol Y62',total:75900,placed:'today',step:2,local:false,port:'Mombasa, KE',inv:'INV-24-0312'},
+    'SP-24-0388':{id:'SP-24-0388',items:'Honda Vezel Hybrid (2020)',total:16400,placed:'2d ago',step:2,local:false,port:'Lagos, NG',inv:'INV-24-0388',st:'deposit'},
+    'SP-24-0377':{id:'SP-24-0377',items:'Mazda CX-5 XD (2020)',total:19850,placed:'3d ago',step:3,local:false,port:'Dar es Salaam, TZ',inv:'INV-24-0377'},
+    'SP-24-0366':{id:'SP-24-0366',items:'Nissan X-Trail (2018)',total:14300,placed:'4d ago',step:3,local:false,port:'Tema, GH',inv:'INV-24-0366',st:'rejected'},
+    'SP-24-0198':{id:'SP-24-0198',items:'Toyota Hiace GL ×2',total:41800,placed:'Mar 12',step:4,local:true,port:'Dar es Salaam, TZ',inv:'INV-24-0198'},
+    'SP-24-0290':{id:'SP-24-0290',items:'Subaru Forester (2019)',total:12900,placed:'Mar 8',step:5,local:false,port:'Mombasa, KE',inv:'INV-24-0290'},
+    'SP-24-0255':{id:'SP-24-0255',items:'Toyota Prado TX (2017)',total:28600,placed:'Feb 28',step:6,local:true,port:'Mombasa, KE',inv:'INV-24-0255'},
+    'SP-24-0240':{id:'SP-24-0240',items:'Isuzu D-Max (2019)',total:17400,placed:'Feb 24',step:7,local:true,port:'Kampala, UG',inv:'INV-24-0240'},
+    'SP-24-0221':{id:'SP-24-0221',items:'Toyota Vitz (2018)',total:6800,placed:'Feb 20',step:8,local:true,port:'Dar es Salaam, TZ',inv:'INV-24-0221'},
+    'SP-24-0205':{id:'SP-24-0205',items:'Honda Fit Hybrid (2020)',total:8100,placed:'Feb 16',step:9,local:true,port:'Mombasa, KE',inv:'INV-24-0205'},
+    'SP-24-0180':{id:'SP-24-0180',items:'Toyota Aqua G (2018)',total:7600,placed:'Feb 10',step:10,local:true,port:'Nairobi, KE',inv:'INV-24-0180'},
+    'SP-24-0150':{id:'SP-24-0150',items:'Nissan Note e-Power (2019)',total:8900,placed:'Feb 5',step:11,local:false,port:'Mombasa, KE',inv:'INV-24-0150'},
+    'SP-23-0955':{id:'SP-23-0955',items:'Nissan Note e-Power',total:9400,placed:'Feb 2',step:12,local:false,port:'Mombasa, KE',inv:'INV-23-0955'},
+    'SP-23-0900':{id:'SP-23-0900',items:'Suzuki Swift (2017)',total:6200,placed:'Jan 20',step:2,local:false,port:'Lagos, NG',inv:'INV-23-0900',st:'cancelled'}
   };
+  var OSTEP_META={1:['b-neutral','Order placed','📝'],2:['b-warning','Payment due','💳'],3:['b-info','Under review','🔍'],4:['b-info','In transit','🚢'],5:['b-info','Export docs','📄'],6:['b-info','Arrived at port','🛳️'],7:['b-warning','Local payment due','🧾'],8:['b-info','Customs clearance','🛃'],9:['b-info','Out for delivery','🚚'],10:['b-info','Registration','🚗'],11:['b-warning','Awaiting receipt','📦'],12:['b-success','Delivered','🎉']};
+  function orderStatus(o){
+    if(o.st==='cancelled')return {cls:'b-error',label:'Cancelled',emoji:'✕'};
+    if(o.st==='rejected')return {cls:'b-error',label:'Payment rejected',emoji:'⚠️'};
+    if(o.st==='draft')return {cls:'b-neutral',label:'Draft — confirm',emoji:'📝'};
+    if(o.st==='deposit')return {cls:'b-warning',label:'Balance due',emoji:'💳'};
+    var m=OSTEP_META[o.step]||OSTEP_META[1]; return {cls:m[0],label:m[1],emoji:m[2]};
+  }
+  var ordersFilter='all';
+  function renderOrdersList(){
+    var el=$('#ordersList'); if(!el)return;
+    var ids=Object.keys(ORDERS).filter(function(id){var o=ORDERS[id];
+      if(ordersFilter==='progress')return o.step<12 && o.st!=='cancelled';
+      if(ordersFilter==='completed')return o.step>=12 || o.st==='cancelled';
+      return true;});
+    el.innerHTML=ids.map(function(id){var o=ORDERS[id],s=orderStatus(o);
+      return '<div class="lrow" data-order="'+id+'"><span class="li">'+s.emoji+'</span><div style="flex:1;min-width:0"><div class="lt">Order #'+id+'</div><div class="ls">'+o.items+' · '+o.placed+' · '+usd(o.total)+'</div></div><span class="badge '+s.cls+'">'+s.label+'</span></div>';
+    }).join('');
+  }
   function stepHtml(st,cur){
     var cls=st.n<cur?'done':(st.n===cur?'cur':'up');
     var dot=st.n<cur?OK:st.n;
@@ -2365,15 +2392,15 @@ html.dark .testbanner{color:#FFC043}
     if(o.local){ track+='<div class="obranch open"><div class="lsvc-sel"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>Get Our Local Service<span class="badge b-success" style="margin-left:auto">Selected</span></div><div class="obranch-in">'+branch.map(function(s){return stepHtml(s,o.step);}).join('')+'</div></div>'; }
     else { track+='<div class="obranch"><button class="obranch-t"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Get Our Local Service<span style="color:var(--faint);font-weight:600;margin-left:5px">(optional)</span><span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></button><div class="obranch-in">'+branch.map(function(s){return stepHtml(s,0);}).join('')+'</div></div>'; }
     track+=after.map(function(s){return stepHtml(s,o.step);}).join('');
-    var badge=o.step>=11?'<span class="badge b-success">Delivered</span>':(o.step<=3?'<span class="badge b-warning">'+(o.step===2?'Payment due':'Processing')+'</span>':'<span class="badge b-info">In transit</span>');
+    var os=orderStatus(o); var badge='<span class="badge '+os.cls+'">'+os.label+'</span>';
     var acts='';
     if(o.step===2)acts+='<button class="btn primary" style="flex:1" data-pay="'+o.total+'" data-paylabel="Order #'+o.id+'">Pay now</button>';
     if(o.step>=4&&o.step<=10)acts+='<button class="btn primary" style="flex:1" data-nav="shipment">Track shipment</button>';
     acts+='<button class="btn ghost" style="flex:1" data-invoice="'+o.inv+'">View invoice</button>';
     $('#otBody').innerHTML='<div class="pad" style="padding:14px 16px 28px">'
-      +'<div class="osum"><div class="top"><div class="thumb">'+o.emoji+'</div><div style="flex:1;min-width:0"><div class="oid">#'+o.id+'</div><div class="osub">'+o.items+' · placed '+o.placed+'</div></div>'
+      +'<div class="osum"><div class="top"><div class="thumb">'+os.emoji+'</div><div style="flex:1;min-width:0"><div class="oid">#'+o.id+'</div><div class="osub">'+o.items+' · placed '+o.placed+'</div></div>'
       +'<div class="oring" style="--p:'+pct+'"><div><b>'+o.step+'/12</b><small>steps</small></div></div></div>'
-      +'<div class="ometa"><div class="m"><span>Order total</span><b>'+usd(o.total)+'</b></div><div class="m"><span>Destination</span><b>'+o.port+'</b></div><div class="m"><span>Status</span><b>'+o.eta+'</b></div></div></div>'
+      +'<div class="ometa"><div class="m"><span>Order total</span><b>'+usd(o.total)+'</b></div><div class="m"><span>Destination</span><b>'+o.port+'</b></div><div class="m"><span>Status</span><b>'+os.label+'</b></div></div></div>'
       +'<div style="display:flex;gap:10px;margin:16px 0 6px">'+acts+'</div>'
       +'<div class="msec" style="margin:20px 0 4px"><h2>Progress</h2>'+badge+'</div>'
       +'<p style="font-size:11.5px;color:var(--faint);margin:2px 0 12px">Tap any step to open its details &amp; actions.</p>'
@@ -3541,6 +3568,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='auctions'){ updateAucView(); }
     if(id==='auction-register'){ renderAucRegister(); }
     if(id==='settings'){ updateAucAccessLabel(); }
+    if(id==='orders'){ renderOrdersList(); }
     if(id==='auction-process'){ renderAuctionProcess(); }
     if(id==='saved'){ renderSaved(); }
     if(id==='heavy'){ renderHeavy(); }
@@ -3553,6 +3581,7 @@ html.dark .testbanner{color:#FFC043}
     var v=e.target.closest('[data-validate]'); var n=e.target.closest('[data-nav]');
     if(v){ if(!validateStep(v.getAttribute('data-validate')))return; }
     if(n){ $('#appscrim').classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); nav(n.getAttribute('data-nav')); return; }
+    var otb=e.target.closest('[data-otab]'); if(otb){ ordersFilter=otb.getAttribute('data-otab'); var pw=otb.closest('.pilltabs'); if(pw)pw.querySelectorAll('.t').forEach(function(x){x.classList.toggle('on',x===otb);}); renderOrdersList(); return; }
     var od=e.target.closest('[data-order]'); if(od){ openOrder(od.getAttribute('data-order')); return; }
     var ostp=e.target.closest('[data-ostep]'); if(ostp){ openStep(curOrderId,+ostp.getAttribute('data-ostep')); return; }
     var sst=e.target.closest('[data-stepstate]'); if(sst){ setStepState(+sst.getAttribute('data-stepstate')); return; }
