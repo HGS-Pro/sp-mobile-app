@@ -2381,7 +2381,7 @@ html.dark .testbanner{color:#FFC043}
   }
   var curOrderId='SP-24-0198';
   function openOrder(id){
-    var o=ORDERS[id]; if(!o)return; curOrderId=id;
+    var o=ORDERS[id]; if(!o)return; curOrderId=id; curShipId=id;
     $('#otTitle').textContent='Order #'+o.id;
     var pct=Math.round(o.step/12*100);
     var before=OSTEPS.filter(function(s){return s.n<=6;});
@@ -2613,8 +2613,28 @@ html.dark .testbanner{color:#FFC043}
       {t:'Delivered to consignee',s:'Final inland handover',w:'—',st:'up'}
     ]}
   };
+  var curShipId='SP-24-0198';
+  var VESSELS=['MV Grand Mercury','MV Morning Crystal','MV Ocean Trader','MV Toyofuji 21','MV Kanda Bay'];
+  var JPPORTS=['Yokohama, JP','Nagoya, JP','Osaka, JP','Kobe, JP'];
+  // Derive a shipment from the order when it's not one of the detailed SHIP entries (keeps every "Track shipment" live & order-specific).
+  function shipForOrder(id){
+    if(SHIP[id])return SHIP[id];
+    var o=ORDERS[id]; if(!o)return null;
+    var i=Math.abs(id.split('').reduce(function(a,c){return a+c.charCodeAt(0);},0));
+    var from=JPPORTS[i%JPPORTS.length], fromCity=from.split(',')[0], toCity=o.port.split(',')[0];
+    var arrived=o.step>=6, sailed=o.step>=4;
+    var pct=o.step<=4?32:(o.step===5?58:100);
+    var legs=[
+      {t:'Loaded at '+fromCity,s:'Container stuffed & loaded aboard',w:o.placed,st:sailed?'done':'cur'},
+      {t:'Departed origin port',s:'Vessel sailed from '+fromCity,w:'—',st:sailed?'done':'up'},
+      {t:'In transit',s:arrived?'Voyage completed':'On the water, mid-voyage',w:arrived?'Done':'Now',st:arrived?'done':(sailed?'cur':'up')},
+      {t:'Arrival at '+toCity,s:'Discharge & customs hold',w:arrived?'Arrived':'ETA soon',st:o.step>=8?'done':(arrived?'cur':'up')},
+      {t:'Delivered to consignee',s:'Final inland handover',w:o.step>=11?'Delivered':'—',st:o.step>=11?'done':'up'}
+    ];
+    return {vessel:VESSELS[i%VESSELS.length],voyage:'Voyage '+(20+i%9)+'E',bl:'BL-'+id.replace('SP-','')+'-'+(100+i%800),cont:'TCLU-'+(100000+i%800000)+'-'+(i%9),from:from,to:o.port,pct:pct,eta:arrived?'Arrived at port':'ETA ~'+Math.max(1,6-o.step)+' wks',legs:legs};
+  }
   function renderShipment(id){
-    var sh=SHIP[id]; if(!sh)return; var el=$('#shipBody'); if(!el)return;
+    var sh=shipForOrder(id); if(!sh)return; curShipId=id; var el=$('#shipBody'); if(!el)return;
     var legs=sh.legs.map(function(l){
       var dot=l.st==='done'?OK:'';
       return '<div class="rleg '+l.st+'"><span class="rl"></span><span class="rd">'+dot+'</span><div style="min-width:0"><div class="rt">'+l.t+'</div><div class="rs">'+l.s+'</div></div><span class="rw">'+l.w+'</span></div>';
@@ -2626,9 +2646,9 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="ometa" style="border:none;margin-top:16px"><div class="m"><span>Bill of Lading</span><b style="font-size:12.5px">'+sh.bl+'</b></div><div class="m"><span>Container</span><b style="font-size:12.5px">'+sh.cont+'</b></div><div class="m"><span>ETA</span><b style="font-size:12.5px">'+sh.eta.replace('ETA ','')+'</b></div></div>'
       +'<div class="msec" style="margin:20px 0 12px"><h2>Voyage timeline</h2><span class="badge b-info">'+sh.pct+'% complete</span></div>'
       +'<div>'+legs+'</div>'
-      +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn primary" style="flex:1" data-invoice="INV-24-0198">View invoice</button><button class="btn ghost" style="flex:1" data-vesselmap="'+id+'">Live map</button></div></div>';
+      +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn primary" style="flex:1" data-invoice="'+id.replace('SP-','INV-')+'">View invoice</button><button class="btn ghost" style="flex:1" data-vesselmap="'+id+'">Live map</button></div></div>';
   }
-  function openVesselMap(id){var sh=SHIP[id]; if(!sh)return; $('#vmapTitle').textContent=sh.vessel; renderVesselMap(sh); nav('vesselmap'); setTimeout(function(){placeShip(sh.pct);},70);}
+  function openVesselMap(id){var sh=shipForOrder(id); if(!sh)return; $('#vmapTitle').textContent=sh.vessel; renderVesselMap(sh); nav('vesselmap'); setTimeout(function(){placeShip(sh.pct);},70);}
   function renderVesselMap(sh){
     $('#vesselmapBody').innerHTML='<div class="pad" style="padding:14px 16px 26px">'
       +'<div class="vmapwrap"><svg viewBox="0 0 340 210" preserveAspectRatio="xMidYMid slice" class="vmap" aria-label="Vessel route map">'
@@ -3536,7 +3556,7 @@ html.dark .testbanner{color:#FFC043}
       'nego-detail':['negoBody',function(){openNego('NG-01');}],
       'auction-lot':['lotBody',function(){openLot('AUC-24065');}],
       'heavy-detail':['heBody',function(){openHeavy('HE-9001');}],
-      'vesselmap':['vesselmapBody',function(){openVesselMap('SP-24-0198');}],
+      'vesselmap':['vesselmapBody',function(){openVesselMap(curShipId||'SP-24-0198');}],
       'chat':['chatWin',function(){openChat('kenji');}],
       'invoice':['invBody',function(){openInvoice('INV-24-0198');}],
       'order-step':['stepBody',function(){renderStepDetail();}]};
@@ -3580,7 +3600,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='checkout'){ renderCheckout(); startPayTimer(); }
     if(id==='won'){ renderWon(); }
     if(id==='invoices'){ renderInvoices(); }
-    if(id==='shipment'){ renderShipment('SP-24-0198'); }
+    if(id==='shipment'){ renderShipment(curShipId); }
     if(id==='points'){ var sg=$('#points .seg2'); if(sg){setTimeout(function(){positionThumb2(sg,sg.querySelector('button.on')||sg.querySelector('button'));},30);} }
     if(id==='auctions'){ updateAucView(); }
     if(id==='auction-register'){ renderAucRegister(); }
@@ -3911,7 +3931,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='heavy-detail'){openHeavy('HE-9001');return;}
     if(id==='chat'){openChat('kenji');return;}
     if(id==='nego-detail'){openNego('NG-01');return;}
-    if(id==='vesselmap'){openVesselMap('SP-24-0198');return;}
+    if(id==='vesselmap'){openVesselMap(curShipId||'SP-24-0198');return;}
     if(id==='won-detail'){openWon('AUC-88231');return;}
     if(id==='quote-detail'){openQuote('QT-2048');return;}
     $$('.screen').forEach(function(s){s.classList.remove('active','back');});
