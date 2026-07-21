@@ -2557,51 +2557,109 @@ html.dark .testbanner{color:#FFC043}
       +'<div class="dcta"><div><div style="font-size:11px;color:var(--faint)">Total CIF '+q.port.split(',')[0]+'</div><div style="font:800 18px var(--display)">'+usd(tot)+'</div></div>'+acts+'</div>';
     nav('quote-detail');
   }
+  // Exporter (shipper) — SP Company Ltd, Japan. Same across every invoice; mirrors the web project's invoice_from_* + bank fields.
+  var SPCO={name:'SP Company Ltd',addr:'2-14-5 Kaigan-dori, Naka-ku\nYokohama, Kanagawa 231-0002, Japan',phone:'+81 45-263-9981',email:'export@spusedvehicles.com'};
+  var SPBANK={name:'MUFG Bank, Ltd.',country:'Japan',acct:'SP Company Ltd · 0012-345678',iban:'JP18 0005 0012 3456 78',swift:'BOTKJPJT',branch:'Yokohama Chuo Branch'};
   var INVOICES={
-    'INV-24-0312':{no:'INV-24-0312',date:'Jul 6, 2026',order:'SP-24-0312',status:'unpaid',consignee:'John Otieno · Mombasa, KE',items:[['Toyota Land Cruiser 300 (2022)',48500],['Nissan Patrol Y62 (2022)',22400]],freight:4200,ins:520,inspect:280,paid:0},
-    'INV-24-0198':{no:'INV-24-0198',date:'Mar 12, 2026',order:'SP-24-0198',status:'paid',consignee:'Amina Yusuf · Dar es Salaam, TZ',items:[['Toyota Hiace GL (2021)',18600],['Toyota Hiace GL (2021)',18600]],freight:3800,ins:480,inspect:320,paid:41800},
-    'INV-23-0955':{no:'INV-23-0955',date:'Feb 2, 2026',order:'SP-23-0955',status:'paid',consignee:'John Otieno · Mombasa, KE',items:[['Nissan Note e-Power (2020)',8100]],freight:900,ins:220,inspect:180,paid:9400}
+    'INV-24-0312':{no:'INV-24-0312',date:'Jul 6, 2026',due:'Jul 13, 2026',order:'SP-24-0312',status:'unpaid',
+      billTo:{name:'John Otieno',company:'Otieno Motors Ltd',addr:'Moi Ave, Industrial Area\nMombasa, Kenya',phone:'+254 41 220 3345',email:'john@otienomotors.co.ke'},
+      consignee:'Otieno Motors Ltd\nMoi Ave, Industrial Area, Mombasa, Kenya',notify:'Same as consignee',
+      vessel:'MV Toyofuji 21',blNo:'BL-YOK-40318',blDate:'Jul 2, 2026',shipFrom:'Yokohama, JP',shipTo:'Mombasa, KE',
+      hsCode:'8703.33',proNo:'PI-24-0312',proDate:'Jun 20, 2026',mark:'SP/MBA/0312',tin:'KE-PIN A009182726M',vat:'VAT 0182726',irc:'IRC/MBA/7731',
+      items:[{d:'Toyota Land Cruiser 300 (2022)',ch:'VJA300-0012788',q:1,u:48500},{d:'Nissan Patrol Y62 (2022)',ch:'Y62-0905531',q:1,u:22400}],
+      freight:4200,ins:520,inspect:280,govtax:4100,customs:1500,docdel:220,spservice:950,discount:500},
+    'INV-24-0198':{no:'INV-24-0198',date:'Mar 12, 2026',due:'Mar 19, 2026',order:'SP-24-0198',status:'paid',
+      billTo:{name:'Amina Yusuf',company:'Yusuf Auto Traders',addr:'Plot 44, Nyerere Road\nDar es Salaam, Tanzania',phone:'+255 22 700 1180',email:'amina@yusufautotz.com'},
+      consignee:'Yusuf Auto Traders\nPlot 44, Nyerere Road, Dar es Salaam, Tanzania',notify:'Same as consignee',
+      vessel:'MV Grand Mercury',blNo:'BL-OSK-99231',blDate:'Mar 14, 2026',shipFrom:'Yokohama, JP',shipTo:'Dar es Salaam, TZ',
+      hsCode:'8702.90',proNo:'PI-24-0198',proDate:'Feb 28, 2026',mark:'SP/DAR/0198',tin:'TZ-TIN 118-902-771',vat:'VAT 40-009812K',irc:'IRC/DSM/5521',
+      items:[{d:'Toyota Hiace GL (2021)',ch:'GDH201-3012455',q:1,u:18600},{d:'Toyota Hiace GL (2021)',ch:'GDH201-3012460',q:1,u:18600}],
+      freight:3800,ins:480,inspect:320,govtax:2100,customs:950,docdel:180,spservice:600,discount:0},
+    'INV-23-0955':{no:'INV-23-0955',date:'Feb 2, 2026',due:'Feb 9, 2026',order:'SP-23-0955',status:'paid',
+      billTo:{name:'John Otieno',company:'Otieno Motors Ltd',addr:'Moi Ave, Industrial Area\nMombasa, Kenya',phone:'+254 41 220 3345',email:'john@otienomotors.co.ke'},
+      consignee:'Otieno Motors Ltd\nMoi Ave, Industrial Area, Mombasa, Kenya',notify:'Same as consignee',
+      vessel:'MV Morning Crystal',blNo:'BL-YOK-33810',blDate:'Jan 28, 2026',shipFrom:'Yokohama, JP',shipTo:'Mombasa, KE',
+      hsCode:'8703.90',proNo:'PI-23-0955',proDate:'Jan 12, 2026',mark:'SP/MBA/0955',tin:'KE-PIN A009182726M',vat:'VAT 0182726',irc:'IRC/MBA/6620',
+      items:[{d:'Nissan Note e-Power (2020)',ch:'HE12-2204188',q:1,u:8100}],
+      freight:900,ins:220,inspect:180,govtax:520,customs:380,docdel:150,spservice:260,discount:0}
   };
-  function invTotal(v){var s=0;v.items.forEach(function(i){s+=i[1];});return s+v.freight+v.ins+v.inspect;}
+  function invSub(v){var s=0;v.items.forEach(function(i){s+=i.q*i.u;});return s;}
+  function invFees(v){return v.freight+v.ins+v.inspect+(v.govtax||0)+(v.customs||0)+(v.docdel||0)+(v.spservice||0);}
+  function invTotal(v){return invSub(v)+invFees(v)-(v.discount||0);}
+  function invPaid(v){var t=invTotal(v);return v.status==='paid'?t:(v.status==='deposit'?Math.round(t*0.3):0);}
   // Derive an invoice from the matching order when it isn't in the detailed INVOICES set (keeps every "View invoice" live).
   function invForOrder(no){
     if(INVOICES[no])return INVOICES[no];
     var oid=no.replace(/^INV-/,'SP-'); var o=ORDERS[oid]; if(!o)return null;
-    var freight=Math.round(o.total*0.06), ins=Math.round(o.total*0.008), inspect=280;
-    var itemPrice=Math.max(0,o.total-freight-ins-inspect);
+    var freight=Math.round(o.total*0.06), ins=Math.round(o.total*0.008), inspect=280,
+        govtax=Math.round(o.total*0.04), customs=Math.round(o.total*0.015), docdel=180, spservice=Math.round(o.total*0.012);
+    var itemPrice=Math.max(0,o.total-freight-ins-inspect-govtax-customs-docdel-spservice);
     var paidFull=o.step>=4 && o.st!=='rejected' && o.st!=='cancelled';
-    var paid=paidFull?o.total:(o.st==='deposit'?Math.round(o.total*0.3):0);
-    return {no:no,date:o.placed,order:oid,status:paidFull?'paid':'unpaid',consignee:'John Otieno · '+o.port,items:[[o.items,itemPrice]],freight:freight,ins:ins,inspect:inspect,paid:paid};
+    var status=paidFull?'paid':(o.st==='deposit'?'deposit':'unpaid');
+    var sh=(typeof SHIP!=='undefined'&&SHIP[oid])?SHIP[oid]:null;
+    var num=oid.replace('SP-','');
+    return {no:no,date:o.placed,due:o.placed,order:oid,status:status,
+      billTo:{name:'John Otieno',company:'Otieno Motors Ltd',addr:o.port,phone:'+254 41 220 3345',email:'john@otienomotors.co.ke'},
+      consignee:'Otieno Motors Ltd\n'+o.port,notify:'Same as consignee',
+      vessel:sh?sh.vessel:'To be nominated',blNo:sh?sh.bl:'BL-'+num,blDate:o.placed,shipFrom:'Yokohama, JP',shipTo:o.port,
+      hsCode:'8703.23',proNo:'PI-'+num,proDate:o.placed,mark:'SP/'+num,tin:'',vat:'',irc:'',
+      items:[{d:o.items,ch:'CHS-'+num.replace(/\D/g,''),q:1,u:itemPrice}],
+      freight:freight,ins:ins,inspect:inspect,govtax:govtax,customs:customs,docdel:docdel,spservice:spservice,discount:0};
   }
   function renderInvoices(){
     var el=$('#invList'); if(!el)return;
     el.innerHTML=Object.keys(INVOICES).map(function(k){
-      var v=INVOICES[k];var sb=v.status==='paid'?'<span class="badge b-success">Paid</span>':'<span class="badge b-error">Unpaid</span>';
+      var v=INVOICES[k];var sb=v.status==='paid'?'<span class="badge b-success">Paid</span>':(v.status==='deposit'?'<span class="badge b-warning">Deposit paid</span>':'<span class="badge b-error">Unpaid</span>');
       return '<div class="lrow" data-invoice="'+v.no+'"><span class="li">🧾</span><div style="flex:1;min-width:0"><div class="lt">'+v.no+'</div><div class="ls">Order #'+v.order+' · '+v.date+' · '+usd(invTotal(v))+'</div></div>'+sb+'</div>';
     }).join('');
   }
   function openInvoice(no){
     var v=invForOrder(no); if(!v)return;
     $('#invTitle').textContent=v.no;
-    var sub=0;v.items.forEach(function(i){sub+=i[1];});
-    var tot=invTotal(v);var bal=tot-v.paid;
-    var lines=v.items.map(function(i){return '<div class="invrow li"><span class="l">'+i[0]+'</span><span class="r">'+usd(i[1])+'</span></div>';}).join('');
-    var sb=v.status==='paid'?'<span class="badge b-success">Paid</span>':'<span class="badge b-error">Unpaid</span>';
-    var payline=v.status==='paid'?'<div class="invrow"><span class="l">Amount paid</span><span class="r" style="color:var(--success)">-'+usd(v.paid)+'</span></div>':'<div class="invrow"><span class="l">Balance due</span><span class="r" style="color:var(--error)">'+usd(bal)+'</span></div>';
-    var acts=v.status==='unpaid'?'<button class="btn primary" style="flex:1" data-pay="'+bal+'" data-paylabel="'+v.no+'">Pay '+usd(bal)+'</button>':'';
+    var sub=invSub(v),tot=invTotal(v),paid=invPaid(v),bal=tot-paid;
+    var sb=v.status==='paid'?'<span class="badge b-success">Paid</span>':(v.status==='deposit'?'<span class="badge b-warning">Deposit paid</span>':'<span class="badge b-error">Unpaid</span>');
+    function sec(t){return '<div style="font:700 11.5px var(--text);text-transform:uppercase;letter-spacing:.05em;color:var(--faint);padding:14px 18px 5px">'+t+'</div>';}
+    function kv(l,val){return val?'<div class="invrow"><span class="l">'+l+'</span><span class="r" style="font-weight:600;text-align:right;max-width:60%;white-space:pre-line">'+val+'</span></div>':'';}
+    function fee(l,val,neg){return '<div class="invrow"><span class="l">'+l+'</span><span class="r"'+(neg?' style="color:var(--success)"':'')+'>'+(neg?'-':'')+usd(val)+'</span></div>';}
+    var lines=v.items.map(function(i){
+      return '<div class="invrow li" style="align-items:flex-start"><span class="l" style="flex:1"><span style="display:block;color:var(--ink);font-weight:600">'+i.d+'</span><span style="display:block;font-size:11.5px;color:var(--faint);margin-top:2px">Chassis '+(i.ch||'—')+' · Qty '+i.q+' × '+usd(i.u)+'</span></span><span class="r">'+usd(i.q*i.u)+'</span></div>';
+    }).join('');
+    var payline=v.status==='paid'?'<div class="invrow"><span class="l">Amount paid</span><span class="r" style="color:var(--success)">-'+usd(paid)+'</span></div>':(paid>0?'<div class="invrow"><span class="l">Deposit paid</span><span class="r" style="color:var(--success)">-'+usd(paid)+'</span></div>':'')+'<div class="invrow"><span class="l">Balance due</span><span class="r" style="color:var(--error)">'+usd(bal)+'</span></div>';
+    var b=SPBANK;
+    var meta=kv('Vessel',v.vessel)+kv('Shipping from',v.shipFrom)+kv('Shipping to',v.shipTo)+kv('B/L No · Date',v.blNo+(v.blDate?' · '+v.blDate:''))+kv('HS Code',v.hsCode)+kv('Proforma No · Date',v.proNo+(v.proDate?' · '+v.proDate:''))+kv('Shipping mark',v.mark)+kv('TIN',v.tin)+kv('VAT / BIN',v.vat)+kv('IRC No',v.irc);
+    var acts=(v.status!=='paid')?'<button class="btn primary" style="flex:1" data-pay="'+bal+'" data-paylabel="'+v.no+'">Pay '+usd(bal)+'</button>':'';
     $('#invBody').innerHTML='<div class="pad" style="padding:14px 16px 28px">'
-      +'<div class="invcard"><div class="invhead"><div><div class="no">'+v.no+'</div><div class="dt">Issued '+v.date+' · Order #'+v.order+'</div></div>'+sb+'</div>'
-      +'<div class="invrow" style="padding-top:14px"><span class="l">Consignee</span><span class="r" style="font-weight:600;text-align:right">'+v.consignee+'</span></div>'
-      +'<div style="font:700 11.5px var(--text);text-transform:uppercase;letter-spacing:.05em;color:var(--faint);padding:12px 18px 4px">Vehicles (FOB)</div>'
+      +'<div class="invcard">'
+      +'<div class="invhead"><div style="min-width:0"><div class="no">'+SPCO.name+'</div><div class="dt" style="white-space:pre-line">'+SPCO.addr+'</div><div class="dt">'+SPCO.phone+' · '+SPCO.email+'</div></div>'
+      +'<div style="text-align:right;flex-shrink:0"><div style="font:800 14px var(--display);letter-spacing:.08em;color:var(--ink)">INVOICE</div><div class="dt">'+v.no+'</div><div class="dt">Issued '+v.date+'</div>'+(v.due?'<div class="dt">Due '+v.due+'</div>':'')+'<div style="margin-top:6px">'+sb+'</div></div></div>'
+      +sec('Bill to')
+      +'<div class="invrow"><span class="l" style="white-space:pre-line;color:var(--ink);font-weight:600">'+v.billTo.name+(v.billTo.company?'\n'+v.billTo.company:'')+'</span><span class="r" style="font-weight:500;text-align:right;max-width:55%;white-space:pre-line;color:var(--muted)">'+v.billTo.addr+'</span></div>'
+      +(v.billTo.phone||v.billTo.email?'<div class="invrow li"><span class="l" style="color:var(--muted);white-space:pre-line;font-size:12px">'+[v.billTo.phone,v.billTo.email].filter(Boolean).join(' · ')+'</span></div>':'')
+      +sec('Consignee / Notify party')
+      +'<div class="invrow"><span class="l">Consignee</span><span class="r" style="font-weight:600;text-align:right;max-width:62%;white-space:pre-line">'+v.consignee+'</span></div>'
+      +'<div class="invrow li"><span class="l">Notify party</span><span class="r" style="font-weight:600;text-align:right;max-width:62%;white-space:pre-line">'+v.notify+'</span></div>'
+      +sec('Shipment details')
+      +meta
+      +sec('Vehicles')
       +lines
+      +sec('Charges (USD)')
       +'<div class="invrow"><span class="l">Subtotal (FOB)</span><span class="r">'+usd(sub)+'</span></div>'
-      +'<div class="invrow"><span class="l">Ocean freight</span><span class="r">'+usd(v.freight)+'</span></div>'
-      +'<div class="invrow"><span class="l">Marine insurance</span><span class="r">'+usd(v.ins)+'</span></div>'
-      +'<div class="invrow li"><span class="l">Pre-shipment inspection</span><span class="r">'+usd(v.inspect)+'</span></div>'
+      +fee('Government tax',v.govtax||0)
+      +fee('Customs clearance',v.customs||0)
+      +fee('Document delivery',v.docdel||0)
+      +fee('SP service charge',v.spservice||0)
+      +fee('Pre-shipment inspection',v.inspect)
+      +fee('Marine insurance',v.ins)
+      +fee('Ocean freight',v.freight)
+      +(v.discount>0?fee('Discount',v.discount,true):'')
+      +'<div class="invrow li"></div>'
       +payline
-      +'<div class="invtot"><span class="l">Total CIF '+v.consignee.split('· ')[1]+'</span><span class="r">'+usd(tot)+'</span></div></div>'
+      +'<div class="invtot"><span class="l">Grand total (CIF '+v.shipTo+')</span><span class="r">'+usd(tot)+'</span></div>'
+      +sec('Bank details')
+      +kv('Bank',b.name)+kv('Country',b.country)+kv('Account',b.acct)+kv('IBAN',b.iban)+kv('SWIFT',b.swift)+kv('Branch',b.branch)
+      +'</div>'
       +'<div style="display:flex;gap:10px;margin-top:16px">'+acts+'<button class="btn ghost" style="flex:1" data-toast="Invoice PDF downloaded ✓|ok">Download PDF</button></div>'
-      +'<p style="font-size:11.5px;color:var(--faint);margin-top:14px;line-height:1.5">SP Company Ltd · Yokohama, Japan · All amounts in USD. CIF includes cost, insurance & freight to destination port.</p></div>';
+      +'<p style="font-size:11.5px;color:var(--faint);margin-top:14px;line-height:1.5">'+SPCO.name+' · Yokohama, Japan · All amounts in USD. CIF includes cost, insurance &amp; freight to destination port. Payment due by the date shown; goods remain SP Company property until paid in full.</p></div>';
     nav('invoice');
   }
   var SHIP={
