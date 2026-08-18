@@ -1964,14 +1964,41 @@ html.dark .testbanner{color:#FFC043}
         <div class="fi"><span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>Dedicated sales rep</div>
         <div class="fi"><span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>Early access to stock</div>
       </div>
-      <div class="msec"><h2 style="font-size:15px">Points activity</h2><a data-nav="coupons">Redeem</a></div>
-      <div class="panel" style="padding:2px 16px">
-        <div class="prow2"><span class="k">Order #SP-2048 · Mar 3</span><span class="v" style="color:var(--success)">+120</span></div>
-        <div class="prow2"><span class="k">Review posted · Mar 2</span><span class="v" style="color:var(--success)">+80</span></div>
-        <div class="prow2"><span class="k">Referral bonus · Feb 26</span><span class="v" style="color:var(--success)">+50</span></div>
-        <div class="prow2"><span class="k">Coupon SP15 redeemed · Feb 20</span><span class="v" style="color:var(--error)">−200</span></div>
+      <!-- Membership tiers comparison (by cars purchased) -->
+      <div class="msec"><h2 style="font-size:15px">Membership tiers</h2><span style="font-size:11.5px;color:var(--faint)">By cars purchased</span></div>
+      <div id="mTiers" style="display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch"></div>
+      <div class="panel" style="padding:13px 16px;display:flex;gap:10px;align-items:center;margin-top:4px"><span style="font-size:18px">⭐</span><span style="font-size:12.5px;color:var(--body);line-height:1.4"><b style="color:var(--ink)">Special Elite Rewards</b> — buyers past 100 cars unlock concierge-level premium benefits.</span></div>
+
+      <!-- Referral program -->
+      <div class="msec"><h2 style="font-size:15px">Referral program</h2><span class="badge b-info">Gold tier</span></div>
+      <div class="panel" style="padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div style="font:700 14px var(--display)">Invite &amp; earn</div><div style="font-size:12px;color:var(--muted)">19 / 10 referrals</div></div>
+        <div class="bar" style="margin:11px 0 4px"><i style="width:100%"></i></div>
+        <div style="font-size:11.5px;color:var(--faint)">50 pts bonus unlocked 🎉</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:13px;padding:10px 12px;border:1px dashed var(--border);border-radius:var(--r-lg);background:var(--surface-2)"><span style="flex:1;font:700 13px var(--mono);color:var(--ink);letter-spacing:.02em">REF-BDSZK9DFFWQ</span><button class="btn ghost" style="padding:6px 12px;font-size:12px" data-copy="REF-BDSZK9DFFWQ">Copy</button></div>
+        <div class="featgrid" style="margin-top:13px">
+          <div class="fi"><span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>5 pts per successful referral</div>
+          <div class="fi"><span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>Friend gets 5 bonus points on signup</div>
+          <div class="fi"><span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>50 pts bonus at 10 referrals</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px"><button class="btn ghost" style="flex:1" data-toast="Referral link shared 🔗|ok">Share</button><button class="btn primary" style="flex:1" data-toast="Invitations sent ✉️|ok">Invite friends</button></div>
       </div>
-      <button class="btn primary block lg" style="margin-top:14px" data-opensheet="redeemSheet">Redeem 1,240 points</button>
+
+      <!-- Membership journey · Journey / Badges / Activity -->
+      <div class="msec"><h2 style="font-size:15px">Membership journey</h2><span style="font-size:11.5px;color:var(--faint)">Progress &amp; achievements</span></div>
+      <div class="seg" role="tablist" aria-label="Membership journey" style="margin-bottom:14px"><button class="on" data-mjtab="journey" role="tab">Journey</button><button data-mjtab="badges" role="tab">Badges</button><button data-mjtab="activity" role="tab">Activity</button></div>
+      <div id="mjJourney" role="tabpanel"></div>
+      <div id="mjBadges" role="tabpanel" hidden></div>
+      <div id="mjActivity" role="tabpanel" hidden>
+        <div class="panel" style="padding:2px 16px">
+          <div class="prow2"><span class="k">Order #SP-2048 · Mar 3</span><span class="v" style="color:var(--success)">+120</span></div>
+          <div class="prow2"><span class="k">Review posted · Mar 2</span><span class="v" style="color:var(--success)">+80</span></div>
+          <div class="prow2"><span class="k">Referral bonus · Feb 26</span><span class="v" style="color:var(--success)">+50</span></div>
+          <div class="prow2"><span class="k">Auction won · Toyota Aqua · Feb 22</span><span class="v" style="color:var(--success)">+150</span></div>
+          <div class="prow2"><span class="k">Coupon SP15 redeemed · Feb 20</span><span class="v" style="color:var(--error)">−200</span></div>
+        </div>
+      </div>
+      <button class="btn primary block lg" style="margin-top:16px" data-opensheet="redeemSheet">Redeem 1,240 points</button>
     </div></div>
   </section>
 
@@ -3622,12 +3649,77 @@ html.dark .testbanner{color:#FFC043}
     if(b && b.innerHTML.replace(/\s/g,'').length<10){ e[1](); return true; }
     return false;
   }
+  // ---- Membership: tiers · journey · badges (mirrors the web Memberships page) ----
+  var MCHK='<span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>';
+  var MTIERS=[
+    {name:'Bronze',cars:'0–25',disc:'—',icon:'🥉',grad:'135deg,#c67b3f,#9c5a28',state:'done',benefits:['Basic rewards program','Birthday bonus','Email support']},
+    {name:'Silver',cars:'26–50',disc:'2%',icon:'🥈',grad:'135deg,#9aa4b2,#6b7480',state:'done',benefits:['All Bronze benefits','Priority scheduling','Phone support']},
+    {name:'Gold',cars:'51–75',disc:'5%',icon:'💎',grad:'135deg,#e0a83a,#b6801c',state:'active',benefits:['All Silver benefits','Dedicated advisor','VIP events','Free detailing']},
+    {name:'Platinum',cars:'76–100',disc:'10%',icon:'👑',grad:'135deg,#5a6472,#2f3742',state:'locked',benefits:['All Gold benefits','Concierge service','Loaner vehicles','Annual gift']}
+  ];
+  var MJOURNEY=[
+    {t:'Getting Started',s:'Account created & verified',m:'0 cars',state:'done'},
+    {t:'Active Trader',s:'Silver tier reached',m:'25 cars',state:'done'},
+    {t:'Established Buyer',s:'Gold tier reached',m:'50 cars',state:'done'},
+    {t:'Gold Member',s:'You are here · 63 cars purchased',m:'Current',state:'current'},
+    {t:'Platinum Elite',s:'13 more cars to unlock',m:'76 cars',state:'next'},
+    {t:'Century Club',s:'Exclusive premium benefits',m:'100 cars',state:'locked'}
+  ];
+  var MBADGES=[
+    {i:'🚗',t:'First Purchase',on:1},{i:'🔟',t:'10 Cars',on:1},{i:'✅',t:'Verified Buyer',on:1},
+    {i:'🏆',t:'Auction Winner',on:1},{i:'🥈',t:'Silver Tier',on:1},{i:'💎',t:'Gold Tier',on:1},
+    {i:'✍️',t:'Reviewer',on:1},{i:'💰',t:'Big Spender',on:1},{i:'👑',t:'Platinum',on:0},
+    {i:'💯',t:'Century Club',on:0},{i:'⚡',t:'Perfect Payer',on:0},{i:'🌍',t:'Global Trader',on:0}
+  ];
+  function mTierCard(t){
+    var lock=t.state==='locked'?'<span style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:12px">🔒</span>'
+      :(t.state==='active'?'<span class="badge" style="background:rgba(255,255,255,.28);color:#fff">Active</span>'
+      :'<span style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:13px">✓</span>');
+    var feats=t.benefits.map(function(b){return '<div class="fi" style="font-size:12px">'+MCHK+b+'</div>';}).join('');
+    return '<div style="min-width:212px;max-width:212px;scroll-snap-align:start;border:1px solid var(--border);border-radius:var(--r-2xl);overflow:hidden;background:var(--surface)'+(t.state==='active'?';box-shadow:0 0 0 2px var(--brand)':'')+'">'
+      +'<div style="background:linear-gradient('+t.grad+');color:#fff;padding:13px 14px 12px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:19px">'+t.icon+'</span>'+lock+'</div>'
+      +'<div style="font:800 17px var(--display);margin-top:7px">'+t.name+'</div><div style="font-size:11px;opacity:.9">'+t.cars+' cars</div></div>'
+      +'<div style="padding:12px 14px">'
+      +'<div style="font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Service discount</div>'
+      +'<div style="font:800 16px var(--display);color:var(--ink);margin-bottom:9px">'+t.disc+'</div>'
+      +'<div class="featgrid" style="gap:7px">'+feats+'</div></div></div>';
+  }
+  function mJourneyRow(j,i){
+    var last=i===MJOURNEY.length-1;
+    var dc=j.state==='done'?'var(--success)':(j.state==='current'?'var(--brand)':(j.state==='next'?'var(--warning)':'var(--surface-3)'));
+    var di=j.state==='done'?'✓':(j.state==='current'?'●':(j.state==='locked'?'🔒':''));
+    var bd=j.state==='current'?'<span class="badge b-info">Current</span>':(j.state==='done'?'<span class="badge b-success">Achieved</span>':(j.state==='next'?'<span class="badge b-warning">'+j.m+'</span>':'<span class="badge" style="opacity:.65">'+j.m+'</span>'));
+    return '<div style="display:flex;gap:12px;align-items:stretch">'
+      +'<div style="display:flex;flex-direction:column;align-items:center">'
+      +'<span style="width:24px;height:24px;border-radius:50%;background:'+dc+';color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+di+'</span>'
+      +(last?'':'<span style="flex:1;width:2px;background:var(--border);min-height:16px"></span>')+'</div>'
+      +'<div style="flex:1;padding-bottom:'+(last?'0':'16px')+'">'
+      +'<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span style="font:700 14px var(--display);color:var(--ink)">'+j.t+'</span>'+bd+'</div>'
+      +'<div style="font-size:12px;color:var(--muted);margin-top:2px">'+j.s+'</div></div></div>';
+  }
+  function mBadge(b){
+    return '<div style="text-align:center;padding:13px 6px;border:1px solid var(--border);border-radius:var(--r-lg);background:'+(b.on?'var(--surface)':'var(--surface-2)')+'">'
+      +'<div style="font-size:26px;filter:'+(b.on?'none':'grayscale(1)')+';opacity:'+(b.on?'1':'.5')+'">'+b.i+'</div>'
+      +'<div style="font-size:10.5px;font-weight:600;color:'+(b.on?'var(--ink)':'var(--faint)')+';margin-top:6px;line-height:1.2">'+b.t+'</div>'
+      +(b.on?'':'<div style="font-size:9px;color:var(--faint);margin-top:2px">🔒 Locked</div>')+'</div>';
+  }
+  function renderMembership(){
+    var tc=$('#mTiers'); if(tc)tc.innerHTML=MTIERS.map(mTierCard).join('');
+    var jp=$('#mjJourney'); if(jp)jp.innerHTML=MJOURNEY.map(mJourneyRow).join('');
+    var bp=$('#mjBadges'); if(bp)bp.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">'+MBADGES.map(mBadge).join('')+'</div>';
+  }
+  function setMjTab(tab){
+    ['journey','badges','activity'].forEach(function(k){ var el=$('#mj'+k.charAt(0).toUpperCase()+k.slice(1)); if(el)el.hidden=(k!==tab); });
+    $$('#membership .seg [data-mjtab]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-mjtab')===tab); });
+  }
   function onEnter(id){
     if(healScreen(id))return;
     if(id!=='checkout'){ clearInterval(payIv); } // stop the checkout countdown once you leave, so it doesn't tick invisibly
     var dsc=$('.dscreen'); if(dsc)dsc.classList.toggle('imm', id==='splash'||id==='welcome');
     if(id==='ui-kit'){ renderUiKit(); }
     if(id==='dashboard'){ $$('#dashboard [data-countup]').forEach(function(c){ countUp(c,+c.getAttribute('data-countup'),c.getAttribute('data-pre')||'',c.getAttribute('data-suf')||''); }); }
+    if(id==='membership'){ renderMembership(); setMjTab('journey'); }
     updateMiniCart();
     if(id==='how-to-buy'){ renderHowToBuy(); }
     if(id==='consignees'){ renderConsignees(); }
@@ -3677,6 +3769,7 @@ html.dark .testbanner{color:#FFC043}
     if(v){ if(!validateStep(v.getAttribute('data-validate')))return; }
     if(n){ $('#appscrim').classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); nav(n.getAttribute('data-nav')); return; }
     var otb=e.target.closest('[data-otab]'); if(otb){ ordersFilter=otb.getAttribute('data-otab'); var pw=otb.closest('.pilltabs'); if(pw)pw.querySelectorAll('.t').forEach(function(x){x.classList.toggle('on',x===otb);}); renderOrdersList(); return; }
+    var mjt=e.target.closest('[data-mjtab]'); if(mjt){ setMjTab(mjt.getAttribute('data-mjtab')); return; }
     var od=e.target.closest('[data-order]'); if(od){ openOrder(od.getAttribute('data-order')); return; }
     var ostp=e.target.closest('[data-ostep]'); if(ostp){ openStep(curOrderId,+ostp.getAttribute('data-ostep')); return; }
     var sst=e.target.closest('[data-stepstate]'); if(sst){ setStepState(+sst.getAttribute('data-stepstate')); return; }
