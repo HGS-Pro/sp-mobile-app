@@ -708,6 +708,9 @@ html.dark .testbanner{color:#FFC043}
 .rleg .rw{margin-left:auto;font:600 11px var(--text);color:var(--faint);white-space:nowrap}
 /* invoice */
 .invcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-2xl);overflow:hidden;box-shadow:var(--shadow)}
+.ipt{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface);color:var(--ink);font:500 14px var(--text);outline:none;-webkit-appearance:none;appearance:none}
+.ipt:focus{border-color:var(--brand);box-shadow:var(--ring)}
+.ipt::placeholder{color:var(--faint)}
 .invhead{padding:18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
 .invhead .no{font:800 16px var(--display)}.invhead .dt{font-size:12px;color:var(--faint);margin-top:3px}
 .invrow{display:flex;justify-content:space-between;gap:12px;padding:11px 18px;font-size:13.5px}
@@ -1225,6 +1228,7 @@ html.dark .testbanner{color:#FFC043}
       <div class="dmodules">
         <button class="dmod" data-nav="orders"><span class="cb">2</span><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z"/><path d="M8 12h8M8 16h5"/></svg></span><span class="ml">My Orders</span></button>
         <button class="dmod" data-nav="won"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10v4a5 5 0 0 1-10 0zM5 4h2v3a3 3 0 0 1-2-3zm14 0h-2v3a3 3 0 0 0 2-3zM9 14h6v2H9zM8 20h8"/></svg></span><span class="ml">Won Vehicles</span></button>
+        <button class="dmod" data-nav="my-vehicles"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6h-2v-2H7v2H5v-6Z"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span><span class="ml">My Vehicles</span></button>
         <button class="dmod" data-nav="invoices"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12V8h16v4m0 0v8H4v-8m16 0H4"/></svg></span><span class="ml">Invoices</span></button>
         <button class="dmod" data-nav="consignees"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 5.5a3 3 0 0 1 0 5.6M21 20a5.5 5.5 0 0 0-4-5.2"/></svg></span><span class="ml">Consignees</span></button>
         <button class="dmod" data-nav="shipment"><span class="mi"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg></span><span class="ml">Shipment</span></button>
@@ -1267,6 +1271,7 @@ html.dark .testbanner{color:#FFC043}
       <a data-nav="negotiations"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/></svg></span>Negotiations</a>
       <a data-nav="orders"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z"/><path d="M8 12h8M8 16h5"/></svg></span>My Orders</a>
       <a data-nav="won"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10v4a5 5 0 0 1-10 0zM9 14h6v2H9zM8 20h8"/></svg></span>Won Vehicles</a>
+      <a data-nav="my-vehicles"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6h-2v-2H7v2H5v-6Z"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg></span>My Vehicles</a>
       <a data-nav="invoices"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12V8h16v4m0 0v8H4v-8m16 0H4"/></svg></span>Invoices</a>
       <a data-nav="consignees"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/></svg></span>Consignees</a>
       <a data-nav="shipment"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/></svg></span>Shipment Tracking</a>
@@ -1351,6 +1356,22 @@ html.dark .testbanner{color:#FFC043}
       <div class="pilltabs" style="margin-bottom:14px"><span class="t on" data-otab="all">All</span><span class="t" data-otab="progress">In progress</span><span class="t" data-otab="completed">Completed</span></div>
       <div id="ordersList" style="display:flex;flex-direction:column;gap:12px"></div>
     </div></div>
+  </section>
+
+  <!-- ===== MY VEHICLES (resale) ===== -->
+  <section class="screen" id="my-vehicles" aria-label="My vehicles for resale">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1>My Vehicles</h1></div>
+    <div class="mscroll"><div class="pad" style="padding:14px 16px 24px">
+      <p style="font-size:12.5px;color:var(--muted);margin:-2px 0 14px">List the vehicles you own for resale. SP admin reviews every listing before it goes live.</p>
+      <div class="pilltabs" id="mvTabs" style="margin-bottom:14px;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;padding-bottom:2px"></div>
+      <div id="mvList" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div></div>
+  </section>
+
+  <!-- ===== RESALE DETAIL / SELL FORM ===== -->
+  <section class="screen" id="resale-detail" aria-label="Resale listing">
+    <div class="cbar"><button class="ic" data-back aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button><h1 id="rsTitle">Vehicle</h1></div>
+    <div class="mscroll" id="rsBody"></div>
   </section>
 
   <!-- ===== ORDER TRACKER ===== -->
@@ -3644,10 +3665,112 @@ html.dark .testbanner{color:#FFC043}
       'vesselmap':['vesselmapBody',function(){openVesselMap(curShipId||'SP-24-0198');}],
       'chat':['chatWin',function(){openChat('kenji');}],
       'invoice':['invBody',function(){openInvoice('INV-24-0198');}],
-      'order-step':['stepBody',function(){renderStepDetail();}]};
+      'order-step':['stepBody',function(){renderStepDetail();}],
+      'resale-detail':['rsBody',function(){openResale(MYVEH[0].id);}]};
     var e=map[id]; if(!e)return false; var b=$('#'+e[0]);
     if(b && b.innerHTML.replace(/\s/g,'').length<10){ e[1](); return true; }
     return false;
+  }
+  // ---- My Vehicles (resale flow) — user lists owned vehicles → SP admin approves ----
+  var MVFILTER='all', curResaleId=null;
+  var MYVEH=[
+    {id:'mv1',year:2016,make:'Mazda',model:'CX-30',vin:'I0D1X1S2N7',engine:'',ref:'TP-R0H1E9Y4P2',price:26900,mileage:7,accident:'none',desc:'',status:'notlisted',body:'suv'},
+    {id:'mv2',year:2026,make:'Toyota',model:'Land Cruiser',vin:'J2T7M6I5R7',engine:'3.5L V6',ref:'TP-4K2M9N1P7',price:25670,mileage:12,accident:'none',desc:'',status:'notlisted',body:'suv'},
+    {id:'mv3',year:2008,make:'Toyota',model:'Crown Athlete',vin:'ZO202200001504202',engine:'',ref:'TP-Q8Y7B1S2A7',price:5000,mileage:20,accident:'repaired',desc:'registration number: 1111111222',status:'sold',body:'sedan'},
+    {id:'mv4',year:2026,make:'Audi',model:'A4',vin:'C8Z0J1N1Z4',engine:'2.0T',ref:'TP-A4Z1C8N0J2',price:10008,mileage:5,accident:'none',desc:'',status:'sold',body:'sedan'},
+    {id:'mv5',year:2026,make:'Hino',model:'500 Series',vin:'U7Y9OOM9C2',engine:'7.7L diesel',ref:'TP-H5U7Y9M0C2',price:55000,mileage:3,accident:'none',desc:'',status:'notlisted',body:'truck'},
+    {id:'mv6',year:2026,make:'Audi',model:'A4',vin:'S7V1L0X6P5',engine:'2.0T',ref:'TP-A4S7V1L0P5',price:34000,mileage:2,accident:'none',desc:'',status:'notlisted',body:'sedan'},
+    {id:'mv7',year:2026,make:'BMW',model:'X3',vin:'U1E3P5Z8V2',engine:'2.0T',ref:'TP-X3U1E3Z8V2',price:333,mileage:9,accident:'none',desc:'',status:'review',body:'suv'},
+    {id:'mv8',year:2018,make:'Toyota',model:'Corolla',vin:'G3K1G4Z9D8',engine:'1.8L',ref:'TP-C0G3K1Z9D8',price:8900,mileage:41,accident:'none',desc:'',status:'sold',body:'sedan'},
+    {id:'mv9',year:2016,make:'Komatsu',model:'WA470',vin:'Y1L6G1K2F6',engine:'',ref:'TP-K0Y1L6K2F6',price:38100,mileage:1200,accident:'none',desc:'Wheel loader · 6.7 m³ bucket',status:'notlisted',body:'truck'},
+    {id:'mv10',year:2020,make:'BMW',model:'M3',vin:'E3L0I8Z4F7',engine:'3.0L',ref:'TP-M3E3L0Z4F7',price:10000,mileage:22,accident:'none',desc:'',status:'available',body:'sedan'},
+    {id:'mv11',year:2015,make:'Lexus',model:'GX',vin:'G7A3G0Y1U0',engine:'4.6L V8',ref:'TP-GXG7A3Y1U0',price:24500,mileage:88,accident:'repaired',desc:'',status:'sold',body:'suv'}
+  ];
+  var MVTABS=[['all','All'],['notlisted','Not listed'],['draft','Draft'],['review','In review'],['rejected','Rejected'],['available','Available'],['sold','Sold']];
+  var MVACC={none:'No accident',repaired:'Repaired',nonaccident:'Non-accident'};
+  function mvStatus(s){return ({notlisted:['b-neutral','Not listed'],draft:['b-neutral','Draft'],review:['b-warning','In review'],rejected:['b-error','Rejected'],available:['b-success','Available'],sold:['b-info','Sold']})[s]||['b-neutral',s];}
+  function mvEditable(s){return s==='notlisted'||s==='draft'||s==='rejected';}
+  function mvGet(id){return MYVEH.filter(function(x){return x.id===id;})[0];}
+  function mvCount(f){return f==='all'?MYVEH.length:MYVEH.filter(function(v){return v.status===f;}).length;}
+  function renderMyVehicles(){
+    var tabs=$('#mvTabs');
+    if(tabs)tabs.innerHTML=MVTABS.map(function(t){return '<span class="t'+(MVFILTER===t[0]?' on':'')+'" data-mvtab="'+t[0]+'" style="white-space:nowrap">'+t[1]+' <b style="opacity:.65">'+mvCount(t[0])+'</b></span>';}).join('');
+    var el=$('#mvList'); if(!el)return;
+    var list=MYVEH.filter(function(v){return MVFILTER==='all'||v.status===MVFILTER;});
+    if(!list.length){el.innerHTML='<div class="panel" style="padding:28px 16px;text-align:center;color:var(--faint);font-size:13px">No vehicles in this view.</div>';return;}
+    el.innerHTML=list.map(function(v){
+      var st=mvStatus(v.status),sell=mvEditable(v.status);
+      var act=sell
+        ? '<button class="btn" style="background:var(--ink);color:var(--surface);padding:9px 16px;font-size:12.5px;font-weight:700" data-sell="'+v.id+'">🏷 Sell</button>'
+        : '<button class="btn ghost" style="padding:9px 13px;font-size:12.5px" data-resale="'+v.id+'">👁 View resale</button>';
+      return '<div class="panel" style="padding:14px 16px">'
+        +'<div style="display:flex;gap:11px;align-items:flex-start">'
+        +'<span class="av sq" style="background:var(--brand-tint);color:var(--brand);flex-shrink:0">🚗</span>'
+        +'<div style="flex:1;min-width:0"><div style="font:700 14px var(--display);color:var(--ink)">'+v.year+' '+v.make+' '+v.model+'</div><div style="font:600 11px var(--mono);color:var(--faint);margin-top:2px">'+v.vin+'</div></div>'
+        +'<span class="badge '+st[0]+'">'+st[1]+'</span></div>'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">'
+        +'<div><div style="font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Resale price</div><div style="font:800 16px var(--display)">'+usd(v.price)+'</div></div>'
+        +act+'</div></div>';
+    }).join('');
+  }
+  function rsPhotos(v){var g='';for(var i=0;i<6;i++){g+='<div style="aspect-ratio:4/3;border-radius:var(--r-lg);background-image:url('+pickImg(v)+');background-size:cover;background-position:center;background-color:var(--surface-2)"></div>';}return g;}
+  function openResale(id){
+    var v=mvGet(id); if(!v)return; curResaleId=id;
+    $('#rsTitle').textContent=v.year+' '+v.make+' '+v.model;
+    var st=mvStatus(v.status),edit=mvEditable(v.status),body=$('#rsBody'); if(!body)return;
+    function kv(l,val){return '<div class="invrow"><span class="l">'+l+'</span><span class="r" style="text-align:right;max-width:60%;white-space:pre-line">'+(val||'—')+'</span></div>';}
+    if(edit){
+      var badPrice=!(v.price>0);
+      body.innerHTML='<div class="pad" style="padding:14px 16px 32px">'
+        +'<div class="panel" style="padding:16px">'
+        +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div style="min-width:0"><h1 style="font:800 19px var(--display);color:var(--ink)">'+v.year+' '+v.make+' '+v.model+'</h1><div style="font:600 11px var(--mono);color:var(--faint);margin-top:3px">Reference: '+v.ref+'</div></div><span class="badge '+st[0]+'">'+st[1]+'</span></div>'
+        +'<div id="rsBanner" style="display:'+(badPrice?'block':'none')+';margin-top:12px">'+alertHtml('warning','Price must be greater than 0','Set a resale price above zero before submitting for review.')+'</div></div>'
+        +'<div class="msec"><h2 style="font-size:14px">Vehicle details</h2><span style="font-size:11px;color:var(--faint)">Locked</span></div>'
+        +'<div class="panel" style="padding:4px 16px">'+kv('Make',v.make)+kv('Model',v.model)+kv('Year',v.year)+kv('VIN',v.vin)+'<div class="invrow" style="border:none"><span class="l">Engine</span><span class="r" style="text-align:right">'+(v.engine||'—')+'</span></div></div>'
+        +'<div class="msec"><h2 style="font-size:14px">Listing details</h2></div>'
+        +'<div class="panel" style="padding:16px;display:flex;flex-direction:column;gap:13px">'
+        +'<label style="display:block"><span style="font-size:12px;color:var(--muted);font-weight:600">Price (USD)</span><input id="rsPrice" type="number" inputmode="decimal" value="'+(v.price||'')+'" class="ipt" style="margin-top:6px" placeholder="0.00"></label>'
+        +'<label style="display:block"><span style="font-size:12px;color:var(--muted);font-weight:600">Mileage (km)</span><input id="rsMileage" type="number" inputmode="numeric" value="'+(v.mileage||'')+'" class="ipt" style="margin-top:6px"></label>'
+        +'<label style="display:block"><span style="font-size:12px;color:var(--muted);font-weight:600">Accident status</span><select id="rsAccident" class="ipt" style="margin-top:6px">'+Object.keys(MVACC).map(function(k){return '<option value="'+k+'"'+(v.accident===k?' selected':'')+'>'+MVACC[k]+'</option>';}).join('')+'</select></label>'
+        +'<label style="display:block"><span style="font-size:12px;color:var(--muted);font-weight:600">Description</span><textarea id="rsDesc" class="ipt" rows="3" style="margin-top:6px;resize:vertical" placeholder="Condition, service history, extras…">'+(v.desc||'')+'</textarea></label>'
+        +'<button class="btn primary block" data-rssave>Save changes</button></div>'
+        +'<div class="msec"><h2 style="font-size:14px">Photos</h2><button class="btn text" style="font-size:12.5px" data-toast="Photo picker — add up to 20 images|ok">＋ Add photos</button></div>'
+        +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'+rsPhotos(v)+'</div>'
+        +'<div style="display:flex;gap:10px;margin-top:18px"><button class="btn ghost" style="flex:1" data-back>Done editing</button><button class="btn primary" style="flex:1.2" data-rssubmit>Submit for review</button></div>'
+        +'</div>';
+    } else {
+      var note=v.status==='review'?alertHtml('info','Awaiting SP review','Your listing is with the SP team for approval. You will be notified once it goes live.')
+        :v.status==='available'?alertHtml('success','Live on the marketplace','Approved and visible to buyers. We will notify you when it sells.')
+        :alertHtml('info','Sold','This vehicle has completed its resale.');
+      body.innerHTML='<div class="pad" style="padding:14px 16px 32px">'
+        +'<div class="panel" style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div style="min-width:0"><h1 style="font:800 19px var(--display);color:var(--ink)">'+v.year+' '+v.make+' '+v.model+'</h1><div style="font:600 11px var(--mono);color:var(--faint);margin-top:3px">Reference: '+v.ref+'</div></div><span class="badge '+st[0]+'">'+st[1]+'</span></div><div style="margin-top:12px">'+note+'</div></div>'
+        +'<div class="panel" style="padding:4px 16px;margin-top:12px">'
+        +kv('Price (USD)',usd(v.price))+kv('Mileage',v.mileage+' km')+kv('Accident status',MVACC[v.accident]||'—')+kv('Make',v.make)+kv('Model',v.model)+kv('Year',v.year)+kv('VIN',v.vin)+kv('Engine',v.engine)+'<div class="invrow" style="border:none"><span class="l">Description</span><span class="r" style="text-align:right;max-width:60%;white-space:pre-line">'+(v.desc||'—')+'</span></div></div>'
+        +'<div class="msec"><h2 style="font-size:14px">Photos</h2></div>'
+        +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'+rsPhotos(v)+'</div>'
+        +(v.status==='available'?'<button class="btn ghost block" style="margin-top:18px" data-toast="Listing paused|ok">Pause listing</button>':'')
+        +'</div>';
+    }
+    nav('resale-detail');
+  }
+  function mvReadForm(v){
+    var p=$('#rsPrice'),m=$('#rsMileage'),a=$('#rsAccident'),d=$('#rsDesc');
+    if(p){var pv=parseFloat(p.value);v.price=isNaN(pv)?0:pv;}
+    if(m){var mv=parseInt(m.value,10);v.mileage=isNaN(mv)?0:mv;}
+    if(a)v.accident=a.value;
+    if(d)v.desc=d.value;
+  }
+  function saveResale(){
+    var v=mvGet(curResaleId); if(!v)return; mvReadForm(v);
+    if(v.status==='notlisted'||v.status==='rejected')v.status='draft';
+    toast('Listing saved as draft','ok'); openResale(curResaleId);
+  }
+  function submitResale(){
+    var v=mvGet(curResaleId); if(!v)return; mvReadForm(v);
+    if(!(v.price>0)){ var b=$('#rsBanner'); if(b)b.style.display='block'; toast('Price must be greater than 0','err'); return; }
+    v.status='review';
+    toast('Submitted — SP admin will review your listing','ok');
+    MVFILTER='review'; renderMyVehicles(); nav('my-vehicles');
   }
   // ---- Membership: tiers · journey · badges (mirrors the web Memberships page) ----
   var MCHK='<span class="c"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5 9-9"/></svg></span>';
@@ -3720,6 +3843,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='ui-kit'){ renderUiKit(); }
     if(id==='dashboard'){ $$('#dashboard [data-countup]').forEach(function(c){ countUp(c,+c.getAttribute('data-countup'),c.getAttribute('data-pre')||'',c.getAttribute('data-suf')||''); }); }
     if(id==='membership'){ renderMembership(); setMjTab('journey'); }
+    if(id==='my-vehicles'){ renderMyVehicles(); }
     updateMiniCart();
     if(id==='how-to-buy'){ renderHowToBuy(); }
     if(id==='consignees'){ renderConsignees(); }
@@ -3770,6 +3894,11 @@ html.dark .testbanner{color:#FFC043}
     if(n){ $('#appscrim').classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); nav(n.getAttribute('data-nav')); return; }
     var otb=e.target.closest('[data-otab]'); if(otb){ ordersFilter=otb.getAttribute('data-otab'); var pw=otb.closest('.pilltabs'); if(pw)pw.querySelectorAll('.t').forEach(function(x){x.classList.toggle('on',x===otb);}); renderOrdersList(); return; }
     var mjt=e.target.closest('[data-mjtab]'); if(mjt){ setMjTab(mjt.getAttribute('data-mjtab')); return; }
+    var mvt=e.target.closest('[data-mvtab]'); if(mvt){ MVFILTER=mvt.getAttribute('data-mvtab'); renderMyVehicles(); return; }
+    var sll=e.target.closest('[data-sell]'); if(sll){ openResale(sll.getAttribute('data-sell')); return; }
+    var rsl=e.target.closest('[data-resale]'); if(rsl){ openResale(rsl.getAttribute('data-resale')); return; }
+    var rsv=e.target.closest('[data-rssave]'); if(rsv){ saveResale(); return; }
+    var rsb=e.target.closest('[data-rssubmit]'); if(rsb){ submitResale(); return; }
     var od=e.target.closest('[data-order]'); if(od){ openOrder(od.getAttribute('data-order')); return; }
     var ostp=e.target.closest('[data-ostep]'); if(ostp){ openStep(curOrderId,+ostp.getAttribute('data-ostep')); return; }
     var sst=e.target.closest('[data-stepstate]'); if(sst){ setStepState(+sst.getAttribute('data-stepstate')); return; }
@@ -4064,7 +4193,7 @@ html.dark .testbanner{color:#FFC043}
     ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard'],['ui-kit','UI Components']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
-    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['ship-schedule','Shipping Schedule'],['local-services','Local Services'],['clearing-agents','Clearing Agents'],['shipping-agents','Shipping Agents'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
+    ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['my-vehicles','My Vehicles (resale)'],['resale-detail','Resale listing detail'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['ship-schedule','Shipping Schedule'],['local-services','Local Services'],['clearing-agents','Clearing Agents'],['shipping-agents','Shipping Agents'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
     ['Auctions & Saved',[['auctions','Live Auctions'],['auction-register','Auction Registration'],['auction-cal','Auction Calendar'],['auction-calc','Cost Calculator'],['bids','My Bids'],['auction-houses','Auction Houses'],['auction-guide','Auction Guide'],['auction-system','Auction System'],['auction-glossary','Auction Glossary'],['inspection-guide','Inspection Guide'],['inland-transport','Inland Transport'],['how-to-buy','How to Buy'],['auction-process','How Auctions Work'],['auction-lot','Auction lot (live bid)'],['heavy','Heavy Equipment'],['heavy-detail','Equipment detail'],['saved','Saved / Favorites'],['saved-searches','Saved Searches']]],
     ['Account',[['wallet','Wallet & Deposits'],['statement','Wallet statement'],['profile','Profile & KYC'],['settings','Settings'],['support','Help & Support']]],
     ['Sign Up',[['su-type','Account type'],['su-1','Step 1 · Details'],['su-2','Step 2 · Location'],['su-3','Step 3 · Security'],['su-otp','Email OTP'],['su-phone','Phone verify'],['su-processing','Processing'],['su-success','Success']]],
@@ -4083,6 +4212,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='chat'){openChat('kenji');return;}
     if(id==='nego-detail'){openNego('NG-01');return;}
     if(id==='vesselmap'){openVesselMap(curShipId||'SP-24-0198');return;}
+    if(id==='resale-detail'){openResale(MYVEH[0].id);return;}
     if(id==='won-detail'){openWon('AUC-88231');return;}
     if(id==='quote-detail'){openQuote('QT-2048');return;}
     $$('.screen').forEach(function(s){s.classList.remove('active','back');});
