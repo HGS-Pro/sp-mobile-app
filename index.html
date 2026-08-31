@@ -124,6 +124,26 @@ body{background:#0f1115}
 @keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
 #splash .sp{width:26px;height:26px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin-top:12px}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* onboarding / app overview walkthrough */
+#onboarding{background:linear-gradient(160deg,#0B0D12,#12203f);color:#fff;transform:translateX(100%)}
+#onboarding.active{transform:translateX(0)}
+#onboarding.back{transform:translateX(-100%)}
+.ob{display:flex;flex-direction:column;height:100%;position:relative}
+.ob-skip{position:absolute;top:calc(env(safe-area-inset-top) + 16px);right:20px;z-index:2;background:none;border:none;color:#aeb8c6;font:600 13.5px var(--text);cursor:pointer;padding:6px 4px}
+.ob-skip:active{color:#fff}
+.ob-track{flex:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.ob-track::-webkit-scrollbar{display:none}
+.ob-slide{min-width:100%;scroll-snap-align:center;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 34px;gap:26px}
+.ob-ill{width:158px;height:158px;border-radius:46px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 22px 60px -12px var(--ob-glow,rgba(39,110,241,.55))}
+.ob-ill svg{width:66px;height:66px;stroke:#fff}
+.ob-ill::after{content:"";position:absolute;inset:-14px;border-radius:60px;border:1.5px solid rgba(255,255,255,.08)}
+.ob-txt{display:flex;flex-direction:column;gap:12px;max-width:320px}
+.ob-h{font:800 25px/1.15 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.ob-p{font-size:14.5px;line-height:1.6;color:#c3ccd8}
+.ob-foot{padding:0 26px calc(env(safe-area-inset-bottom) + 26px);display:flex;flex-direction:column;gap:20px}
+.ob-dots{display:flex;gap:8px;justify-content:center}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.28);transition:all .3s cubic-bezier(.23,1,.32,1)}
+.ob-dot.on{width:26px;border-radius:5px;background:#fff}
 /* welcome */
 #welcome{background:linear-gradient(165deg,#0B0D12,#15203a);color:#fff;display:flex;flex-direction:column;transform:none}
 #welcome .top{flex:1;display:flex;flex-direction:column;justify-content:center;padding:32px 24px;position:relative;overflow:hidden}
@@ -742,6 +762,35 @@ html.dark .testbanner{color:#FFC043}
     <div style="font:800 20px var(--display)">SP Vehicles</div>
     <div style="font-size:13px;color:#9aa4b4">Japanese used cars · worldwide export</div>
     <div class="sp" role="status" aria-label="Loading"></div>
+  </section>
+
+  <!-- ===== ONBOARDING / APP OVERVIEW ===== -->
+  <section class="screen" id="onboarding" aria-label="App overview">
+    <div class="ob">
+      <button class="ob-skip" data-obskip>Skip</button>
+      <div class="ob-track" id="obTrack">
+        <div class="ob-slide">
+          <div class="ob-ill" style="background:linear-gradient(150deg,#3B82F6,#1D4ED8);--ob-glow:rgba(59,130,246,.55)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11v6h-2v-2H7v2H5v-6Z"/><circle cx="7.5" cy="14.5" r="1.1"/><circle cx="16.5" cy="14.5" r="1.1"/></svg></div>
+          <div class="ob-txt"><h2 class="ob-h">60,000+ vehicles from Japan</h2><p class="ob-p">Browse inspected used cars, vans, trucks and heavy equipment — sourced straight from Japan's largest auctions.</p></div>
+        </div>
+        <div class="ob-slide">
+          <div class="ob-ill" style="background:linear-gradient(150deg,#F59E0B,#B45309);--ob-glow:rgba(245,158,11,.5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3l7 7-4 4-7-7zM11 7L3 15v6h6l8-8"/><path d="M3 21h9"/></svg></div>
+          <div class="ob-txt"><h2 class="ob-h">Bid live at auction</h2><p class="ob-p">Register once, set your maximum bid, and let automatic proxy bidding win the lot for you — never overpaying.</p></div>
+        </div>
+        <div class="ob-slide">
+          <div class="ob-ill" style="background:linear-gradient(150deg,#10B981,#047857);--ob-glow:rgba(16,185,129,.5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12Z"/><path d="M12 8v8M9.5 10a2 2 0 0 1 4 0c0 1-1 1.4-1.5 1.8"/></svg></div>
+          <div class="ob-txt"><h2 class="ob-h">Inquire, negotiate &amp; pay</h2><p class="ob-p">Add vehicles to your inquiry cart, negotiate the price in chat, and pay securely in USD — all in one place.</p></div>
+        </div>
+        <div class="ob-slide">
+          <div class="ob-ill" style="background:linear-gradient(150deg,#6366F1,#4338CA);--ob-glow:rgba(99,102,241,.5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h13V8H3zM16 11h3l2 3v1h-5"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/><path d="M2 12l1-6"/></svg></div>
+          <div class="ob-txt"><h2 class="ob-h">Track every step to your port</h2><p class="ob-p">Follow the 12-step order tracker, live vessel map, and local clearing services — right up to delivery.</p></div>
+        </div>
+      </div>
+      <div class="ob-foot">
+        <div class="ob-dots" id="obDots"></div>
+        <button class="btn primary block lg" id="obNext" data-obnext>Next</button>
+      </div>
+    </div>
   </section>
 
   <!-- ===== WELCOME ===== -->
@@ -1626,7 +1675,8 @@ html.dark .testbanner{color:#FFC043}
       <div class="fsec">Demo controls</div>
       <div class="lcard" style="padding:4px 16px">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border-soft)"><div style="flex:1"><div style="font:600 14px var(--text)">Auction access</div><div style="font-size:12px;color:var(--faint)" id="aucAccessState">—</div></div><button class="btn ghost sm" data-aucreset>Reset</button></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0"><div style="flex:1"><div style="font:600 14px var(--text)">Unlock auctions now</div><div style="font-size:12px;color:var(--faint)">Skip the $1,000 registration</div></div><button class="btn ghost sm" data-aucunlock>Unlock</button></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border-soft)"><div style="flex:1"><div style="font:600 14px var(--text)">Unlock auctions now</div><div style="font-size:12px;color:var(--faint)">Skip the $1,000 registration</div></div><button class="btn ghost sm" data-aucunlock>Unlock</button></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0"><div style="flex:1"><div style="font:600 14px var(--text)">App intro walkthrough</div><div style="font-size:12px;color:var(--faint)">Replay the first-launch overview</div></div><button class="btn ghost sm" data-obreplay>Replay</button></div>
       </div>
       <p style="font-size:11px;color:var(--faint);margin:8px 2px 0">Prototype toggles — replay the locked → register → unlocked auction flow.</p>
       <div class="fsec">Account</div>
@@ -2299,8 +2349,21 @@ html.dark .testbanner{color:#FFC043}
     var from=$('#'+stack.pop()); var to=$('#'+cur()); $$('.screen').forEach(function(s){if(s!==from&&s!==to)s.classList.remove('active','back');}); from.classList.remove('active','back'); to.classList.remove('back'); to.classList.add('active'); to.scrollTop=0; onEnter(cur()); }
   function toast(m,cls){var w=$('#toasts');var t=document.createElement('div');t.className='toast'+(cls?' '+cls:'');t.setAttribute('role','status');t.textContent=m;w.appendChild(t);requestAnimationFrame(function(){t.classList.add('show');});setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},260);},1700);}
 
-  /* auto: splash -> welcome */
-  setTimeout(function(){ nav('welcome'); }, 1400);
+  // ---- Onboarding / app overview walkthrough ----
+  var OB_I=0;
+  function obSlides(){ return $$('#obTrack .ob-slide').length; }
+  function obRenderDots(){
+    var d=$('#obDots'); if(!d)return; var n=obSlides(),h='';
+    for(var i=0;i<n;i++){ h+='<span class="ob-dot'+(i===OB_I?' on':'')+'"></span>'; }
+    d.innerHTML=h;
+    var nx=$('#obNext'); if(nx)nx.textContent=(OB_I>=n-1)?'Get started':'Next';
+  }
+  function obSync(){ var t=$('#obTrack'); if(!t)return; var w=t.clientWidth||1,i=Math.round(t.scrollLeft/w); if(i!==OB_I){ OB_I=i; obRenderDots(); } }
+  function obNext(){ var t=$('#obTrack'); if(!t)return; if(OB_I>=obSlides()-1){ obFinish(); return; } OB_I++; t.scrollTo({left:OB_I*t.clientWidth,behavior:'smooth'}); obRenderDots(); }
+  function obFinish(){ try{localStorage.setItem('sp_onboarded','1');}catch(e){} nav('welcome'); }
+
+  /* auto: splash -> onboarding (first launch) or welcome */
+  setTimeout(function(){ var seen; try{seen=localStorage.getItem('sp_onboarded');}catch(e){} nav(seen?'welcome':'onboarding'); }, 1400);
 
   /* account type selection */
   $$('.optcard').forEach(function(c){c.addEventListener('click',function(){$$('.optcard').forEach(function(x){x.setAttribute('aria-checked','false');});c.setAttribute('aria-checked','true');var rt=c.getAttribute('data-type');if(rt&&typeof applyRole==='function')applyRole(rt);});});
@@ -3844,6 +3907,7 @@ html.dark .testbanner{color:#FFC043}
     if(id==='dashboard'){ $$('#dashboard [data-countup]').forEach(function(c){ countUp(c,+c.getAttribute('data-countup'),c.getAttribute('data-pre')||'',c.getAttribute('data-suf')||''); }); }
     if(id==='membership'){ renderMembership(); setMjTab('journey'); }
     if(id==='my-vehicles'){ renderMyVehicles(); }
+    if(id==='onboarding'){ OB_I=0; var obt=$('#obTrack'); if(obt){ obt.scrollLeft=0; if(!obt._ob){ obt._ob=1; obt.addEventListener('scroll',function(){ requestAnimationFrame(obSync); }); } } obRenderDots(); }
     updateMiniCart();
     if(id==='how-to-buy'){ renderHowToBuy(); }
     if(id==='consignees'){ renderConsignees(); }
@@ -3894,6 +3958,9 @@ html.dark .testbanner{color:#FFC043}
     if(n){ $('#appscrim').classList.remove('open'); $$('.appsheet').forEach(function(s){s.classList.remove('open');}); nav(n.getAttribute('data-nav')); return; }
     var otb=e.target.closest('[data-otab]'); if(otb){ ordersFilter=otb.getAttribute('data-otab'); var pw=otb.closest('.pilltabs'); if(pw)pw.querySelectorAll('.t').forEach(function(x){x.classList.toggle('on',x===otb);}); renderOrdersList(); return; }
     var mjt=e.target.closest('[data-mjtab]'); if(mjt){ setMjTab(mjt.getAttribute('data-mjtab')); return; }
+    if(e.target.closest('[data-obnext]')){ obNext(); return; }
+    if(e.target.closest('[data-obskip]')){ obFinish(); return; }
+    if(e.target.closest('[data-obreplay]')){ stack=['welcome']; nav('onboarding'); return; }
     var mvt=e.target.closest('[data-mvtab]'); if(mvt){ MVFILTER=mvt.getAttribute('data-mvtab'); renderMyVehicles(); return; }
     var sll=e.target.closest('[data-sell]'); if(sll){ openResale(sll.getAttribute('data-sell')); return; }
     var rsl=e.target.closest('[data-resale]'); if(rsl){ openResale(rsl.getAttribute('data-resale')); return; }
@@ -4190,7 +4257,7 @@ html.dark .testbanner{color:#FFC043}
 
   /* ===== screen navigator (review any screen) ===== */
   var SCREENS=[
-    ['Onboarding',[['splash','Splash'],['welcome','Welcome']]],
+    ['Onboarding',[['splash','Splash'],['onboarding','App overview'],['welcome','Welcome']]],
     ['App',[['home','Home'],['vehicles','Vehicles'],['detail','Vehicle Detail'],['dashboard','Dashboard'],['ui-kit','UI Components']]],
     ['Buying',[['cart','Inquiry Cart'],['checkout','Checkout'],['orderplaced','Order placed']]],
     ['Portal',[['orders','My Orders'],['order-track','Order tracker (12-step)'],['purchases','My Purchases'],['won','Won Vehicles'],['my-vehicles','My Vehicles (resale)'],['resale-detail','Resale listing detail'],['invoices','Invoices'],['invoice','Invoice detail'],['shipment','Shipment tracking'],['vesselmap','Live vessel map'],['ship-schedule','Shipping Schedule'],['local-services','Local Services'],['clearing-agents','Clearing Agents'],['shipping-agents','Shipping Agents'],['dcoupons','My Discount Coupons'],['points','Points Activity'],['savings','Savings Breakdown'],['quotes','Quotes'],['quote-detail','Quote detail'],['won-detail','Won vehicle detail'],['negotiations','Negotiations'],['nego-detail','Negotiation thread'],['consignees','Consignees'],['coupons','Coupons'],['messages','Messages'],['chat','Chat thread'],['reviews','Buyer Reviews'],['feedback','Feedback'],['membership','Membership & Points']]],
